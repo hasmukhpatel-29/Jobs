@@ -7,7 +7,13 @@
       "@screens/*": ["app/screens/*"],
       "@assets/*": ["app/assets/*"],
       "@navigation/*": ["app/navigation/*"],
-      "@context/*": ["app/context/*"],
+      "@contexts/*": ["app/contexts/*"],
+      "@utils/*": ["app/utils/*"],
+      "@zustand/*": ["app/zustand/*"],
+      "@zod/*": ["app/zod/*"],
+      "@apis/*": ["app/Apis/*"],
+      "@apiRoutes/*": ["app/Apis/ApiRoutes/*"],
+      "@endPoints/*": ["app/Apis/EndPoints/*"],
     }
   },
   "exclude": ["node_modules"]

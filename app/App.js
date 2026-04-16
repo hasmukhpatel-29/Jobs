@@ -1,9 +1,11 @@
-import {LogBox, StatusBar, useColorScheme,} from 'react-native';
+import {LogBox, StatusBar, useColorScheme} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {MainStackNavigation} from '@navigation/mainStackNavigation';
 import {colors} from './config/theme';
-import {ThemeProvider} from '@context/themeContext';
+import {ThemeProvider} from 'app/contexts/themeContext';
+import {ToastProvider} from 'app/contexts/toastContext';
+import {ToastRefSetter} from '@components/CToast';
 
 const App = () => {
   // Ignore log notification by message:
@@ -23,7 +25,10 @@ const App = () => {
           barStyle={colorScheme === 'light' ? 'dark-content' : 'light-content'}
         />
         <SafeAreaProvider>
-          <MainStackNavigation />
+          <ToastProvider>
+            <ToastRefSetter />
+            <MainStackNavigation />
+          </ToastProvider>
         </SafeAreaProvider>
       </ThemeProvider>
     </GestureHandlerRootView>

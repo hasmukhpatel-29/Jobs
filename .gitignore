@@ -59,10 +59,14 @@ yarn-error.log
 # Ruby / CocoaPods
 **/Pods/
 /vendor/bundle/
-ios/Podfile.lock
 
 # Temporary files created by Metro to check the health of the file watcher
 .metro-health-check*
+*.lock
+Gemfile.lock
+*.App.test.tsx
+*.__tests__
+.bundle
 
 # testing
 /coverage
@@ -74,4 +78,6 @@ ios/Podfile.lock
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
-.yarn.lock
+
+# environment files 
+.env

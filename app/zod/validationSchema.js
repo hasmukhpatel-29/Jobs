@@ -1,0 +1,103 @@
+import {z} from 'zod';
+import {parsePhoneNumberFromString} from 'libphonenumber-js/max';
+
+const websiteUrlRegex =
+  /^(https?:\/\/)([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/i;
+
+// Helper function to add https:// if missing
+const addHttpIfMissings = url => {
+  if (!url) return '';
+  return /^https?:\/\//i.test(url) ? url : `https://${url}`;
+};
+
+export const websiteUrlSchema = z
+  .string()
+  .trim()
+  .transform(url => (url === '' ? '' : addHttpIfMissings(url)))
+  .refine(url => url === '' || websiteUrlRegex.test(url), {
+    message: 'Enter a valid website URL (e.g., https://example.com)',
+  });
+
+export const phoneSchema = (phoneCode, countryCode) =>
+  z.object({
+    phone: z
+      .string()
+      .min(1, 'Phone is required')
+      .regex(/^\d+$/, 'Only digits allowed')
+      .refine(val => {
+        const fullNumber = `${phoneCode}${val}`;
+        const phone = parsePhoneNumberFromString(fullNumber, countryCode);
+
+        if (!phone || !phone.isValid()) return false;
+
+        if (countryCode === 'IN') {
+          return /^[6-9]\d{9}$/.test(val);
+        }
+
+        return true;
+      }, 'Invalid phone number'),
+  });
+
+export const registerSchema = z.object({
+  first_name: z
+    .string()
+    .trim()
+    .nonempty('First name is required')
+    .min(3, 'First name must be at least 3 characters long')
+    .max(20, 'First name cannot exceed 20 characters'),
+
+  last_name: z
+    .string()
+    .trim()
+    .nonempty('Last name is required')
+    .min(3, 'Last name must be at least 3 characters long')
+    .max(20, 'Last name cannot exceed 20 characters'),
+
+  seaneb_id: z
+    .string({required_error: 'SeaNeb ID is required'})
+    .trim()
+    .min(10, 'SeaNeb ID must be 10–20 characters')
+    .max(20, 'SeaNeb ID must be 10–20 characters')
+    .regex(/^[a-z0-9-]+$/, 'Use only lowercase letters, numbers, and -'),
+
+  email: z
+    .string()
+    .trim()
+    .optional()
+    .refine(val => !val || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val), {
+      message: 'Invalid email address',
+    }),
+  dob: z
+    .string()
+    .nonempty('Date of Birth is required')
+    .regex(
+      /^(?:(?:(?:0[1-9]|1\d|2[0-8])\/(?:0[1-9]|1[0-2])|(?:29|30)\/(?:0[13-9]|1[0-2])|31\/(?:0[13578]|1[02]))\/\d{4}|29\/02\/(?:\d{2}(?:0[48]|[2468][048]|[13579][26])|(?:[02468][048]|[13579][26])00))$/,
+      'Invalid date. Please use a valid date in DD/MM/YYYY format',
+    )
+
+    .refine(date => {
+      const [day, month, year] = date.split('/').map(Number);
+      const today = new Date();
+      const birthDate = new Date(year, month - 1, day);
+
+      let age = today.getFullYear() - birthDate.getFullYear();
+
+      const hasHadBirthday =
+        today.getMonth() > birthDate.getMonth() ||
+        (today.getMonth() === birthDate.getMonth() &&
+          today.getDate() >= birthDate.getDate());
+
+      if (!hasHadBirthday) {
+        age--;
+      }
+
+      return age >= 13;
+    }, 'You must be at least 13 years old to register')
+    .transform(date => {
+      const [day, month, year] = date.split('/');
+      return `${year}-${month}-${day}`;
+    }),
+  gender: z.string().min(1, 'Please select gender'),
+  place_name: z.string().trim().nonempty('Home town is required'),
+  // avatar: z.string().min(1, 'Image is required'),
+});

@@ -1,4 +1,6 @@
+import { useThemeContext } from '@contexts/themeContext';
 import {size} from './Sizes';
+import {StyleSheet} from 'react-native';
 
 export const colors = {
   lightThem: {
@@ -7,7 +9,9 @@ export const colors = {
     transparent: 'rgba(0,0,0,0)',
     text: 'rgba(0,0,0,1)',
     primary: '#0091FD',
-    secondary:'#1B2D4A',
+    secondary: '#1B2D4A',
+    borderColor: '#E2E8F0',
+    placeholderText: 'rgba(145, 153, 163, 1)',
     sheetColor: 'rgba(250, 250, 250, 1)',
     cardColor: 'rgba(250, 250, 250, 1)',
     cardSheetColor: 'rgba(239, 239, 239, 1)',
@@ -21,6 +25,7 @@ export const colors = {
     yellow: 'rgba(244, 196, 48, 1)',
     gray: 'rgba(204, 204, 204, 1)',
     gray200: 'rgba(169, 169, 169, 1)',
+    gray900: 'rgba(24, 25, 28, 1)',
     commonBlack: 'rgba(0,0,0,1)',
     commonWhite: 'rgba(255,255,255,1)',
     limeGreen: 'rgba(112, 220, 112,1)',
@@ -44,7 +49,9 @@ export const colors = {
     semiTransBlack: 'rgba(0, 0, 0, 0.5)',
     semiTrans: 'rgba(0, 0, 0, 0.2)',
     primary: '#0091FD',
-    secondary:'#1B2D4A',
+    secondary: '#1B2D4A',
+    borderColor: '#E2E8F0',
+    placeholderText: 'rgba(145, 153, 163, 1)',
     background: 'rgba(12, 12, 12, 1)',
     sheetColor: 'rgba(20, 20, 20, 1)',
     cardColor: 'rgba(38,38, 38, 1)',
@@ -53,9 +60,10 @@ export const colors = {
     headerButtonColor: 'rgba(25, 25, 25,1)',
     blue: 'rgba(0, 127, 255, 1)',
     red: 'rgba(255, 0, 0, 1)',
-    yellow:' rgba(244, 196, 48, 1)',
+    yellow: ' rgba(244, 196, 48, 1)',
     gray: 'rgba(204, 204, 204, 1)',
     gray200: 'rgba(169, 169, 169, 1)',
+    gray900: 'rgba(24, 25, 28, 1)',
     commonBlack: 'rgba(0,0,0,1)',
     commonWhite: 'rgba(255,255,255,1)',
     limeGreen: 'rgba(112, 220, 112,1)',
@@ -104,3 +112,17 @@ export const fontSize = {
   large: size.moderateScale(39),
 };
 
+export const GetTypography = () => {
+  const {color} = useThemeContext();
+  return StyleSheet.create({
+    buttomLabel: {
+      fontFamily: fontFamily.medium,
+      fontSize: fontSize.smallerMedium,
+    },
+    CInputText: {
+      color: color.black,
+      fontSize: fontSize.littleMedium,
+      fontFamily: fontFamily.regular,
+    },
+  });
+};

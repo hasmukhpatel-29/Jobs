@@ -36,6 +36,12 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string/>
+	<key>NSCameraUsageDescription</key>
+	<string>App wants access your camera for taking and uploading photos</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>App wants access your library for uploading user images</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>App wants access your library for uploading user images, business related posts and videos</string>
 	<key>RCTNewArchEnabled</key>
 	<true/>
 	<key>UIAppFonts</key>
