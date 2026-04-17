@@ -6,6 +6,7 @@ const GetStyles = () => {
       flex: 1,
       justifyContent: 'center',
       zIndex: 10,
+      borderRadius: 10,
     },
   });
 };

@@ -36,3 +36,18 @@ export const authEndpoint = {
     uri: '/mobile/profile/delete',
   },
 };
+
+export const userProfileEndPoint = {
+  userProfile: {
+    method: 'GET',
+    uri: '/mobile/profile/details',
+  },
+  updateProfile: {
+    method: 'PUT',
+    uri: '/mobile/profile/update',
+  },
+  profileMe: {
+    method: 'GET',
+    uri: '/mobile/profile/me',
+  },
+};

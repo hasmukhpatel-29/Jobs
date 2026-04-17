@@ -11,3 +11,13 @@ export const genderData = [
   {id: 0, name: 'Male', value: 'Male'},
   {id: 1, name: 'Female', value: 'Female'},
 ];
+export const dashboardList = [
+  {
+    id: 1,
+    title: 'My Profile',
+  },
+  {
+    id: 2,
+    title: 'My Jobs',
+  },
+];

@@ -9,10 +9,16 @@ const useGlobalStore = create(
       setIsAuthenticated: value => set({isAuthenticated: value}),
       userLoginData: null,
       setUserLoginData: response => set({userLoginData: response}),
+      userData: null,
+      setUserData: response => set({userData: response}),
+      userMeData: null,
+      setUserMeData: response => set({userMeData: response}),
       reset: () =>
         set({
           isAuthenticated: false,
           userLoginData: null,
+          userData: null,
+          userMeData: null,
         }),
     }),
     {

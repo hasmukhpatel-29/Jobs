@@ -10,6 +10,7 @@ import {useThemeContext} from '@contexts/themeContext';
 // import {isLiquidGlassSupported, LiquidGlassView} from '@callstack/liquid-glass';
 import useGlobalStore from '@zustand/store';
 import {getImageUrl} from '@utils/commonFunction';
+import Icon, {Icons} from '@config/Icons';
 import GetStyles from './styles';
 
 export const CHeader = React.memo(props => {
@@ -26,6 +27,8 @@ export const CHeader = React.memo(props => {
     isUploading,
     profileImg,
     showBusiness,
+    drawer,
+    openDrawer
   } = props;
 
   const userData = useGlobalStore(s => s.userData);
@@ -65,12 +68,24 @@ export const CHeader = React.memo(props => {
                     />
                   </LiquidGlassView>
                 ) : ( */}
-                  <CustomIcon
-                    name="leftArrow"
-                    size={size.moderateScale(18)}
-                    color={color.black}
-                  />
+                <CustomIcon
+                  name="leftArrow"
+                  size={size.moderateScale(18)}
+                  color={color.black}
+                />
                 {/* )} */}
+              </TouchableOpacity>
+            )}
+            {drawer && (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={openDrawer}>
+                <Icon
+                  type={Icons.Feather}
+                  name="menu"
+                  size={size.moderateScale(22)}
+                  color={color.black}
+                />
               </TouchableOpacity>
             )}
             {profileImg && (
@@ -79,7 +94,6 @@ export const CHeader = React.memo(props => {
                 style={styles.profileImg}
               />
             )}
-
             <Text
               numberOfLines={1}
               style={[styles.title, {color: titleColor}, headerTextStyle]}>
@@ -111,24 +125,26 @@ export const CHeader = React.memo(props => {
 
       <View style={styles.profileContainer}>
         {options?.headerRight?.()}
-        {showBusiness && userMeData?.is_business_registered && !userMeData?.onboarding?.show_pay_now && (
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => {
-              if (userRole === 'user') {
-                useGlobalStore.getState().setUserRole('business');
-                navigation.navigate('BusinessTab');
-              } else {
-                useGlobalStore.getState().setUserRole('user');
-                navigation.navigate('UserTab');
-              }
-            }}>
-            <CImage
-              src={getImageUrl(userData?.avatar) || Images.imgDefaultUser}
-              style={styles.profileImg}
-            />
-          </TouchableOpacity>
-        )}
+        {showBusiness &&
+          userMeData?.is_business_registered &&
+          !userMeData?.onboarding?.show_pay_now && (
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => {
+                if (userRole === 'user') {
+                  useGlobalStore.getState().setUserRole('business');
+                  navigation.navigate('BusinessTab');
+                } else {
+                  useGlobalStore.getState().setUserRole('user');
+                  navigation.navigate('UserTab');
+                }
+              }}>
+              <CImage
+                src={getImageUrl(userData?.avatar) || Images.imgDefaultUser}
+                style={styles.profileImg}
+              />
+            </TouchableOpacity>
+          )}
       </View>
     </View>
   );

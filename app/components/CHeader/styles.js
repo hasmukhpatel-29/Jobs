@@ -40,6 +40,7 @@ const GetStyles = () => {
       justifyContent: 'center',
       boxShadow: '1 5 10 5 rgba(0, 0, 0, 0.04)',
       borderRadius: size.moderateScale(8),
+      alignSelf: 'center',
     },
     title: {
       fontSize: fontSize.smallMedium,

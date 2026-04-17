@@ -20,7 +20,7 @@ const SplashScreen = ({navigation}) => {
 
     setTimeout(() => {
       navigation.reset({
-        routes: [{name: 'Login'}],
+        routes: [{name: 'UserTab'}],
       });
     }, 1500);
   }, []);

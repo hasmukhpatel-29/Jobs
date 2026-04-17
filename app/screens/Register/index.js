@@ -111,7 +111,7 @@ const Register = ({navigation}) => {
       if (res.success) {
         navigation?.reset({
           index: 0,
-          routes: [{name: 'Dashboard'}],
+          routes: [{name: 'UserTab'}],
         });
         return true;
       } else {

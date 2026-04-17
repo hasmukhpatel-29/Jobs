@@ -107,8 +107,7 @@ const DropDownList = forwardRef((props, ref) => {
           style={[
             styles.dropdown,
             disabled && {
-              backgroundColor: color.white,
-              opacity: 0.7,
+              backgroundColor: color.customBlack(0.2),
             },
           ]}
           disable={disabled}

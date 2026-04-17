@@ -1,6 +1,7 @@
 import {Alert, Linking} from 'react-native';
 import {navigationRef} from '@navigation/mainStackNavigation';
 import useGlobalStore from '@zustand/store';
+import { Config } from '@config/Config';
 
 export const NumberValidation = val => {
   if (!isNaN(val)) {
@@ -39,6 +40,7 @@ export const logOut = () => {
   useGlobalStore.getState().reset();
   redirectToLogin();
 };
+
 export const formatLocation = item => {
   return [
     item?.description || item?.city_name,
@@ -47,4 +49,20 @@ export const formatLocation = item => {
   ]
     .filter(Boolean)
     .join(', ');
+};
+
+export const getImageUrl = path => {
+  if (!path) return '';
+  if (typeof path !== 'string') return '';
+
+  if (
+    path.startsWith('http') ||
+    path.startsWith('file://') ||
+    path.startsWith('data:')
+  ) {
+    return path;
+  }
+
+  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+  return `${Config.IMAGE_STORAGE_URL}${cleanPath}`;
 };
