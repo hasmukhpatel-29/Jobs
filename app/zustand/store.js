@@ -13,12 +13,22 @@ const useGlobalStore = create(
       setUserData: response => set({userData: response}),
       userMeData: null,
       setUserMeData: response => set({userMeData: response}),
+      isVerifiedGST: false,
+      setIsVerifiedGST: val => set({isVerifiedGST: val}),
+      isVerifiedPAN: false,
+      setIsVerifiedPAN: val => set({isVerifiedPAN: val}),
+      businessLegalFormData: null,
+      setBusinessLegalFormData: response =>
+        set({businessLegalFormData: response}),
       reset: () =>
         set({
           isAuthenticated: false,
           userLoginData: null,
           userData: null,
           userMeData: null,
+          isVerifiedGST: false,
+          isVerifiedPAN: false,
+          businessLegalFormData: null,
         }),
     }),
     {

@@ -7,6 +7,7 @@ import Login from '@screens/Login.js';
 import OtpVerify from '@screens/OtpVerify';
 import Register from '@screens/Register';
 import EditProfile from '@screens/EditProfile';
+import BusinessForm from '@screens/AddBusiness/BusinessForm';
 import useGlobalStore from '@zustand/store';
 import CustomDrawer from '@navigation/CustomDrawer';
 const Stack = createStackNavigator();
@@ -29,6 +30,7 @@ export const MainStackNavigation = () => {
           <Stack.Screen name="Register" component={Register} />
           <Stack.Screen name="OtpVerify" component={OtpVerify} />
           <Stack.Screen name="EditProfile" component={EditProfile} />
+          <Stack.Screen name="BusinessForm" component={BusinessForm} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

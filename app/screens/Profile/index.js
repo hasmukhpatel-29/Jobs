@@ -42,6 +42,13 @@ export default function Profile({navigation}) {
             }}
             buttonLabelStyle={{fontSize: fontSize.verySmall}}
           />
+          <CButton
+            label="Add Business"
+            onPress={() => {
+              navigation.navigate('BusinessForm');
+            }}
+            buttonLabelStyle={{fontSize: fontSize.verySmall}}
+          />
         </View>
       )}
     </View>

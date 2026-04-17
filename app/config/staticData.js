@@ -11,6 +11,7 @@ export const genderData = [
   {id: 0, name: 'Male', value: 'Male'},
   {id: 1, name: 'Female', value: 'Female'},
 ];
+
 export const dashboardList = [
   {
     id: 1,
@@ -20,4 +21,31 @@ export const dashboardList = [
     id: 2,
     title: 'My Jobs',
   },
+];
+
+export const businessFormStep = [
+  {
+    id: 0,
+    name: 'Business Details',
+    icon: 'store',
+  },
+  {
+    id: 1,
+    name: 'Address',
+    icon: 'location',
+  },
+  {
+    id: 2,
+    name: 'Contact',
+    icon: 'phone',
+  },
+  {
+    id: 3,
+    name: 'Payment',
+    icon: 'card',
+  },
+];
+export const BusinessOptions = [
+  {id: 1, label: 'Business PAN', value: 'Business PAN'},
+  {id: 2, label: 'Business GST', value: 'Business GST'},
 ];

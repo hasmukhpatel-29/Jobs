@@ -101,3 +101,99 @@ export const registerSchema = z.object({
   place_name: z.string().trim().nonempty('Home town is required'),
   // avatar: z.string().min(1, 'Image is required'),
 });
+
+export const LegalFormSchema = z.object({
+  panNumber: z
+    .string()
+    .nullable()
+    .optional()
+    .superRefine((val, ctx) => {
+      if (val && val.length > 0) {
+        if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(val)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'PAN Number must be in the format ABCDE1234F',
+          });
+        }
+        if (val.length !== 10) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'PAN Number must be exactly 10 characters long',
+          });
+        }
+      }
+    }),
+  gstNumber: z
+    .string()
+    .nullable()
+    .optional()
+    .superRefine((val, ctx) => {
+      if (val && val.length > 0 && val.length !== 15) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'GST Number must be exactly 15 characters',
+        });
+      }
+    }),
+
+  businessLegalName: z
+    .string()
+    .trim()
+    .nonempty('Business name is required')
+    .min(3, 'Business name must be at least 3 characters long'),
+
+  termsAndConditionsAccepted: z
+    .boolean()
+    .refine(val => val === true, 'You must accept the terms and conditions'),
+
+  addressLine1: z.string().optional(),
+  addressLine2: z.string().optional(),
+  area: z.string().optional(),
+  pincode: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  country: z.string().optional(),
+
+  document_link: z
+    .union([z.string(), z.object({uri: z.string(), type: z.string()})])
+    .optional(),
+});
+
+export const AddressFormSchema = z.object({
+  addressLine1: z.string().trim().min(1, 'Address Line 1 is required'),
+
+  addressLine2: z.string().trim().optional(),
+
+  area: z.string().trim().min(1, 'Area is required'),
+
+  city: z.string().trim().min(1, 'City is required'),
+
+  state: z.string().trim().min(1, 'State is required'),
+
+  main_category_id: z.string().min(1, 'Business category is required'),
+});
+export const ContactFormSchema = z.object({
+  displayName: z.string().trim().min(1, 'Business registered name is required'),
+  seaneb_id: z
+    .string({required_error: 'SeaNeb ID is required'})
+    .trim()
+    .min(10, 'SeaNeb ID must be 10–20 characters')
+    .max(20, 'SeaNeb ID must be 10–20 characters')
+    .regex(/^[a-z0-9-]+$/, 'Use only lowercase letters, numbers, and -'),
+  contact_number: z
+    .string()
+    .min(10, 'Contact number must be 10 digits')
+    .max(10, 'Contact number must be 10 digits')
+    .regex(/^[0-9]+$/, 'Contact number must be digits only'),
+  whatsapp_number: z.string().nullable().optional(),
+  email: z
+    .string()
+    .trim()
+    .optional()
+    .refine(val => !val || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val), {
+      message: 'Invalid email address',
+    }),
+
+  website: websiteUrlSchema.optional(),
+  image: z.string().url('Image must be a valid URL').optional(),
+});

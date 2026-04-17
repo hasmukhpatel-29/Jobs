@@ -51,3 +51,38 @@ export const userProfileEndPoint = {
     uri: '/mobile/profile/me',
   },
 };
+
+export const businessRegEndPoint = {
+  autoCompleteBusiness: {
+    method: 'GET',
+    uri: '/business/autocomplete',
+  },
+  verifyPan: {
+    method: 'POST',
+    uri: '/mobile/verification/verify-pan',
+  },
+  verifyGst: {
+    method: 'POST',
+    uri: '/mobile/verification/verify-gst',
+  },
+  businessCategory: {
+    method: 'POST',
+    uri: '/category/list',
+  },
+  createBusiness: {
+    method: 'POST',
+    uri: '/mobile/business/create',
+  },
+  onboardingCharge: {
+    method: 'GET',
+    uri: '/payment/onboarding-charge-preview',
+  },
+  onboardingPayment: {
+    method: 'POST',
+    uri: '/mobile/onboarding/pay-now',
+  },
+  cancelOnboarding: {
+    method: 'POST',
+    uri: '/mobile/onboarding/cancel',
+  },
+};
