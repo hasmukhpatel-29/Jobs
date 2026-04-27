@@ -76,6 +76,22 @@ const GetStyles = () => {
       fontSize: fontSize.verySmall,
       marginTop: size.moderateScale(5),
     },
+    container: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      gap: size.moderateScale(10),
+    },
+    termsText: {
+      color: color.gray900,
+      fontFamily: fontFamily.regular,
+      fontSize: fontSize.mediumSmall,
+      maxWidth: '92%',
+    },
+    termsTextLink: {
+      color: color.blue,
+      fontFamily: fontFamily.regular,
+      fontSize: fontSize.mediumSmall,
+    },
   });
 };
 export default GetStyles;

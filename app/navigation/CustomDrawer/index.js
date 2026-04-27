@@ -37,6 +37,7 @@ import CommonModal from '@components/CModal/CommonModal';
 import {CButton} from '@components/CButton';
 import Icon, {Icons} from '@config/Icons';
 import {logoutApi} from '@apis/ApiRoutes/LoginApi';
+import {userTabConfig} from '@navigation/userTabConfig';
 
 const CustomDrawer = ({route, navigation}) => {
   const {color} = useThemeContext();
@@ -201,7 +202,7 @@ const CustomDrawer = ({route, navigation}) => {
       <Animated.View style={[styles.root, animatedStyle]}>
         <Tab.Navigator
           options={navOptions}
-          tabBar={props => <BottomTabBar {...props} />}>
+          tabBar={props => <BottomTabBar {...props} config={userTabConfig} />}>
           <Tab.Screen options={navOptions} name="Dashboard">
             {props => <Dashboard {...props} openDrawer={openDrawer} />}
           </Tab.Screen>

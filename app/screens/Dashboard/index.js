@@ -18,7 +18,7 @@ const Dashboard = ({openDrawer}) => {
 
   return (
     <View>
-      <CHeader title="Dashboard" drawer openDrawer={openDrawer} />
+      <CHeader title="Dashboard" drawer openDrawer={openDrawer} showBusiness />
     </View>
   );
 };

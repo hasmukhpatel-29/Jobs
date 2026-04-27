@@ -134,6 +134,19 @@ export default function Login({navigation}) {
               onPress={handleSubmit(onSubmit)}
               buttonStyle={styles.button}
             />
+            <View style={styles.termsContainer}>
+              <Text style={styles.continueText}>
+                By continue, you agree to our
+              </Text>
+              <View style={styles.termsLinkContainer}>
+                <Text style={styles.termLinkText}>
+                  End User Licence Agreement
+                </Text>
+                <Text style={styles.termLinkText}>Terms of Service</Text>
+                <Text style={styles.termLinkText}>Privacy Policy</Text>
+                <Text style={styles.termLinkText}>Content Policy</Text>
+              </View>
+            </View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

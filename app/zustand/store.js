@@ -20,6 +20,14 @@ const useGlobalStore = create(
       businessLegalFormData: null,
       setBusinessLegalFormData: response =>
         set({businessLegalFormData: response}),
+      userRole: 'user',
+      setUserRole: role => set({userRole: role}),
+      activeBusinessId: '',
+      setActiveBusinessId: id => set({activeBusinessId: id}),
+      activeBranchId: '',
+      setActiveBranchId: id => set({activeBranchId: id}),
+      businessData: null,
+      setBusinessData: response => set({businessData: response}),
       reset: () =>
         set({
           isAuthenticated: false,
@@ -29,6 +37,10 @@ const useGlobalStore = create(
           isVerifiedGST: false,
           isVerifiedPAN: false,
           businessLegalFormData: null,
+          userRole: 'user',
+          activeBusinessId: '',
+          activeBranchId: '',
+          businessData: null,
         }),
     }),
     {

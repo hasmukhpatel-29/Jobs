@@ -2,106 +2,55 @@ import React, {useRef} from 'react';
 import {View, TouchableOpacity, Text} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {useThemeContext} from '@contexts/themeContext';
-import GetStyles from './styles';
-import Icon, {Icons} from '@config/Icons';
-import {CustomIcon} from '@config/LoadIcons';
 import {fontFamily} from '@config/theme';
+import GetStyles from './styles';
 
-export default function BottomTabBar({state, descriptors, navigation}) {
+export default function BottomTabBar({
+  state,
+  descriptors,
+  navigation,
+  config = [],
+}) {
   const {color} = useThemeContext();
   const styles = GetStyles();
 
-  const homeTabRef = useRef(null);
-  const favouritesTabRef = useRef(null);
-  const profileTabRef = useRef(null);
+  const tabRefs = useRef([]);
 
-  const focusedOptions = descriptors[state.routes[state.index].key].options;
+  const focusedOptions =
+    descriptors[state.routes[state.index].key].options;
 
-  // Hide tab if needed
   if (focusedOptions.tabBarVisible === false) {
     return null;
   }
 
-  // Animation
   const iconAnimation = index => {
-    if (index === 0) {
-      homeTabRef?.current?.tada?.(800);
-    } else if (index === 1) {
-      favouritesTabRef?.current?.tada?.(800);
-    } else if (index === 2) {
-      profileTabRef?.current?.tada?.(800);
-    }
+    tabRefs.current[index]?.tada?.(700);
   };
 
-  // Icons
-  const getIcons = (routeName, isFocused) => {
+  const renderTab = (route, isFocused, index) => {
+    const tab = config.find(t => t.name === route.name);
+    if (!tab) return null;
+
     const tabIconColor = isFocused ? color.primary : color.black;
     const tabText = isFocused ? fontFamily.bold : fontFamily.regular;
 
-    switch (routeName) {
-      case 'Dashboard':
-        return (
-          <>
-            <Animatable.View style={styles.iconContainer} ref={homeTabRef}>
-              <Icon
-                type={Icons.Ionicons}
-                name={isFocused ? 'home' : 'home-outline'}
-                style={[styles.bottomTabIcons, {color: tabIconColor}]}
-              />
-            </Animatable.View>
+    return (
+      <>
+        <Animatable.View
+          ref={ref => (tabRefs.current[index] = ref)}
+          style={styles.iconContainer}>
+          {tab.icon(isFocused, tabIconColor)}
+        </Animatable.View>
 
-            <Text
-              style={[
-                styles.bottomTabLabels,
-                {color: tabIconColor, fontFamily: tabText},
-              ]}>
-              Home
-            </Text>
-          </>
-        );
-      case 'Favourites':
-        return (
-          <>
-            <Animatable.View style={styles.iconContainer} ref={favouritesTabRef}>
-              <CustomIcon
-                name={isFocused ? 'likeFilled' : 'like'}
-                style={[styles.bottomTabIcons, {color: tabIconColor}]}
-              />
-            </Animatable.View>
-
-            <Text
-              style={[
-                styles.bottomTabLabels,
-                {color: tabIconColor, fontFamily: tabText},
-              ]}>
-              Favourites
-            </Text>
-          </>
-        );
-
-      case 'Profile':
-        return (
-          <>
-            <Animatable.View style={styles.iconContainer} ref={profileTabRef}>
-              <CustomIcon
-                name={isFocused ? 'user' : 'userProfile'}
-                style={[styles.bottomTabIcons, {color: tabIconColor}]}
-              />
-            </Animatable.View>
-
-            <Text
-              style={[
-                styles.bottomTabLabels,
-                {color: tabIconColor, fontFamily: tabText},
-              ]}>
-              Profile
-            </Text>
-          </>
-        );
-
-      default:
-        return null;
-    }
+        <Text
+          style={[
+            styles.bottomTabLabels,
+            {color: tabIconColor, fontFamily: tabText},
+          ]}>
+          {tab.label}
+        </Text>
+      </>
+    );
   };
 
   return (
@@ -124,21 +73,13 @@ export default function BottomTabBar({state, descriptors, navigation}) {
             }
           };
 
-          const onLongPress = () => {
-            navigation.emit({
-              type: 'tabLongPress',
-              target: route.key,
-            });
-          };
-
           return (
             <TouchableOpacity
               key={index}
               activeOpacity={0.8}
               onPress={onPress}
-              onLongPress={onLongPress}
               style={styles.tab}>
-              {getIcons(route.name, isFocused)}
+              {renderTab(route, isFocused, index)}
             </TouchableOpacity>
           );
         })}

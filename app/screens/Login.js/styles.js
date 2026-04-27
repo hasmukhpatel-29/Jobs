@@ -68,7 +68,7 @@ export const GetStyles = () => {
       marginHorizontal: 10,
     },
     button: {
-      marginTop: size.moderateScale(10),
+      marginVertical: size.moderateScale(10),
     },
     termsContainer: {
       marginTop: 'auto',
@@ -85,7 +85,7 @@ export const GetStyles = () => {
     continueText: {
       fontSize: fontSize.mediumSmall,
       fontFamily: fontFamily.regular,
-      color: color.gray200,
+      color: color.gray900,
       textAlign: 'center',
       marginBottom: size.moderateScale(4),
     },

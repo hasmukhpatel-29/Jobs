@@ -3,12 +3,12 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Dimensions, TouchableOpacity, View, Animated} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
-import RenderItem from './RenderItem';
-import {CustomIcon} from '@config/LoadIcons';
-import {size} from '@config/Sizes';
-import GetStyles from './styles';
-import {useThemeContext} from '@contexts/themeContext';
 import {ProfileViewModal} from '@components/CModal/ProfileViewModal';
+import {CustomIcon} from '@config/LoadIcons';
+import {useThemeContext} from '@contexts/themeContext';
+import {size} from '@config/Sizes';
+import RenderItem from './RenderItem';
+import GetStyles from './styles';
 
 const {width: screenWidth} = Dimensions.get('window');
 

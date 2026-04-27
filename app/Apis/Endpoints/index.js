@@ -86,3 +86,26 @@ export const businessRegEndPoint = {
     uri: '/mobile/onboarding/cancel',
   },
 };
+
+export const businessEndPoint = {
+  businessList: {
+    method: 'GET',
+    uri: '/mobile/profile/businesses',
+  },
+  galleryList: {
+    method: 'GET',
+    uri: '/mobile/business/gallery',
+  },
+  addGallery: {
+    method: 'POST',
+    uri: '/mobile/business/gallery',
+  },
+  deleteGallery: {
+    method: 'DELETE',
+    uri: '/mobile/business/gallery',
+  },
+  updateBusiness: {
+    method: 'PUT',
+    uri: '/business/update',
+  },
+};

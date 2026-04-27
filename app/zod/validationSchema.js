@@ -197,3 +197,61 @@ export const ContactFormSchema = z.object({
   website: websiteUrlSchema.optional(),
   image: z.string().url('Image must be a valid URL').optional(),
 });
+export const EditBusinessSchema = (
+  phoneCode,
+  countryCode,
+  whatsappPhoneCode,
+  whatsappCountryCode,
+) =>
+  z.object({
+    primary_number: z
+      .string()
+      .min(1, 'Contact number is required')
+      .regex(/^\d+$/, 'Only digits allowed')
+      .refine(val => {
+        const fullNumber = `${phoneCode}${val}`;
+        const phone = parsePhoneNumberFromString(fullNumber, countryCode);
+
+        if (!phone || !phone.isValid()) return false;
+
+        if (countryCode === 'IN') {
+          return /^[6-9]\d{9}$/.test(val);
+        }
+
+        return true;
+      }, 'Invalid contact number'),
+
+    whatsapp_number: z
+      .string()
+      .optional()
+      .nullable()
+      .refine(val => {
+        if (!val) return true;
+
+        const fullNumber = `${whatsappPhoneCode}${val}`;
+        const phone = parsePhoneNumberFromString(
+          fullNumber,
+          whatsappCountryCode,
+        );
+
+        if (!phone || !phone.isValid()) return false;
+
+        if (whatsappCountryCode === 'IN') {
+          return /^[6-9]\d{9}$/.test(val);
+        }
+
+        return true;
+      }, 'Invalid WhatsApp number'),
+
+    email: z
+      .string()
+      .trim()
+      .optional()
+      .refine(val => !val || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val), {
+        message: 'Invalid email address',
+      }),
+
+    website: websiteUrlSchema.optional(),
+
+    image: z.string().url('Image must be a valid URL').optional(),
+  });

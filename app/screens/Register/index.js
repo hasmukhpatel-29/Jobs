@@ -17,6 +17,7 @@ import OtpModal from '@components/OtpModal';
 import Toast from '@components/CToast';
 import CAutoComplete from '@components/CAutoComplete';
 import UploadPhoto from '@components/UploadPhoto';
+import CheckBox from '@components/CheckBox';
 import {Images} from '@config/Images';
 import {Config} from '@config/Config';
 import {useThemeContext} from '@contexts/themeContext';
@@ -38,6 +39,7 @@ const Register = ({navigation}) => {
   const [isVerifying, setIsVerifying] = useState(false);
   const [otpSendModalEnable, setOtpSendModalEnable] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
+  const [checked, setChecked] = useState(false);
 
   const defaultValues = {
     email: '',
@@ -339,11 +341,35 @@ const Register = ({navigation}) => {
               />
             )}
           />
+          <View style={styles.container}>
+            <CheckBox checked={checked} onChange={() => setChecked(!checked)} />
+
+            <Text style={styles.termsText}>
+              I agree to the{' '}
+              <Text
+                style={styles.termsTextLink}
+                onPress={() => console.log('Terms')}>
+                Terms of Service
+              </Text>
+              |{' '}
+              <Text
+                style={styles.termsTextLink}
+                onPress={() => console.log('Privacy')}>
+                Privacy Policy
+              </Text>{' '}
+              |{' '}
+              <Text
+                style={styles.termsTextLink}
+                onPress={() => console.log('Content')}>
+                Content Policy
+              </Text>
+            </Text>
+          </View>
           <CButton
             label="Register"
             onPress={handleSubmit(userRegister)}
             loading={isLoading}
-            disabled={isLoading}
+            disabled={!checked || isLoading}
             buttonStyle={{marginVertical: 20}}
           />
         </ScrollView>
