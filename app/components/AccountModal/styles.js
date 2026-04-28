@@ -59,6 +59,7 @@ const GetStyles = () => {
       position: 'absolute',
       right: size.moderateScale(15),
       top: size.moderateScale(15),
+      padding: size.moderateScale(5),
     },
   });
 };

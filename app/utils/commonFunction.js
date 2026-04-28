@@ -1,7 +1,8 @@
 import {Alert, Linking} from 'react-native';
 import {navigationRef} from '@navigation/mainStackNavigation';
 import useGlobalStore from '@zustand/store';
-import { Config } from '@config/Config';
+import {Config} from '@config/Config';
+import moment from 'moment';
 
 export const NumberValidation = val => {
   if (!isNaN(val)) {
@@ -65,4 +66,37 @@ export const getImageUrl = path => {
 
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
   return `${Config.IMAGE_STORAGE_URL}${cleanPath}`;
+};
+
+export const getTimeAgo = date => {
+  const createdAt = moment(date);
+  const now = moment();
+
+  if (!createdAt.isValid()) {
+    return 'Invalid date';
+  }
+
+  const minutesDiff = now.diff(createdAt, 'minutes');
+  const hoursDiff = now.diff(createdAt, 'hours');
+  const daysDiff = now.diff(createdAt, 'days');
+
+  if (minutesDiff < 60) {
+    return `${minutesDiff}m ago`;
+  }
+
+  if (hoursDiff < 24) {
+    return `${hoursDiff}h ago`;
+  }
+
+  if (daysDiff === 1) {
+    return 'Yesterday';
+  }
+
+  if (daysDiff <= 2) {
+    return `${daysDiff}d ago`;
+  }
+
+  const format = createdAt.year() === now.year() ? 'MMM D' : 'MMM D, YYYY';
+
+  return createdAt.format(format);
 };

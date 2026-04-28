@@ -1,12 +1,41 @@
 import React from 'react';
-import {View, Text} from 'react-native';
-import {useThemeContext} from '@contexts/themeContext';
+import {View, Text, FlatList} from 'react-native';
+import {useQuery} from '@tanstack/react-query';
+import {CHeader} from '@components/CHeader';
+import JobCard from '@components/JobCard';
+import {getSavedJobList} from '@apis/ApiRoutes/JobsApi';
+import {useToggleSaveJob} from '@hooks/useToggleSaveJob';
 
 export default function Favourites() {
-  const {color} = useThemeContext();
+  const toggleSaveJob = useToggleSaveJob();
+
+  const {data, isLoading, refetch, isRefetching} = useQuery({
+    queryKey: ['saveJobs'],
+    queryFn: getSavedJobList,
+  });
+
+  const jobs = data?.data ?? [];
+
   return (
-    <View style={{flex: 1, justifyContent: 'center'}}>
-      <Text style={{textAlign: 'center', color: color.black}}>Favourites</Text>
+    <View style={{flex: 1}}>
+      <CHeader title="Favourites" />
+
+      <FlatList
+        data={jobs}
+        keyExtractor={(item, index) => item.job_id || index.toString()}
+        renderItem={({item}) => (
+          <JobCard item={item} toggleSaveJob={toggleSaveJob} />
+        )}
+        refreshing={isRefetching}
+        onRefresh={refetch}
+        ListEmptyComponent={
+          !isLoading && (
+            <Text style={{textAlign: 'center', marginTop: 20}}>
+              No saved jobs found
+            </Text>
+          )
+        }
+      />
     </View>
   );
 }

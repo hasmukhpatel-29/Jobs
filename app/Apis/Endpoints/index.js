@@ -109,3 +109,22 @@ export const businessEndPoint = {
     uri: '/business/update',
   },
 };
+
+export const jobEndPoint = {
+  jobList: {
+    method: 'GET',
+    uri: '/jobs/list',
+  },
+  jobDetails: {
+    method: 'GET',
+    uri: '/jobs',
+  },
+  saveJob: {
+    method: 'POST',
+    uri: '/profile/saved-jobs',
+  },
+  saveJobList:{
+    method: 'GET',
+    uri: '/profile/saved-jobs',
+  }
+};

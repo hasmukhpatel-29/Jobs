@@ -18,6 +18,7 @@ module.exports = {
           '@apis': './app/Apis',
           '@apiRoutes': './app/Apis/ApiRoutes',
           '@endPoints': './app/Apis/EndPoints',
+          '@hooks': './app/hooks',
         },
       },
     ],

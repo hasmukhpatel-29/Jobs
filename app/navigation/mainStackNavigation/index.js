@@ -17,11 +17,13 @@ import EditBusiness from '@screens/Business/EditBusiness';
 import BottomTabBar from '@navigation/BottomTab';
 import BusinessProfile from '@screens/Business/BusinessProfile';
 import BusinessDiscover from '@screens/Business/BusinessDiscover';
+import CLoginModal from '@components/CLoginModal';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export const navigationRef = React.createRef();
+export const loginModalRef = React.createRef();
 
 export const BusinessBottomTab = () => {
   const renderBusinessTab = props => (
@@ -59,6 +61,7 @@ export const MainStackNavigation = () => {
           <Stack.Screen name="EditGallery" component={EditGallery} />
           <Stack.Screen name="EditBusiness" component={EditBusiness} />
         </Stack.Navigator>
+        <CLoginModal ref={loginModalRef} />
       </NavigationContainer>
     </SafeAreaProvider>
   );
