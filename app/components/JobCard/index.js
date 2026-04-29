@@ -1,19 +1,47 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import CImage from '@components/CImage';
 import {CButton} from '@components/CButton';
+import Toast from '@components/CToast';
 import {CustomIcon} from '@config/LoadIcons';
 import {size} from '@config/Sizes';
 import Icon, {Icons} from '@config/Icons';
 import {useThemeContext} from '@contexts/themeContext';
 import {getTimeAgo} from '@utils/commonFunction';
+import {useApplyJob} from '@hooks/useApplyJob';
 import GetStyles from './styles';
 
 const JobCard = ({item, toggleSaveJob}) => {
   const styles = GetStyles();
   const {color} = useThemeContext();
+  const navigation = useNavigation();
+  const [applyLoading, setApplyLoading] = useState(false);
+
+  const applyJob = useApplyJob();
+
+  const handleApply = async () => {
+    if (item?.already_applied) return;
+
+    try {
+      setApplyLoading(true);
+
+      await applyJob(item?.job_id);
+      Toast.show({
+        type: 'success',
+        text1: 'Applied successfully!',
+      });
+    } catch (e) {
+    } finally {
+      setApplyLoading(false);
+    }
+  };
+
   return (
-    <View style={styles.card}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={() => navigation.navigate('JobDetails', {slug: item?.slug})}
+      style={styles.card}>
       <View style={styles.header}>
         <View style={{flex: 1}}>
           <Text style={styles.title}>{item.title}</Text>
@@ -113,13 +141,15 @@ const JobCard = ({item, toggleSaveJob}) => {
             </View>
           </View>
           <CButton
-            label="Apply Now"
-            onPress={() => {}}
+            label={item?.already_applied ? 'Applied' : 'Apply Now'}
+            onPress={handleApply}
+            disabled={item?.already_applied || applyLoading}
+            loading={applyLoading}
             buttonStyle={styles.btnStyle}
           />
         </View>
       )}
-    </View>
+    </TouchableOpacity>
   );
 };
 

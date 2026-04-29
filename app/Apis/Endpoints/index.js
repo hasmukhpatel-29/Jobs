@@ -117,14 +117,18 @@ export const jobEndPoint = {
   },
   jobDetails: {
     method: 'GET',
-    uri: '/jobs',
+    uri: '/jobs/slug',
   },
   saveJob: {
     method: 'POST',
     uri: '/profile/saved-jobs',
   },
-  saveJobList:{
+  saveJobList: {
     method: 'GET',
     uri: '/profile/saved-jobs',
-  }
+  },
+  applyJob: {
+    method: 'POST',
+    uri: '/applications/apply',
+  },
 };

@@ -59,3 +59,47 @@ export const getSavedJobList = async () => {
 
   return response;
 };
+
+export const jobDetailsApi = async slug => {
+
+  const endpoint = jobEndPoint.jobDetails;
+  const url = `${endpoint.uri}/${slug}`;
+
+  try {
+    const response = await getApiData(url, endpoint.method, {}, false, true);
+
+    if (!response?.success) {
+      throw new Error(response?.message || 'Failed to fetch job details');
+    }
+
+    return response;
+  } catch (error) {
+    Toast.show({
+      type: 'error',
+      text1: error?.message || 'Something went wrong',
+    });
+    throw error;
+  }
+};
+
+export const applyJobApi = async jobId => {
+
+  const endpoint = jobEndPoint.applyJob;
+  const url = `${endpoint.uri}/${jobId}`;
+
+  try {
+    const response = await getApiData(url, endpoint.method, {}, false, true);
+
+    if (!response?.success) {
+      throw new Error(response?.error?.message || 'Failed to apply for job');
+    }
+
+    return response;
+  } catch (error) {
+    Toast.show({
+      type: 'error',
+      text1: error?.message || 'Something went wrong',
+    });
+    throw error;
+  }
+};

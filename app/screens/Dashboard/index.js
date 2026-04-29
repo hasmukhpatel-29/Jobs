@@ -1,5 +1,7 @@
 import React, {useEffect} from 'react';
 import {View, FlatList, ActivityIndicator} from 'react-native';
+import {loginModalRef} from '@navigation/mainStackNavigation';
+import CardSkeleton from '@components/Skeleton/CardSkeleton';
 import {CHeader} from '@components/CHeader';
 import JobCard from '@components/JobCard';
 import {useInfiniteQuery} from '@tanstack/react-query';
@@ -7,7 +9,6 @@ import {getJobList} from '@apis/ApiRoutes/JobsApi';
 import {useToggleSaveJob} from '@hooks/useToggleSaveJob';
 import useGlobalStore from '@zustand/store';
 import {getUserProfile, profileMeApi} from '@apis/ApiRoutes/UserProfileApi';
-import {loginModalRef} from '@navigation/mainStackNavigation';
 
 const Dashboard = ({openDrawer}) => {
   const isAuthenticated = useGlobalStore(s => {
@@ -33,6 +34,7 @@ const Dashboard = ({openDrawer}) => {
 
   const {
     data,
+    isLoading,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -55,22 +57,28 @@ const Dashboard = ({openDrawer}) => {
     <View style={{flex: 1}}>
       <CHeader title="Dashboard" drawer openDrawer={openDrawer} showBusiness />
 
-      <FlatList
-        data={jobs}
-        keyExtractor={(item, index) => item.job_id || index.toString()}
-        renderItem={({item}) => (
-          <JobCard item={item} toggleSaveJob={handleToggleSaveJob} />
-        )}
-        onEndReached={() => {
-          if (hasNextPage && !isFetchingNextPage) {
-            fetchNextPage();
+      {isLoading ? (
+        <CardSkeleton count={4} />
+      ) : (
+        <FlatList
+          data={jobs}
+          keyExtractor={(item, index) => item.job_id || index.toString()}
+          renderItem={({item}) => (
+            <JobCard item={item} toggleSaveJob={handleToggleSaveJob} />
+          )}
+          onEndReached={() => {
+            if (hasNextPage && !isFetchingNextPage) {
+              fetchNextPage();
+            }
+          }}
+          onEndReachedThreshold={0.5}
+          refreshing={isRefetching}
+          onRefresh={refetch}
+          ListFooterComponent={
+            isFetchingNextPage ? <ActivityIndicator /> : null
           }
-        }}
-        onEndReachedThreshold={0.5}
-        refreshing={isRefetching}
-        onRefresh={refetch}
-        ListFooterComponent={isFetchingNextPage ? <ActivityIndicator /> : null}
-      />
+        />
+      )}
     </View>
   );
 };

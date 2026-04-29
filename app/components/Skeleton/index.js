@@ -3,7 +3,12 @@ import {View, Animated} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import styles from './styles';
 
-const Skeleton = ({height = 20, width = '100%', borderRadius = 8}) => {
+const Skeleton = ({
+  height = 20,
+  width = '100%',
+  borderRadius = 8,
+  style = {},
+}) => {
   const shimmerAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -22,16 +27,8 @@ const Skeleton = ({height = 20, width = '100%', borderRadius = 8}) => {
   });
 
   return (
-    <View
-      style={[
-        styles.container,
-        {height, width, borderRadius},
-      ]}>
-      <Animated.View
-        style={[
-          styles.shimmer,
-          {transform: [{translateX}]},
-        ]}>
+    <View style={[styles.container, {height, width, borderRadius}, style]}>
+      <Animated.View style={[styles.shimmer, {transform: [{translateX}]}]}>
         <LinearGradient
           colors={['#E0E0E0', '#F5F5F5', '#E0E0E0']}
           start={{x: 0, y: 0}}
