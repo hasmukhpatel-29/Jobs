@@ -3,6 +3,7 @@ import {navigationRef} from '@navigation/mainStackNavigation';
 import useGlobalStore from '@zustand/store';
 import {Config} from '@config/Config';
 import moment from 'moment';
+import {useThemeContext} from '@contexts/themeContext';
 
 export const NumberValidation = val => {
   if (!isNaN(val)) {
@@ -99,4 +100,27 @@ export const getTimeAgo = date => {
   const format = createdAt.year() === now.year() ? 'MMM D' : 'MMM D, YYYY';
 
   return createdAt.format(format);
+};
+
+export const GetStatusColor = status => {
+  const {color} = useThemeContext();
+  switch (status) {
+    case 'Applied':
+      return color.primary;
+
+    case 'Under Review':
+      return color.orange;
+
+    case 'Shortlisted':
+      return color.hexBlue;
+
+    case 'Hired':
+      return color.green;
+
+    case 'Rejected':
+      return color.red;
+
+    default:
+      return color.gray900;
+  }
 };

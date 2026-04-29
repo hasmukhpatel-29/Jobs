@@ -99,6 +99,19 @@ const GetStyles = () => {
       fontFamily: fontFamily.light,
     },
     btnStyle: {paddingHorizontal: 12, paddingVertical: 8},
+    appliedCont: statusColor => ({
+      backgroundColor: `${statusColor}10`,
+      borderColor: statusColor,
+      paddingHorizontal: 12,
+      paddingVertical: 6,
+      borderRadius: 15,
+      borderWidth: 1,
+    }),
+    appliedText: statusColor => ({
+      fontSize: fontSize.verySmall,
+      color: statusColor,
+      fontFamily: fontFamily.semiBold,
+    }),
   });
 };
 

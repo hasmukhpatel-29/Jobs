@@ -8,11 +8,11 @@ import {CustomIcon} from '@config/LoadIcons';
 import {size} from '@config/Sizes';
 import Icon, {Icons} from '@config/Icons';
 import {useThemeContext} from '@contexts/themeContext';
-import {getTimeAgo} from '@utils/commonFunction';
+import {GetStatusColor, getTimeAgo} from '@utils/commonFunction';
 import {useApplyJob} from '@hooks/useApplyJob';
 import GetStyles from './styles';
 
-const JobCard = ({item, toggleSaveJob}) => {
+const JobCard = ({item, toggleSaveJob, myApplicant}) => {
   const styles = GetStyles();
   const {color} = useThemeContext();
   const navigation = useNavigation();
@@ -40,24 +40,31 @@ const JobCard = ({item, toggleSaveJob}) => {
   return (
     <TouchableOpacity
       activeOpacity={0.8}
-      onPress={() => navigation.navigate('JobDetails', {slug: item?.slug})}
+      onPress={() =>
+        navigation.navigate('JobDetails', {
+          jobId: item?.job?.job_id || item?.job_id,
+          myApplicant,
+        })
+      }
       style={styles.card}>
       <View style={styles.header}>
         <View style={{flex: 1}}>
-          <Text style={styles.title}>{item.title}</Text>
+          <Text style={styles.title}>{item?.title || item?.job?.title}</Text>
           <View style={styles.headerCont}>
             <View style={styles.headerView}>
               <CustomIcon
                 name="location"
                 size={size.moderateScale(14)}
-                color={color?.black}
+                color={color?.gray900}
               />
               {item?.location?.city && item?.location?.state ? (
                 <Text style={styles.company}>
                   {item?.location?.city}, {item?.location?.state}
                 </Text>
               ) : (
-                <Text style={styles.company}>{item?.location}</Text>
+                <Text style={styles.company}>
+                  {item?.location || item?.job?.location}
+                </Text>
               )}
             </View>
             {item?.created_at && (
@@ -65,7 +72,7 @@ const JobCard = ({item, toggleSaveJob}) => {
                 <CustomIcon
                   name="timer3"
                   size={size.moderateScale(14)}
-                  color={color?.black}
+                  color={color?.gray900}
                 />
                 <Text style={styles.company}>
                   {getTimeAgo(item?.created_at)}
@@ -76,25 +83,35 @@ const JobCard = ({item, toggleSaveJob}) => {
               <CustomIcon
                 name="briefcase"
                 size={size.moderateScale(14)}
-                color={color?.black}
+                color={color?.gray900}
               />
-              <Text style={styles.company}>{item?.work_mode}</Text>
+              <Text style={styles.company}>
+                {item?.work_mode || item?.job?.work_mode}
+              </Text>
             </View>
           </View>
         </View>
 
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => {
-            toggleSaveJob(item?.job_id);
-          }}>
-          <Icon
-            type={Icons.FontAwesome}
-            name={item?.is_saved ? 'bookmark' : 'bookmark-o'}
-            size={size.moderateScale(18)}
-            color={color?.black}
-          />
-        </TouchableOpacity>
+        {item?.job ? (
+          <View style={styles.appliedCont(GetStatusColor(item?.status))}>
+            <Text style={styles.appliedText(GetStatusColor(item?.status))}>
+              {item?.status}
+            </Text>
+          </View>
+        ) : (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {
+              toggleSaveJob(item?.job_id);
+            }}>
+            <Icon
+              type={Icons.FontAwesome}
+              name={item?.is_saved ? 'bookmark' : 'bookmark-o'}
+              size={size.moderateScale(18)}
+              color={color?.black}
+            />
+          </TouchableOpacity>
+        )}
       </View>
       {item?.description && (
         <Text style={styles.description} numberOfLines={2}>
@@ -104,17 +121,27 @@ const JobCard = ({item, toggleSaveJob}) => {
 
       <View style={styles.tagsContainer}>
         <View style={styles.tag}>
-          <Text style={styles.tagText}>{item?.job_type}</Text>
+          <Text style={styles.tagText}>
+            {item?.job_type || item?.job?.job_type}
+          </Text>
         </View>
-        <View style={styles.tag}>
-          <Text style={styles.tagText}>{item?.ctc}</Text>
-        </View>
-        <View style={styles.tag}>
-          <Text style={styles.tagText}>{item?.experience} yrs</Text>
-        </View>
-        {item?.skills && (
+        {(item?.ctc || item?.job?.ctc) && (
           <View style={styles.tag}>
-            <Text style={styles.tagText}>{item?.skills}</Text>
+            <Text style={styles.tagText}>{item?.ctc || item?.job?.ctc}</Text>
+          </View>
+        )}
+        {(item?.experience || item?.job?.experience) && (
+          <View style={styles.tag}>
+            <Text style={styles.tagText}>
+              {item?.experience || item?.job?.experience} yrs
+            </Text>
+          </View>
+        )}
+        {(item?.skills || item?.job?.category) && (
+          <View style={styles.tag}>
+            <Text style={styles.tagText}>
+              {item?.skills || item?.job?.category}
+            </Text>
           </View>
         )}
       </View>
@@ -141,10 +168,34 @@ const JobCard = ({item, toggleSaveJob}) => {
             </View>
           </View>
           <CButton
-            label={item?.already_applied ? 'Applied' : 'Apply Now'}
+            label={item?.application_status || 'Apply Now'}
             onPress={handleApply}
             disabled={item?.already_applied || applyLoading}
             loading={applyLoading}
+            buttonStyle={styles.btnStyle}
+          />
+        </View>
+      )}
+      {item?.job && (
+        <View style={styles.footer}>
+          <View style={styles.headerView}>
+            <CustomIcon
+              name="timer3"
+              size={size.moderateScale(14)}
+              color={color?.gray900}
+            />
+            <Text style={styles.company}>
+              Applied {getTimeAgo(item?.applied_at)}
+            </Text>
+          </View>
+          <CButton
+            label="Details"
+            onPress={() =>
+              navigation.navigate('JobDetails', {
+                jobId: item?.job?.job_id,
+                myApplicant,
+              })
+            }
             buttonStyle={styles.btnStyle}
           />
         </View>

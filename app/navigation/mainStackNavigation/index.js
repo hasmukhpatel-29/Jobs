@@ -18,6 +18,7 @@ import BottomTabBar from '@navigation/BottomTab';
 import BusinessProfile from '@screens/Business/BusinessProfile';
 import BusinessDiscover from '@screens/Business/BusinessDiscover';
 import JobDetails from '@screens/User/JobDetails';
+import MyApplication from '@screens/User/MyApplication';
 import CLoginModal from '@components/CLoginModal';
 
 const Stack = createStackNavigator();
@@ -62,6 +63,7 @@ export const MainStackNavigation = () => {
           <Stack.Screen name="EditGallery" component={EditGallery} />
           <Stack.Screen name="EditBusiness" component={EditBusiness} />
           <Stack.Screen name="JobDetails" component={JobDetails} />
+          <Stack.Screen name="MyApplication" component={MyApplication} />
         </Stack.Navigator>
         <CLoginModal ref={loginModalRef} />
       </NavigationContainer>

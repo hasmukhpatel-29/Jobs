@@ -19,25 +19,23 @@ import Animated, {
 import LinearGradient from 'react-native-linear-gradient';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import BottomTabBar from '@navigation/BottomTab';
+import {userTabConfig} from '@navigation/userTabConfig';
 import Profile from '@screens/Profile';
 import Dashboard from '@screens/Dashboard';
 import Favourites from '@screens/Favourites';
 import CImage from '@components/CImage';
-// import CButton from '@components/CButton';
-// import CommonModal from '@components/CModal/CommonModal';
+import {CButton} from '@components/CButton';
+import CommonModal from '@components/CModal/CommonModal';
 import {dashboardList} from '@config/staticData';
+import {Images} from '@config/Images';
+import {CustomIcon} from '@config/LoadIcons';
 import {useThemeContext} from '@contexts/themeContext';
 import useGlobalStore from '@zustand/store';
-import {Images} from '@config/Images';
 import {getImageUrl} from '@utils/commonFunction';
-import {CustomIcon} from '@config/LoadIcons';
-import Overlay from './overlay';
-import GetStyles from './styles';
-import CommonModal from '@components/CModal/CommonModal';
-import {CButton} from '@components/CButton';
 import Icon, {Icons} from '@config/Icons';
 import {logoutApi} from '@apis/ApiRoutes/LoginApi';
-import {userTabConfig} from '@navigation/userTabConfig';
+import Overlay from './overlay';
+import GetStyles from './styles';
 
 const CustomDrawer = ({route, navigation}) => {
   const {color} = useThemeContext();
@@ -171,6 +169,9 @@ const CustomDrawer = ({route, navigation}) => {
                   activeOpacity={0.7}
                   onPress={() => {
                     closeDrawer();
+                    if (isAuthenticated) {
+                      navigation.navigate(item?.navigate);
+                    }
                   }}
                   key={index}>
                   <Text style={styles.drawerTabText}>{item?.title}</Text>

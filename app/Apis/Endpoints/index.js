@@ -119,6 +119,10 @@ export const jobEndPoint = {
     method: 'GET',
     uri: '/jobs/slug',
   },
+  jobDetailsById: {
+    method: 'GET',
+    uri: '/jobs',
+  },
   saveJob: {
     method: 'POST',
     uri: '/profile/saved-jobs',
@@ -130,5 +134,9 @@ export const jobEndPoint = {
   applyJob: {
     method: 'POST',
     uri: '/applications/apply',
+  },
+  myApplications: {
+    method: 'GET',
+    uri: '/applications/my-applications',
   },
 };

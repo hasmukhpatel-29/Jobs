@@ -15,11 +15,8 @@ export const genderData = [
 export const dashboardList = [
   {
     id: 1,
-    title: 'My Profile',
-  },
-  {
-    id: 2,
-    title: 'My Jobs',
+    title: 'My Applications',
+    navigate: 'MyApplication',
   },
 ];
 

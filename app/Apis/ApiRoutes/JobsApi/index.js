@@ -21,7 +21,6 @@ export const getJobList = async () => {
 };
 
 export const saveJobApi = async jobId => {
-
   const endpoint = jobEndPoint.saveJob;
   const url = `${endpoint.uri}/${jobId}`;
 
@@ -60,9 +59,9 @@ export const getSavedJobList = async () => {
   return response;
 };
 
-export const jobDetailsApi = async slug => {
+export const jobDetailsApi = async (slug, isSlug = true) => {
+  const endpoint = isSlug ? jobEndPoint.jobDetails : jobEndPoint.jobDetailsById;
 
-  const endpoint = jobEndPoint.jobDetails;
   const url = `${endpoint.uri}/${slug}`;
 
   try {
@@ -83,7 +82,6 @@ export const jobDetailsApi = async slug => {
 };
 
 export const applyJobApi = async jobId => {
-
   const endpoint = jobEndPoint.applyJob;
   const url = `${endpoint.uri}/${jobId}`;
 
@@ -102,4 +100,22 @@ export const applyJobApi = async jobId => {
     });
     throw error;
   }
+};
+
+export const getMyApplicantList = async () => {
+  const endpoint = jobEndPoint.myApplications;
+
+  const response = await getApiData(
+    endpoint.uri,
+    endpoint.method,
+    {},
+    false,
+    true,
+  );
+
+  if (!response?.success) {
+    throw new Error(response?.message || 'Failed to fetch jobs');
+  }
+
+  return response;
 };
