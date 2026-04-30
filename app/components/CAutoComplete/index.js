@@ -22,6 +22,7 @@ const CAutoComplete = ({
   textInputWrapper,
   editable,
   type = 'city',
+  direction = 'bottom',
   onChangeTextValue = () => {},
 }) => {
   const styles = GetStyles();
@@ -53,10 +54,11 @@ const CAutoComplete = ({
       setLoading(true);
 
       try {
-        const res = await autoCompleteCity({input: text}, type);
+        const payload = type === 'degree' ? {query: text} : {input: text};
+        const res = await autoCompleteCity(payload, type);
 
         if (res?.success) {
-          setData(res?.businesses || res?.cities || []);
+          setData(res?.businesses || res?.cities || res?.data || []);
         } else {
           setData([]);
         }
@@ -70,7 +72,7 @@ const CAutoComplete = ({
 
   const handleSelect = item => {
     const locationText =
-      (item?.description || item?.city_name || '') +
+      (item?.description || item?.city_name || item?.degree_name || '') +
       (item?.state_name ? `, ${item.state_name}` : '') +
       (item?.country_name ? `, ${item.country_name}` : '');
 
@@ -104,6 +106,7 @@ const CAutoComplete = ({
           {item?.description || item?.city_name || ''}
           {item?.state_name ? `, ${item?.state_name}` : ''}
           {item?.country_name ? `, ${item?.country_name}` : ''}
+          {item?.degree_name}
         </Text>
       </TouchableOpacity>
     ),
@@ -111,7 +114,7 @@ const CAutoComplete = ({
   );
 
   return (
-    <View>
+    <View style={{zIndex: 1000}}>
       <CInput
         ref={inputRef}
         required={required}
@@ -129,11 +132,16 @@ const CAutoComplete = ({
       />
 
       {showDropdown && (
-        <View style={styles.mainContainer}>
+       <View 
+          style={[
+            styles.mainContainer, 
+            direction === 'top' ? { bottom: '100%', marginBottom: 5 } : { top: '100%', marginTop: 5 }
+          ]}
+        >
           <FlatList
             data={data}
             renderItem={renderItem}
-            scrollEnabled={false}
+            nestedScrollEnabled={true}
             keyExtractor={(item, index) => index.toString()}
             ItemSeparatorComponent={<Separator style={styles.separator} />}
             ListEmptyComponent={

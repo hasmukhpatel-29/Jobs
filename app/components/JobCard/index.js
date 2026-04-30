@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {loginModalRef} from '@navigation/mainStackNavigation';
 import CImage from '@components/CImage';
 import {CButton} from '@components/CButton';
 import Toast from '@components/CToast';
@@ -10,6 +11,7 @@ import Icon, {Icons} from '@config/Icons';
 import {useThemeContext} from '@contexts/themeContext';
 import {GetStatusColor, getTimeAgo} from '@utils/commonFunction';
 import {useApplyJob} from '@hooks/useApplyJob';
+import useGlobalStore from '@zustand/store';
 import GetStyles from './styles';
 
 const JobCard = ({item, toggleSaveJob, myApplicant}) => {
@@ -17,10 +19,17 @@ const JobCard = ({item, toggleSaveJob, myApplicant}) => {
   const {color} = useThemeContext();
   const navigation = useNavigation();
   const [applyLoading, setApplyLoading] = useState(false);
+  const isAuthenticated = useGlobalStore(s => {
+    return s.isAuthenticated;
+  });
 
   const applyJob = useApplyJob();
 
   const handleApply = async () => {
+    if (!isAuthenticated) {
+      loginModalRef.current?.open();
+      return;
+    }
     if (item?.already_applied) return;
 
     try {

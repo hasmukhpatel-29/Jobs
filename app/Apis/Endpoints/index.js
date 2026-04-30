@@ -50,6 +50,46 @@ export const userProfileEndPoint = {
     method: 'GET',
     uri: '/mobile/profile/me',
   },
+  profileAllDetails:{
+    method: 'GET',
+    uri: '/profile/me/all-details',
+  },
+  updateBasicInfo:{
+    method: 'PUT',
+    uri: '/profile/basic-info'
+  },
+  skillList: {
+    method: 'GET',
+    uri: '/skills/list',
+  },
+  addSkill: {
+    method: 'POST',
+    uri: '/profile/skill/add',
+  },
+  deleteSkill: {
+    method: 'DELETE',
+    uri: '/profile/skill',
+  },
+  degreeList:{
+    method: 'GET',
+    uri: '/degrees/list'
+  },
+  addEducation: {
+    method: 'POST',
+    uri: '/profile/education',
+  },
+  deleteEducation:{
+    method: 'DELETE',
+    uri: '/profile/education',
+  },
+  addExperience: {
+    method: 'POST',
+    uri: '/profile/experience',
+  },
+  deleteExperience:{
+    method: 'DELETE',
+    uri: '/profile/experience',
+  },
 };
 
 export const businessRegEndPoint = {

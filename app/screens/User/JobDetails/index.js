@@ -52,6 +52,10 @@ const JobDetails = ({route}) => {
   });
 
   const handleApply = async () => {
+    if (!isAuthenticated) {
+      loginModalRef.current?.open();
+      return;
+    }
     try {
       setApplyLoading(true);
 
@@ -170,6 +174,10 @@ const JobDetails = ({route}) => {
       <CHeader title="Job Details" back />
       {loading ? (
         <CardSkeleton count={4} />
+      ) : !jobData?.job_id ? (
+        <View style={styles.emptyCont}>
+          <Text style={styles.emptyText}>No details found</Text>
+        </View>
       ) : (
         <ScrollView>
           <View style={styles.card}>
@@ -560,13 +568,15 @@ const JobDetails = ({route}) => {
           </View>
         </ScrollView>
       )}
-      <CButton
-        label={jobData?.application_status || 'Apply Now'}
-        onPress={handleApply}
-        disabled={jobData?.already_applied || applyLoading}
-        loading={applyLoading}
-        buttonStyle={styles.floatingBtn}
-      />
+      {jobData?.job_id && (
+        <CButton
+          label={jobData?.application_status || 'Apply Now'}
+          onPress={handleApply}
+          disabled={jobData?.already_applied || applyLoading}
+          loading={applyLoading}
+          buttonStyle={styles.floatingBtn}
+        />
+      )}
     </View>
   );
 };

@@ -318,6 +318,7 @@ const BusinessLegal = forwardRef((props, ref) => {
               onChange(text);
             }}
             type="buiness"
+            direction="top"
             onSelect={item => {
               const locationText = item?.description || '';
 

@@ -255,3 +255,92 @@ export const EditBusinessSchema = (
 
     image: z.string().url('Image must be a valid URL').optional(),
   });
+
+export const profileAddressSchema = isSameAsPermanent =>
+  z.object({
+    headline: z.string().optional(),
+    bio: z.string().optional(),
+
+    address: z.string().optional(),
+    area: z.string().optional(),
+    city: z.string().min(2, 'City is required'),
+    state: z.string().min(2, 'State is required'),
+    country: z.string().min(2, 'Country is required'),
+
+    pincode: z
+      .string()
+      .regex(/^[0-9]*$/, 'Only numbers allowed')
+      .optional(),
+
+    current_address: z.string().optional(),
+    current_area: z.string().optional(),
+
+    current_city: isSameAsPermanent
+      ? z.string().optional()
+      : z.string().min(2, 'City is required'),
+
+    current_state: isSameAsPermanent
+      ? z.string().optional()
+      : z.string().min(2, 'State is required'),
+
+    current_country: isSameAsPermanent
+      ? z.string().optional()
+      : z.string().min(2, 'Country is required'),
+
+    current_pincode: z
+      .string()
+      .regex(/^[0-9]*$/, 'Only numbers allowed')
+      .optional(),
+  });
+
+export const educationSchema = isCurrentlyStudying =>
+  z
+    .object({
+      degree: z.string().min(2, 'Degree is required'),
+      college: z.string().min(2, 'College / Institute is required'),
+      city: z.string().min(2, 'City is required'),
+      Percentage: z.string().optional(),
+
+      start_month_year: z
+        .string()
+        .min(7, 'Start date is required')
+        .regex(/^(0[1-9]|1[0-2])\/\d{4}$/, 'Invalid format (MM/YYYY)'),
+
+      end_month_year: isCurrentlyStudying
+        ? z.string().optional()
+        : z
+            .string()
+            .min(7, 'End date is required')
+            .regex(/^(0[1-9]|1[0-2])\/\d{4}$/, 'Invalid format (MM/YYYY)'),
+    })
+    .refine(
+      data => {
+        if (isCurrentlyStudying) return true;
+
+        const validFormat = /^(0[1-9]|1[0-2])\/\d{4}$/;
+        if (
+          data.start_month_year &&
+          validFormat.test(data.start_month_year) &&
+          data.end_month_year &&
+          validFormat.test(data.end_month_year)
+        ) {
+          const [startMonth, startYear] = data.start_month_year.split('/');
+          const [endMonth, endYear] = data.end_month_year.split('/');
+
+          const startDate = new Date(
+            Number(startYear),
+            Number(startMonth) - 1,
+            1,
+          );
+          const endDate = new Date(Number(endYear), Number(endMonth) - 1, 1);
+
+          return startDate < endDate;
+        }
+
+        return true; 
+      },
+      {
+        message: 'End date must be after start date',
+        path: ['end_month_year'], 
+      },
+    );

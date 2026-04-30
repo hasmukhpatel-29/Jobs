@@ -20,6 +20,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import BottomTabBar from '@navigation/BottomTab';
 import {userTabConfig} from '@navigation/userTabConfig';
+import {loginModalRef} from '@navigation/mainStackNavigation';
 import Profile from '@screens/Profile';
 import Dashboard from '@screens/Dashboard';
 import Favourites from '@screens/Favourites';
@@ -88,7 +89,7 @@ const CustomDrawer = ({route, navigation}) => {
         {perspective: 500},
         {
           scale: active.value
-            ? withTiming(0.7, {
+            ? withTiming(0.8, {
                 duration: duration,
               })
             : withTiming(1, {
@@ -97,7 +98,7 @@ const CustomDrawer = ({route, navigation}) => {
         },
         {
           translateX: active.value
-            ? withTiming(screenWidth / 1.2, {
+            ? withTiming(screenWidth / 1.3, {
                 duration: duration,
               })
             : withTiming(0, {
@@ -171,6 +172,8 @@ const CustomDrawer = ({route, navigation}) => {
                     closeDrawer();
                     if (isAuthenticated) {
                       navigation.navigate(item?.navigate);
+                    } else {
+                      loginModalRef.current?.open();
                     }
                   }}
                   key={index}>

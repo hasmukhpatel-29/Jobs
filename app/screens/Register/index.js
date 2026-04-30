@@ -327,6 +327,7 @@ const Register = ({navigation}) => {
                 label="Home Town"
                 placeholder="Enter your home town"
                 value={value}
+                direction="top"
                 onSelect={item => {
                   const locationText = formatLocation(item);
 

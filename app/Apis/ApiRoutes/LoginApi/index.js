@@ -1,5 +1,9 @@
 import DeviceInfo from 'react-native-device-info';
-import {authEndpoint, businessRegEndPoint} from '@apis/Endpoints';
+import {
+  authEndpoint,
+  businessRegEndPoint,
+  userProfileEndPoint,
+} from '@apis/Endpoints';
 import {Config} from '@config/Config';
 import {getApiData, getApiDataProgress} from '@utils/apiHelper';
 import {logOut} from '@utils/commonFunction';
@@ -132,10 +136,18 @@ export const autoCompleteCity = async (body, type = 'city') => {
     let endpoint;
     if (type === 'city') {
       endpoint = authEndpoint.autoCompleteCity;
+    } else if (type === 'degree') {
+      endpoint = userProfileEndPoint.degreeList;
     } else {
       endpoint = businessRegEndPoint.autoCompleteBusiness;
     }
-    const response = await getApiData(endpoint.uri, endpoint.method, body);
+    const response = await getApiData(
+      endpoint.uri,
+      endpoint.method,
+      body,
+      false,
+      type === 'degree',
+    );
     if (isLoginResponse(response)) {
       return response;
     } else {

@@ -7,7 +7,7 @@ import SplashScreen from '@screens/SplashScreen.js';
 import Login from '@screens/Login.js';
 import OtpVerify from '@screens/OtpVerify';
 import Register from '@screens/Register';
-import EditProfile from '@screens/EditProfile';
+import EditProfile from '@screens/User/EditProfile';
 import BusinessForm from '@screens/AddBusiness/BusinessForm';
 import useGlobalStore from '@zustand/store';
 import CustomDrawer from '@navigation/CustomDrawer';
@@ -19,6 +19,8 @@ import BusinessProfile from '@screens/Business/BusinessProfile';
 import BusinessDiscover from '@screens/Business/BusinessDiscover';
 import JobDetails from '@screens/User/JobDetails';
 import MyApplication from '@screens/User/MyApplication';
+import AddressUpdate from '@screens/User/EditProfile/AddressUpdate';
+import EducationUpdate from '@screens/User/EditProfile/EducationUpdate';
 import CLoginModal from '@components/CLoginModal';
 
 const Stack = createStackNavigator();
@@ -64,6 +66,8 @@ export const MainStackNavigation = () => {
           <Stack.Screen name="EditBusiness" component={EditBusiness} />
           <Stack.Screen name="JobDetails" component={JobDetails} />
           <Stack.Screen name="MyApplication" component={MyApplication} />
+          <Stack.Screen name="AddressUpdate" component={AddressUpdate} />
+          <Stack.Screen name="EducationUpdate" component={EducationUpdate} />
         </Stack.Navigator>
         <CLoginModal ref={loginModalRef} />
       </NavigationContainer>

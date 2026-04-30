@@ -114,8 +114,6 @@ export default function EditBusiness({navigation}) {
     }
 
     const res = await upadateBusinessApi(body);
-    console.info('🚀 ~ editBusiness ~ body:', body);
-    console.info('🚀 ~ editBusiness ~ res:', res);
     setIsLoading(false);
     if (res?.success) {
       getBusinessList();

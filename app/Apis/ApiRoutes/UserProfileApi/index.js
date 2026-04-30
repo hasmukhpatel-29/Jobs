@@ -63,3 +63,55 @@ export const profileMeApi = async () => {
     return response;
   } catch (error) {}
 };
+const editProfileApi = async (endpoint, data = {}, params = '') => {
+  const url = `${endpoint.uri}${params}`;
+
+  try {
+    const response = await getApiData(url, endpoint.method, data, false, true);
+
+    if (!response?.success) {
+      throw new Error(response?.error?.message || 'Request failed');
+    }
+
+    return response;
+  } catch (error) {
+    Toast.show({
+      type: 'error',
+      text1: error?.message || 'Something went wrong',
+    });
+    throw error;
+  }
+};
+
+export const profileAllDetailsApi = () =>
+  editProfileApi(userProfileEndPoint.profileAllDetails);
+
+export const updateBasicInfoApi = data =>
+  editProfileApi(userProfileEndPoint.updateBasicInfo, data);
+
+// Skill APIs
+export const getSkillListApi = () =>
+  editProfileApi(userProfileEndPoint.skillList);
+
+export const addSkillApi = data =>
+  editProfileApi(userProfileEndPoint.addSkill, data);
+
+export const deleteSkillApi = id =>
+  editProfileApi(userProfileEndPoint.deleteSkill, {}, `/${id}`);
+
+// Education APIs
+export const getDegreeListApi = () =>
+  editProfileApi(userProfileEndPoint.degreeList);
+
+export const addEducationApi = data =>
+  editProfileApi(userProfileEndPoint.addEducation, data);
+
+export const deleteEducationApi = id =>
+  editProfileApi(userProfileEndPoint.deleteEducation, {}, `/${id}`);
+
+// Experience APIs
+export const addExperienceApi = data =>
+  editProfileApi(userProfileEndPoint.addExperience, data);
+
+export const deleteExperienceApi = id =>
+  editProfileApi(userProfileEndPoint.deleteExperience, {}, `/${id}`);

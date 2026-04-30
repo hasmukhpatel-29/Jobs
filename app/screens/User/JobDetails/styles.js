@@ -290,6 +290,12 @@ const GetStyles = () => {
       borderRadius: 12,
       borderWidth: 0.5,
     },
+    emptyCont: {alignItems: 'center', marginTop: 50},
+    emptyText: {
+      color: color.gray900,
+      fontSize: fontSize.smallerMedium,
+      fontFamily: fontFamily.semiBold,
+    },
   });
 };
 

@@ -21,6 +21,7 @@ const CDatePicker = forwardRef((props, ref) => {
     minDate,
     maxDate,
     disabled = false,
+    editable = false,
     valueFormat = 'DD/MM/YYYY',
     style,
     defaultValue = new Date(),
@@ -87,7 +88,7 @@ const CDatePicker = forwardRef((props, ref) => {
         editable={!disabled}
         onChangeText={handleTextChange}
         calendarIcon
-        onCalendar={() => !disabled && setVisible(true)}
+        onCalendar={() => (!disabled || editable) && setVisible(true)}
         maxLength={10}
         keyboardType="numeric"
         errorMsg={errorMsg}
