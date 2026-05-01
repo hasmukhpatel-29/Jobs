@@ -111,7 +111,7 @@ const GetStyles = () => {
     },
     educationCard: {
       borderRadius: 12,
-      padding: 14,
+      padding: 10,
       borderWidth: 1,
       borderColor: color.borderColor,
       backgroundColor: `${color.primary}10`,
@@ -123,6 +123,12 @@ const GetStyles = () => {
       color: color.black,
       marginBottom: 2,
     },
+    achievementTitle: {
+      fontSize: fontSize.verySmallMedium,
+      fontFamily: fontFamily.regular,
+      color: color.primary,
+    },
+    skillCont: {flexDirection: 'row', gap: 10, flexWrap: 'wrap'},
   });
 };
 

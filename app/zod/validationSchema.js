@@ -299,7 +299,7 @@ export const educationSchema = isCurrentlyStudying =>
       degree: z.string().min(2, 'Degree is required'),
       college: z.string().min(2, 'College / Institute is required'),
       city: z.string().min(2, 'City is required'),
-      Percentage: z.string().optional(),
+      percentage: z.string().optional(),
 
       start_month_year: z
         .string()
@@ -337,10 +337,72 @@ export const educationSchema = isCurrentlyStudying =>
           return startDate < endDate;
         }
 
-        return true; 
+        return true;
       },
       {
         message: 'End date must be after start date',
-        path: ['end_month_year'], 
+        path: ['end_month_year'],
       },
     );
+
+export const experienceSchema = isCurrentlyWorking =>
+  z
+    .object({
+      company: z.string().min(2, 'Company is required'),
+      role: z.string().min(2, 'Role / Title is required'),
+      city: z.string().min(2, 'City is required'),
+      ctc: z.string().optional(),
+      achievement_title: z.string().optional(),
+      achievement_desc: z.string().optional(),
+
+      start_month_year: z
+        .string()
+        .min(7, 'Start date is required')
+        .regex(/^(0[1-9]|1[0-2])\/\d{4}$/, 'Invalid format (MM/YYYY)'),
+
+      end_month_year: isCurrentlyWorking
+        ? z.string().optional()
+        : z
+            .string()
+            .min(7, 'End date is required')
+            .regex(/^(0[1-9]|1[0-2])\/\d{4}$/, 'Invalid format (MM/YYYY)'),
+    })
+    .refine(
+      data => {
+        // Skip date comparison if currently working there
+        if (isCurrentlyWorking) return true;
+
+        const validFormat = /^(0[1-9]|1[0-2])\/\d{4}$/;
+        if (
+          data.start_month_year &&
+          validFormat.test(data.start_month_year) &&
+          data.end_month_year &&
+          validFormat.test(data.end_month_year)
+        ) {
+          const [startMonth, startYear] = data.start_month_year.split('/');
+          const [endMonth, endYear] = data.end_month_year.split('/');
+
+          const startDate = new Date(
+            Number(startYear),
+            Number(startMonth) - 1,
+            1,
+          );
+          const endDate = new Date(Number(endYear), Number(endMonth) - 1, 1);
+
+          return startDate < endDate;
+        }
+        return true;
+      },
+      {
+        message: 'End date must be after start date',
+        path: ['end_month_year'],
+      },
+    );
+
+export const skillSchema = z.object({
+  skill_name: z
+    .string({required_error: 'Skill name is required'})
+    .trim()
+    .min(1, 'Skill name cannot be empty')
+    .max(50, 'Skill name is too long'),
+});

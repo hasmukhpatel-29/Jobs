@@ -82,12 +82,20 @@ export const userProfileEndPoint = {
     method: 'DELETE',
     uri: '/profile/education',
   },
+  updateEducation:{
+    method: 'PUT',
+    uri: '/profile/education',
+  },
   addExperience: {
     method: 'POST',
     uri: '/profile/experience',
   },
   deleteExperience:{
     method: 'DELETE',
+    uri: '/profile/experience',
+  },
+  updateExperience:{
+    method: 'PUT',
     uri: '/profile/experience',
   },
 };

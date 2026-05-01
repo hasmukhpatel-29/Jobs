@@ -9,12 +9,13 @@ const GetStyle = () => {
     mainView: {
       flex: 1,
       paddingHorizontal: size.moderateScale(15),
+      marginTop: 10,
     },
     legalTitle: {
       flexDirection: 'row',
       alignItems: 'center',
       gap: size.moderateScale(5),
-      marginBottom: size.moderateScale(10),
+      marginBottom: size.moderateScale(20),
     },
     titleText: {
       color: color.black,
@@ -34,7 +35,7 @@ const GetStyle = () => {
       fontSize: fontSize.littleMedium,
       flexDirection: 'row',
       gap: 10,
-      marginBottom: size.moderateScale(15),
+      marginBottom: size.moderateScale(20),
     },
     container: {
       flexDirection: 'row',

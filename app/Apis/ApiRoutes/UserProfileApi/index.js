@@ -109,9 +109,15 @@ export const addEducationApi = data =>
 export const deleteEducationApi = id =>
   editProfileApi(userProfileEndPoint.deleteEducation, {}, `/${id}`);
 
+export const updateEducationApi = (data,id) =>
+  editProfileApi(userProfileEndPoint.updateEducation, data, `/${id}`);
+
 // Experience APIs
 export const addExperienceApi = data =>
   editProfileApi(userProfileEndPoint.addExperience, data);
 
 export const deleteExperienceApi = id =>
   editProfileApi(userProfileEndPoint.deleteExperience, {}, `/${id}`);
+
+export const updateExperienceApi = (data,id) =>
+  editProfileApi(userProfileEndPoint.updateExperience, data, `/${id}`);

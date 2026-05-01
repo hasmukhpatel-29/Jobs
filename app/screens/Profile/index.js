@@ -185,10 +185,57 @@ export default function Profile({navigation}) {
                   </Text>
                   <Text style={styles.sectionTitle2}>
                     {item.start_month_year} -{' '}
-                    {item?.end_month_year || 'Present'} . {item.percentage}
+                    {item?.currently_pursuing
+                      ? 'Present'
+                      : item?.end_month_year}{' '}
+                    . {item.percentage}
                   </Text>
                 </View>
               ))}
+            </View>
+
+            <View style={styles.card}>
+              <SectionHeader
+                title="Experience"
+                title2="Add current and past roles."
+                onEdit={() =>
+                  navigation.navigate('ExperienceUpdate', {profileDetails})
+                }
+              />
+              {profileDetails?.experience.map((item, index) => (
+                <View key={index} style={styles.educationCard}>
+                  <Text style={styles.tagText}>
+                    {item?.role} at {item?.company}
+                  </Text>
+                  <Text style={styles.rowLabel}>
+                    {item?.start_month_year} -{' '}
+                    {item?.end_month_year || 'Present'} . {item?.city} .{' '}
+                    {item?.ctc}
+                  </Text>
+                  {item?.achievement_title && (
+                    <Text style={styles.achievementTitle}>
+                      {item?.achievement_title} ({item?.achievement_desc})
+                    </Text>
+                  )}
+                </View>
+              ))}
+            </View>
+
+            <View style={styles.card}>
+              <SectionHeader
+                title="Skills"
+                title2="Add technical & soft skills."
+                onEdit={() =>
+                  navigation.navigate('SkillUpdate', {profileDetails})
+                }
+              />
+              <View style={styles.skillCont}>
+                {profileDetails?.skills.map((item, index) => (
+                  <View key={index} style={styles.educationCard}>
+                    <Text style={styles.tagText}>{item?.skill_name}</Text>
+                  </View>
+                ))}
+              </View>
             </View>
           </View>
         </ScrollView>

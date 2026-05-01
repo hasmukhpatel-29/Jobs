@@ -16,24 +16,24 @@ import CheckBox from '@components/CheckBox';
 import Toast from '@components/CToast';
 import CDatePicker from '@components/CDatePicker';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {educationSchema} from '@zod/validationSchema';
+import {experienceSchema} from '@zod/validationSchema';
 import {
-  addEducationApi,
-  deleteEducationApi,
-  updateEducationApi,
+  addExperienceApi,
+  deleteExperienceApi,
+  updateExperienceApi,
 } from '@apis/ApiRoutes/UserProfileApi';
 import {CustomIcon} from '@config/LoadIcons';
 import {useThemeContext} from '@contexts/themeContext';
 import GetStyles from './styles';
 
 const IOS = Platform.OS === 'ios';
-const EducationUpdate = ({route}) => {
+const ExperienceUpdate = ({route}) => {
   const profileDetails = route?.params?.profileDetails || {};
   const styles = GetStyles();
   const {color} = useThemeContext();
 
-  const [educationList, setEducationList] = useState(
-    profileDetails?.education || [],
+  const [experienceList, setExperienceList] = useState(
+    profileDetails?.experience || [],
   );
   const [showForm, setShowForm] = useState(false);
   const [checked, setChecked] = useState(false);
@@ -41,12 +41,14 @@ const EducationUpdate = ({route}) => {
   const [editingId, setEditingId] = useState(null);
 
   const defaultValues = {
-    degree: '',
-    college: '',
+    company: '',
+    role: '',
     city: '',
     start_month_year: '',
     end_month_year: '',
-    percentage: '',
+    ctc: '',
+    achievement_title: '',
+    achievement_desc: '',
   };
 
   const {
@@ -57,7 +59,7 @@ const EducationUpdate = ({route}) => {
     clearErrors,
     formState: {errors},
   } = useForm({
-    resolver: zodResolver(educationSchema(checked)),
+    resolver: zodResolver(experienceSchema(checked)),
     defaultValues: defaultValues,
   });
 
@@ -65,16 +67,18 @@ const EducationUpdate = ({route}) => {
     const isPursuing = item?.currently_pursuing || !item?.end_month_year;
 
     setChecked(isPursuing);
-    setEditingId(item.education_id);
+    setEditingId(item.exp_id);
     setShowForm(true);
 
     reset({
-      degree: item.degree || '',
-      college: item.college || '',
+      company: item.company || '',
+      role: item.role || '',
       city: item.city || '',
       start_month_year: item.start_month_year || '',
       end_month_year: item.end_month_year || '',
-      percentage: item.percentage ? item.percentage.toString() : '',
+      ctc: item.ctc ? item.ctc.toString() : '',
+      achievement_title: item.achievement_title || '',
+      achievement_desc: item.achievement_desc || '',
     });
 
     clearErrors();
@@ -84,17 +88,19 @@ const EducationUpdate = ({route}) => {
     try {
       setLoading(true);
       const body = {
-        degree: values.degree,
-        college: values.college,
+        company: values.company,
+        role: values.role,
         city: values.city,
         start_month_year: values.start_month_year,
-        end_month_year: values.end_month_year,
-        percentage: values.percentage,
-        currently_pursuing: checked,
+        end_month_year: checked ? null : values.end_month_year,
+        ctc: values.ctc,
+        achievement_title: values.achievement_title,
+        achievement_desc: values.achievement_desc,
+        currently_working: checked,
       };
       const res = editingId
-        ? await updateEducationApi(body, editingId)
-        : await addEducationApi(body);
+        ? await updateExperienceApi(body, editingId)
+        : await addExperienceApi(body);
 
       if (res?.success) {
         Toast.show({
@@ -102,13 +108,13 @@ const EducationUpdate = ({route}) => {
           text1: res?.message,
         });
         if (editingId) {
-          setEducationList(prev =>
+          setExperienceList(prev =>
             prev.map(item =>
-              item.education_id === editingId ? {...item, ...body} : item,
+              item.exp_id === editingId ? {...item, ...body} : item,
             ),
           );
         } else {
-          setEducationList(prev => [...prev, res?.data]);
+          setExperienceList(prev => [...prev, res?.data]);
         }
 
         setShowForm(false);
@@ -120,16 +126,16 @@ const EducationUpdate = ({route}) => {
     }
   };
 
-  const deleteEducation = async id => {
+  const deleteExperience = async id => {
     try {
-      const res = await deleteEducationApi(id);
+      const res = await deleteExperienceApi(id);
 
       if (res?.success) {
         Toast.show({
           type: 'success',
           text1: res?.message,
         });
-        setEducationList(prev => prev.filter(item => item.education_id !== id));
+        setExperienceList(prev => prev.filter(item => item.exp_id !== id));
       }
     } catch (error) {
       console.log('Update Error:', error);
@@ -153,7 +159,7 @@ const EducationUpdate = ({route}) => {
 
   return (
     <View style={styles.root}>
-      <CHeader title="Education" back />
+      <CHeader title="Experience" back />
       <KeyboardAvoidingView behavior={IOS ? 'padding' : null} style={{flex: 1}}>
         <ScrollView
           contentContainerStyle={{flexGrow: 1}}
@@ -162,17 +168,22 @@ const EducationUpdate = ({route}) => {
           <View style={styles.mainView}>
             {!showForm ? (
               <>
-                {educationList?.map((item, index) => (
+                {experienceList?.map((item, index) => (
                   <View key={index} style={styles.educationCard}>
                     <View style={styles.dataCont}>
-                      <Text style={styles.tagText}>{item?.degree}</Text>
+                      <Text style={styles.tagText}>
+                        {item?.role} at {item?.company}
+                      </Text>
                       <Text style={styles.rowLabel}>
-                        {item?.college} . {item?.city}
-                      </Text>
-                      <Text style={styles.sectionTitle2}>
                         {item?.start_month_year} -{' '}
-                        {item?.end_month_year || 'Present'} . {item?.percentage}
+                        {item?.end_month_year || 'Present'} . {item?.city} .{' '}
+                        {item?.ctc}
                       </Text>
+                      {item?.achievement_title && (
+                        <Text style={styles.achievementTitle}>
+                          {item?.achievement_title} ({item?.achievement_desc})
+                        </Text>
+                      )}
                     </View>
                     <View style={{gap: 10}}>
                       <TouchableOpacity onPress={() => handleEditClick(item)}>
@@ -183,19 +194,19 @@ const EducationUpdate = ({route}) => {
                         />
                       </TouchableOpacity>
                       <TouchableOpacity
-                        onPress={() => deleteEducation(item?.education_id)}>
+                        onPress={() => deleteExperience(item?.exp_id)}>
                         <CustomIcon name="delete" color={color.red} size={20} />
                       </TouchableOpacity>
                     </View>
                   </View>
                 ))}
-                <CButton label="+ Add Education" onPress={handleAddClick} />
+                <CButton label="+ Add Experience" onPress={handleAddClick} />
               </>
             ) : (
               <>
                 <View style={{zIndex: 10000}}>
                   <Controller
-                    name="degree"
+                    name="company"
                     control={control}
                     render={({
                       field: {onChange, value},
@@ -203,28 +214,35 @@ const EducationUpdate = ({route}) => {
                     }) => (
                       <CAutoComplete
                         required
-                        label="Degree"
-                        placeholder="Search for degree"
+                        label="Company"
+                        placeholder="Search for company"
                         value={value}
                         onSelect={item => {
-                          onChange(item?.degree_name);
-                          setValue('degree', item?.degree_name);
+                          const locationText = item?.description || '';
+
+                          // Split and clean parts
+                          const parts = locationText
+                            .split(',')
+                            .map(s => s.trim());
+                          onChange(parts[0] || '');
+                          setValue('company', parts[0] || '');
+                          setValue('city', parts[1] || '');
                         }}
+                        type="buiness"
                         errorMsg={error?.message}
-                        type="degree"
                       />
                     )}
                   />
                 </View>
 
                 <Controller
-                  name="college"
+                  name="role"
                   control={control}
                   render={({field: {onChange, value}, fieldState: {error}}) => (
                     <CInput
                       required
-                      label="College / Institute"
-                      placeholder="Enter institute name"
+                      label="Role / Title"
+                      placeholder="Job title"
                       value={value}
                       onChangeText={onChange}
                       errorMsg={error?.message}
@@ -276,7 +294,7 @@ const EducationUpdate = ({route}) => {
                 />
                 <CheckBox
                   checked={checked}
-                  label="CURRENTLY STUDYING"
+                  label="I CURRENTLY WORK HERE"
                   onChange={() => setChecked(!checked)}
                   style={{marginBottom: 10}}
                 />
@@ -305,15 +323,41 @@ const EducationUpdate = ({route}) => {
                   )}
                 />
                 <Controller
-                  name="percentage"
+                  name="ctc"
                   control={control}
                   render={({field: {onChange, value}, fieldState: {error}}) => (
                     <CInput
-                      label="Percentage"
-                      placeholder="Enter Percentage"
+                      label="CTC"
+                      placeholder="Enter CTC"
                       value={value}
                       onChangeText={onChange}
                       keyboardType="number-pad"
+                      errorMsg={error?.message}
+                    />
+                  )}
+                />
+                <Controller
+                  name="achievement_title"
+                  control={control}
+                  render={({field: {onChange, value}, fieldState: {error}}) => (
+                    <CInput
+                      label="Achievement Title"
+                      placeholder="Enter achievement title"
+                      value={value}
+                      onChangeText={onChange}
+                      errorMsg={error?.message}
+                    />
+                  )}
+                />
+                <Controller
+                  name="achievement_desc"
+                  control={control}
+                  render={({field: {onChange, value}, fieldState: {error}}) => (
+                    <CInput
+                      label="Achievement description"
+                      placeholder="Describe the achievement"
+                      value={value}
+                      onChangeText={onChange}
                       errorMsg={error?.message}
                     />
                   )}
@@ -345,4 +389,4 @@ const EducationUpdate = ({route}) => {
   );
 };
 
-export default EducationUpdate;
+export default ExperienceUpdate;

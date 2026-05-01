@@ -12,6 +12,7 @@ const GetStyles = () => {
     },
     mainView: {
       padding: size.moderateScale(20),
+      paddingBottom: 100,
     },
     educationCard: {
       borderRadius: 12,
@@ -50,7 +51,7 @@ const GetStyles = () => {
       marginBottom: 10,
     },
     btnContainer: {flexDirection: 'row', gap: 10, margin: 20},
-    floatingBtn: {width: '48.5%'},
+    floatingBtn: {width: '98%'},
   });
 };
 export default GetStyles;

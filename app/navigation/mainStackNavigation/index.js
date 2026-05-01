@@ -21,6 +21,8 @@ import JobDetails from '@screens/User/JobDetails';
 import MyApplication from '@screens/User/MyApplication';
 import AddressUpdate from '@screens/User/EditProfile/AddressUpdate';
 import EducationUpdate from '@screens/User/EditProfile/EducationUpdate';
+import ExperienceUpdate from '@screens/User/EditProfile/ExperienceUpdate';
+import SkillUpdate from '@screens/User/EditProfile/SkillUpdate';
 import CLoginModal from '@components/CLoginModal';
 
 const Stack = createStackNavigator();
@@ -68,6 +70,8 @@ export const MainStackNavigation = () => {
           <Stack.Screen name="MyApplication" component={MyApplication} />
           <Stack.Screen name="AddressUpdate" component={AddressUpdate} />
           <Stack.Screen name="EducationUpdate" component={EducationUpdate} />
+          <Stack.Screen name="ExperienceUpdate" component={ExperienceUpdate} />
+          <Stack.Screen name="SkillUpdate" component={SkillUpdate} />
         </Stack.Navigator>
         <CLoginModal ref={loginModalRef} />
       </NavigationContainer>

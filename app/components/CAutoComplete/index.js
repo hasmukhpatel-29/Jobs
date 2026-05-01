@@ -54,7 +54,10 @@ const CAutoComplete = ({
       setLoading(true);
 
       try {
-        const payload = type === 'degree' ? {query: text} : {input: text};
+        const payload = ['degree', 'skill'].includes(type)
+          ? {query: text}
+          : {input: text};
+
         const res = await autoCompleteCity(payload, type);
 
         if (res?.success) {
@@ -72,7 +75,11 @@ const CAutoComplete = ({
 
   const handleSelect = item => {
     const locationText =
-      (item?.description || item?.city_name || item?.degree_name || '') +
+      (item?.description ||
+        item?.city_name ||
+        item?.degree_name ||
+        item?.name ||
+        '') +
       (item?.state_name ? `, ${item.state_name}` : '') +
       (item?.country_name ? `, ${item.country_name}` : '');
 
@@ -106,7 +113,7 @@ const CAutoComplete = ({
           {item?.description || item?.city_name || ''}
           {item?.state_name ? `, ${item?.state_name}` : ''}
           {item?.country_name ? `, ${item?.country_name}` : ''}
-          {item?.degree_name}
+          {item?.degree_name} {item?.name}
         </Text>
       </TouchableOpacity>
     ),
@@ -132,12 +139,11 @@ const CAutoComplete = ({
       />
 
       {showDropdown && (
-       <View 
+        <View
           style={[
-            styles.mainContainer, 
-            direction === 'top' ? { bottom: '100%', marginBottom: 5 } : { top: '100%', marginTop: 5 }
-          ]}
-        >
+            styles.mainContainer,
+            direction === 'top' ? {bottom: '60%'} : {top: '90%'},
+          ]}>
           <FlatList
             data={data}
             renderItem={renderItem}
