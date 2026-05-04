@@ -1,9 +1,4 @@
-import React, {
-  forwardRef,
-  useImperativeHandle,
-  useState,
-  useMemo,
-} from 'react';
+import React, {forwardRef, useImperativeHandle, useState, useMemo} from 'react';
 import {View} from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
@@ -25,7 +20,8 @@ const CDatePicker = forwardRef((props, ref) => {
     valueFormat = 'DD/MM/YYYY',
     style,
     defaultValue = new Date(),
-    textInputWrapper
+    textInputWrapper,
+    mode = 'date',
   } = props;
 
   const styles = GetStyles();
@@ -51,30 +47,47 @@ const CDatePicker = forwardRef((props, ref) => {
   const handleConfirm = date => {
     setVisible(false);
 
-    const formatted =  moment(date).format(valueFormat);
+    const formatted = moment(date).format(valueFormat);
 
     onDateChange?.(formatted);
   };
-
   const handleTextChange = text => {
-    let cleaned = text.replace(/[^0-9]/g, '');
+    let formatted = text;
 
-    if (cleaned.length <= 2) {
-      onDateChange?.(cleaned);
-      return;
+    if (mode === 'date') {
+      let cleaned = text.replace(/[^0-9]/g, '').slice(0, 8);
+
+      if (cleaned.length <= 2) {
+        formatted = cleaned;
+      } else if (cleaned.length <= 4) {
+        formatted = `${cleaned.slice(0, 2)}/${cleaned.slice(2)}`;
+      } else {
+        formatted = `${cleaned.slice(0, 2)}/${cleaned.slice(
+          2,
+          4,
+        )}/${cleaned.slice(4)}`;
+      }
+    } else if (mode === 'time') {
+      let cleaned = text.replace(/[^0-9:\sAPMapm]/g, '');
+
+      const justNumbers = cleaned.replace(/[^0-9]/g, '');
+      if (justNumbers.length >= 3 && !cleaned.includes(':')) {
+        const numIndex = cleaned.search(/[0-9]{3}/);
+        if (numIndex !== -1) {
+          cleaned =
+            cleaned.slice(0, numIndex + 2) + ':' + cleaned.slice(numIndex + 2);
+        }
+      }
+
+      cleaned = cleaned.replace(/(\d)([a-zA-Z])/g, '$1 $2');
+      cleaned = cleaned.replace(/\s+/g, ' ');
+
+      formatted = cleaned.toUpperCase().slice(0, 8);
+    } else if (mode === 'datetime') {
+      let cleaned = text.replace(/[^0-9/\s:APMapm]/g, '');
+
+      formatted = cleaned.slice(0, 19);
     }
-
-    if (cleaned.length <= 4) {
-      const formatted = `${cleaned.slice(0, 2)}/${cleaned.slice(2)}`;
-      onDateChange?.(formatted);
-      return;
-    }
-
-    const formatted = `${cleaned.slice(0, 2)}/${cleaned.slice(
-      2,
-      4,
-    )}/${cleaned.slice(4, 8)}`;
-
     onDateChange?.(formatted);
   };
 
@@ -87,19 +100,21 @@ const CDatePicker = forwardRef((props, ref) => {
         placeholder={placeholder}
         editable={!disabled}
         onChangeText={handleTextChange}
+        iconName={mode === 'date' ? 'calendar' : 'timer3'}
         calendarIcon
         onCalendar={() => (!disabled || editable) && setVisible(true)}
-        maxLength={10}
-        keyboardType="numeric"
+        maxLength={mode === 'date' ? 10 : 20}
+        keyboardType={mode === 'date' ? 'numeric' : 'default'}
         errorMsg={errorMsg}
         textInputWrapper={textInputWrapper}
       />
 
       <DateTimePickerModal
         isVisible={visible}
+        mode={mode}
         date={
-          value && value.length === 10
-            ? moment(value, valueFormat).toDate()
+          value && moment(value, valueFormat, true).isValid()
+            ? moment(value, valueFormat, true).toDate()
             : defaultValue
         }
         minimumDate={minDate}

@@ -64,6 +64,7 @@ const CInput = React.forwardRef((props, ref) => {
     searchIcon = false,
     leftText = '',
     selection = selection,
+    iconName = 'calendar',
     ...rest
   } = props;
 
@@ -192,7 +193,7 @@ const CInput = React.forwardRef((props, ref) => {
               activeOpacity={0.7}
               onPress={onCalendar}>
               <CustomIcon
-                name="calendar"
+                name={iconName}
                 size={size.moderateScale(20)}
                 color={disabled ? color.placeholderText : color.blue}
               />

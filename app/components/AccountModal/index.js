@@ -8,7 +8,6 @@ import {
   SectionList,
 } from 'react-native';
 import Animated, {FadeIn, FadeOut, SlideInDown} from 'react-native-reanimated';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {BlurView} from '@react-native-community/blur';
 import CImage from '@components/CImage';
 import useGlobalStore from '@zustand/store';
@@ -22,7 +21,6 @@ import GetStyles from './styles';
 export default function AccountModal({visible, onClose}) {
   const styles = GetStyles();
   const {color} = useThemeContext();
-  const insets = useSafeAreaInsets();
 
   const businessList = useGlobalStore(s => s.businessData);
   const activeBranchId = useGlobalStore(s => s.activeBranchId);
@@ -43,7 +41,7 @@ export default function AccountModal({visible, onClose}) {
 
   return (
     <Modal transparent visible={visible} animationType="none">
-      <Pressable style={styles.flexStyle} onPress={onClose}>
+      <Pressable style={styles.flexStyle} onPress={() => onClose()}>
         <Animated.View
           entering={FadeIn}
           exiting={FadeOut}
@@ -54,10 +52,14 @@ export default function AccountModal({visible, onClose}) {
 
       <Animated.View
         entering={SlideInDown}
-        style={[styles.mainView, {paddingBottom: insets.bottom + 10}]}>
+        exiting={FadeOut}
+        style={styles.mainView}
+        onPress={() => onClose()}>
         <TouchableOpacity
           activeOpacity={0.9}
-          onPress={onClose}
+          onPress={() => {
+            onClose();
+          }}
           hitSlop={10}
           style={styles.closeCont}>
           <CustomIcon

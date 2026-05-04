@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {View, Text, ActivityIndicator, TouchableOpacity} from 'react-native';
+import {View, Text, ActivityIndicator} from 'react-native';
 import {Dropdown, MultiSelect} from 'react-native-element-dropdown';
 import {useThemeContext} from '@contexts/themeContext';
 import {GetTypography} from '@config/theme';
@@ -68,6 +68,31 @@ const DropDownList = forwardRef((props, ref) => {
     return null;
   };
 
+  const renderListItem = (item, selected, isMulti) => {
+    const displayLabel = item[labelProp || (isMulti ? 'title' : 'name')];
+
+    return (
+      <View style={styles.dropdownItem}>
+        <Text
+          style={[
+            Typography.CInputText,
+            styles.listText,
+            selected && {color: color.primary},
+          ]}>
+          {displayLabel}
+        </Text>
+
+        {selected && (
+          <Icon
+            type={Icons.MaterialCommunityIcons}
+            name="check"
+            size={20}
+            color={color.primary}
+          />
+        )}
+      </View>
+    );
+  };
   return (
     <View style={styles.container}>
       {label ? renderLabel() : null}
@@ -84,11 +109,10 @@ const DropDownList = forwardRef((props, ref) => {
           placeholderStyle={[styles.placeholderStyle, placeholderStyle]}
           selectedTextStyle={[Typography.CInputText, styles.selectedTextStyle]}
           inputSearchStyle={[Typography.CInputText, styles.inputSearchStyle]}
+          containerStyle={styles.listContainer}
           iconStyle={styles.iconStyle}
-          iconColor={'#6B7280'}
           search={isSearch}
-          activeColor={'#E6E6E6'}
-          itemTextStyle={[Typography.CInputText, styles.listText]}
+          itemTextStyle={[styles.listText]}
           data={data}
           dropdownPosition={dropdownPosition || 'bottom'}
           labelField={labelProp || 'title'}
@@ -99,7 +123,19 @@ const DropDownList = forwardRef((props, ref) => {
           onChange={item => {
             onChange(item);
           }}
-          selectedStyle={{backgroundColor: '#E5E7EB', borderRadius: 3}}
+          renderItem={(item, selected) => renderListItem(item, selected, true)}
+          renderRightIcon={isOpen => {
+            return (
+              <View style={{marginRight: 10}}>
+                {loading ? (
+                  <ActivityIndicator size={20} color={color.primary} />
+                ) : (
+                  <Arrow isOpen={isOpen} />
+                )}
+              </View>
+            );
+          }}
+          selectedStyle={styles.selectedStyle}
         />
       ) : (
         <Dropdown
@@ -116,25 +152,7 @@ const DropDownList = forwardRef((props, ref) => {
             styles.placeholderStyle,
             placeholderStyle,
           ]}
-          renderItem={(item, selected) => {
-            return (
-              <TouchableOpacity
-                style={styles.dropdownItem}
-                activeOpacity={0.7}
-                onPress={() => {
-                  dropdownRef?.current?.close();
-                  onChange(item[valueProp]);
-                }}>
-                <Text
-                  style={[
-                    Typography.CInputText,
-                    styles.dropdownItemText(selected),
-                  ]}>
-                  {item[labelProp]}
-                </Text>
-              </TouchableOpacity>
-            );
-          }}
+          renderItem={(item, selected) => renderListItem(item, selected, false)}
           autoScroll={false}
           selectedTextStyle={[Typography.CInputText, styles.selectedTextStyle]}
           inputSearchStyle={[Typography.CInputText, styles.inputSearchStyle]}

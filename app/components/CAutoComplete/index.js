@@ -54,7 +54,7 @@ const CAutoComplete = ({
       setLoading(true);
 
       try {
-        const payload = ['degree', 'skill'].includes(type)
+        const payload = ['degree', 'skill', 'jobCategory'].includes(type)
           ? {query: text}
           : {input: text};
 
@@ -79,6 +79,7 @@ const CAutoComplete = ({
         item?.city_name ||
         item?.degree_name ||
         item?.name ||
+        item?.job_category_name ||
         '') +
       (item?.state_name ? `, ${item.state_name}` : '') +
       (item?.country_name ? `, ${item.country_name}` : '');
@@ -108,12 +109,19 @@ const CAutoComplete = ({
 
   const renderItem = useCallback(
     ({item}) => (
-      <TouchableOpacity style={styles.item} onPress={() => handleSelect(item)}>
+      <TouchableOpacity
+        style={styles.item}
+        onPress={() => {
+          handleSelect(item);
+          if (type === 'skill') {
+            setQuery('');
+          }
+        }}>
         <Text style={styles.text}>
           {item?.description || item?.city_name || ''}
           {item?.state_name ? `, ${item?.state_name}` : ''}
           {item?.country_name ? `, ${item?.country_name}` : ''}
-          {item?.degree_name} {item?.name}
+          {item?.degree_name} {item?.name} {item?.job_category_name}
         </Text>
       </TouchableOpacity>
     ),

@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, {useEffect, useMemo, useState} from 'react';
-import {View, TouchableOpacity, Text} from 'react-native';
+import {View, TouchableOpacity, Text, ScrollView} from 'react-native';
 import {CHeader} from '@components/CHeader';
 import AccountModal from '@components/AccountModal';
 import CCarousel from '@components/CCarousel';
@@ -170,7 +170,7 @@ export default function BusinessProfile({navigation}) {
           </TouchableOpacity>
         </View>
       </View>
-      <View
+      <ScrollView
         style={{
           paddingHorizontal: size.moderateScale(10),
           marginTop: size.moderateScale(20),
@@ -288,7 +288,7 @@ export default function BusinessProfile({navigation}) {
             </View>
           </View>
         )}
-      </View>
+      </ScrollView>
 
       <AccountModal visible={showModal} onClose={() => setShowModal(false)} />
     </View>

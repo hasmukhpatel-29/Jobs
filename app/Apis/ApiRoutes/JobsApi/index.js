@@ -119,3 +119,14 @@ export const getMyApplicantList = async () => {
 
   return response;
 };
+export const createJobPostApi = async payload => {
+  const endpoint = jobEndPoint.createJob;
+
+  const response = await getApiData(endpoint.uri, endpoint.method, payload);
+
+  if (!response?.success) {
+    throw new Error(response?.message || 'Failed to create jobs');
+  }
+
+  return response;
+};

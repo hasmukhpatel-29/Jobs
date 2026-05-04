@@ -120,7 +120,7 @@ const SkillUpdate = ({route}) => {
                   <CAutoComplete
                     required
                     label="Skill"
-                    placeholder="EnterSkill"
+                    placeholder="Enter Skill"
                     value={value}
                     onSelect={item => {
                       setValue('skill_name', item?.name);

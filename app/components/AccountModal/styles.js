@@ -57,9 +57,9 @@ const GetStyles = () => {
     },
     closeCont: {
       position: 'absolute',
-      right: size.moderateScale(15),
-      top: size.moderateScale(15),
-      padding: size.moderateScale(5),
+      right: size.moderateScale(5),
+      top: size.moderateScale(5),
+      padding: size.moderateScale(15),
     },
   });
 };

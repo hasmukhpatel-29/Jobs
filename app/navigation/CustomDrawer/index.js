@@ -21,13 +21,16 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import BottomTabBar from '@navigation/BottomTab';
 import {userTabConfig} from '@navigation/userTabConfig';
 import {loginModalRef} from '@navigation/mainStackNavigation';
+import {businessTabConfig} from '@navigation/businessTabConfig';
 import Profile from '@screens/Profile';
 import Dashboard from '@screens/Dashboard';
 import Favourites from '@screens/Favourites';
+import BusinessDiscover from '@screens/Business/BusinessDiscover';
+import BusinessProfile from '@screens/Business/BusinessProfile';
 import CImage from '@components/CImage';
 import {CButton} from '@components/CButton';
 import CommonModal from '@components/CModal/CommonModal';
-import {dashboardList} from '@config/staticData';
+import {busDashboardList, dashboardList} from '@config/staticData';
 import {Images} from '@config/Images';
 import {CustomIcon} from '@config/LoadIcons';
 import {useThemeContext} from '@contexts/themeContext';
@@ -49,6 +52,9 @@ const CustomDrawer = ({route, navigation}) => {
     return s.isAuthenticated;
   });
   const userMeData = useGlobalStore(s => s.userMeData);
+  const userRole = useGlobalStore.getState().userRole;
+  const isBusiness = userRole?.toUpperCase() === 'BUSINESS';
+  const currentTabConfig = isBusiness ? businessTabConfig : userTabConfig;
 
   // State Variables
   const [show, setShow] = useState(false);
@@ -161,7 +167,7 @@ const CustomDrawer = ({route, navigation}) => {
             {isAuthenticated ? userMeData?.full_name : 'Guest'}
           </Text>
           <FlatList
-            data={dashboardList}
+            data={isBusiness ? busDashboardList : dashboardList}
             style={styles.drawerList}
             showsVerticalScrollIndicator={false}
             renderItem={({item, index}) => {
@@ -205,17 +211,36 @@ const CustomDrawer = ({route, navigation}) => {
       </ImageBackground>
       <Animated.View style={[styles.root, animatedStyle]}>
         <Tab.Navigator
-          options={navOptions}
-          tabBar={props => <BottomTabBar {...props} config={userTabConfig} />}>
-          <Tab.Screen options={navOptions} name="Dashboard">
-            {props => <Dashboard {...props} openDrawer={openDrawer} />}
-          </Tab.Screen>
-          <Tab.Screen options={navOptions} name="Favourites">
-            {props => <Favourites {...props} openDrawer={openDrawer} />}
-          </Tab.Screen>
-          <Tab.Screen options={navOptions} name="Profile">
-            {props => <Profile {...props} openDrawer={openDrawer} />}
-          </Tab.Screen>
+          screenOptions={navOptions}
+          tabBar={props => (
+            <BottomTabBar {...props} config={currentTabConfig} />
+          )}>
+          {isBusiness ? (
+            <>
+              <Tab.Screen name="BusinessDiscover">
+                {props => (
+                  <BusinessDiscover {...props} openDrawer={openDrawer} />
+                )}
+              </Tab.Screen>
+              <Tab.Screen name="BusinessProfile">
+                {props => (
+                  <BusinessProfile {...props} openDrawer={openDrawer} />
+                )}
+              </Tab.Screen>
+            </>
+          ) : (
+            <>
+              <Tab.Screen name="Dashboard">
+                {props => <Dashboard {...props} openDrawer={openDrawer} />}
+              </Tab.Screen>
+              <Tab.Screen name="Favourites">
+                {props => <Favourites {...props} openDrawer={openDrawer} />}
+              </Tab.Screen>
+              <Tab.Screen name="Profile">
+                {props => <Profile {...props} openDrawer={openDrawer} />}
+              </Tab.Screen>
+            </>
+          )}
         </Tab.Navigator>
       </Animated.View>
       <Overlay active={active} onPress={closeDrawer} />

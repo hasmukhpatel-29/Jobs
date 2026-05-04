@@ -2,7 +2,6 @@ import React from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import SplashScreen from '@screens/SplashScreen.js';
 import Login from '@screens/Login.js';
 import OtpVerify from '@screens/OtpVerify';
@@ -11,12 +10,8 @@ import EditProfile from '@screens/User/EditProfile';
 import BusinessForm from '@screens/AddBusiness/BusinessForm';
 import useGlobalStore from '@zustand/store';
 import CustomDrawer from '@navigation/CustomDrawer';
-import {businessTabConfig} from '@navigation/businessTabConfig';
 import EditGallery from '@screens/Business/EditGallery';
 import EditBusiness from '@screens/Business/EditBusiness';
-import BottomTabBar from '@navigation/BottomTab';
-import BusinessProfile from '@screens/Business/BusinessProfile';
-import BusinessDiscover from '@screens/Business/BusinessDiscover';
 import JobDetails from '@screens/User/JobDetails';
 import MyApplication from '@screens/User/MyApplication';
 import AddressUpdate from '@screens/User/EditProfile/AddressUpdate';
@@ -24,26 +19,12 @@ import EducationUpdate from '@screens/User/EditProfile/EducationUpdate';
 import ExperienceUpdate from '@screens/User/EditProfile/ExperienceUpdate';
 import SkillUpdate from '@screens/User/EditProfile/SkillUpdate';
 import CLoginModal from '@components/CLoginModal';
+import PostJob from '@screens/Business/PostJob';
 
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
 
 export const navigationRef = React.createRef();
 export const loginModalRef = React.createRef();
-
-export const BusinessBottomTab = () => {
-  const renderBusinessTab = props => (
-    <BottomTabBar {...props} config={businessTabConfig} />
-  );
-  return (
-    <Tab.Navigator
-      screenOptions={{headerShown: false}}
-      tabBar={renderBusinessTab}>
-      <Tab.Screen name="BusinessDiscover" component={BusinessDiscover} />
-      <Tab.Screen name="BusinessProfile" component={BusinessProfile} />
-    </Tab.Navigator>
-  );
-};
 
 export const MainStackNavigation = () => {
   const isAuthenticated = useGlobalStore(s => {
@@ -57,7 +38,7 @@ export const MainStackNavigation = () => {
           screenOptions={{headerShown: false}}
           initialRouteName={isAuthenticated ? 'UserTab' : 'SplashScreen'}>
           <Stack.Screen name="UserTab" component={CustomDrawer} />
-          <Stack.Screen name="BusinessTab" component={BusinessBottomTab} />
+          <Stack.Screen name="BusinessTab" component={CustomDrawer} />
           <Stack.Screen name="SplashScreen" component={SplashScreen} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Register" component={Register} />
@@ -72,6 +53,7 @@ export const MainStackNavigation = () => {
           <Stack.Screen name="EducationUpdate" component={EducationUpdate} />
           <Stack.Screen name="ExperienceUpdate" component={ExperienceUpdate} />
           <Stack.Screen name="SkillUpdate" component={SkillUpdate} />
+          <Stack.Screen name="PostJob" component={PostJob} />
         </Stack.Navigator>
         <CLoginModal ref={loginModalRef} />
       </NavigationContainer>

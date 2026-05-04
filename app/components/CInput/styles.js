@@ -52,7 +52,7 @@ const GetStyles = errorMsg => {
       },
       singleLine: {
         alignItems: 'center',
-        height: size.moderateScale(45),
+        height: size.moderateScale(40),
       },
       countryPickerView: {
         flexDirection: 'row',
@@ -77,7 +77,7 @@ const GetStyles = errorMsg => {
         flex: 1,
         marginEnd: 10,
         color: color.black,
-        fontSize: size.moderateScale(17),
+        fontSize: size.moderateScale(15),
         paddingLeft: 15,
       },
       disabledInput: {

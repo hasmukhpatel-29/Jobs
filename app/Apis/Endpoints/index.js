@@ -50,13 +50,13 @@ export const userProfileEndPoint = {
     method: 'GET',
     uri: '/mobile/profile/me',
   },
-  profileAllDetails:{
+  profileAllDetails: {
     method: 'GET',
     uri: '/profile/me/all-details',
   },
-  updateBasicInfo:{
+  updateBasicInfo: {
     method: 'PUT',
-    uri: '/profile/basic-info'
+    uri: '/profile/basic-info',
   },
   skillList: {
     method: 'GET',
@@ -70,19 +70,19 @@ export const userProfileEndPoint = {
     method: 'DELETE',
     uri: '/profile/skill',
   },
-  degreeList:{
+  degreeList: {
     method: 'GET',
-    uri: '/degrees/list'
+    uri: '/degrees/list',
   },
   addEducation: {
     method: 'POST',
     uri: '/profile/education',
   },
-  deleteEducation:{
+  deleteEducation: {
     method: 'DELETE',
     uri: '/profile/education',
   },
-  updateEducation:{
+  updateEducation: {
     method: 'PUT',
     uri: '/profile/education',
   },
@@ -90,13 +90,17 @@ export const userProfileEndPoint = {
     method: 'POST',
     uri: '/profile/experience',
   },
-  deleteExperience:{
+  deleteExperience: {
     method: 'DELETE',
     uri: '/profile/experience',
   },
-  updateExperience:{
+  updateExperience: {
     method: 'PUT',
     uri: '/profile/experience',
+  },
+  jobCategoryList: {
+    method: 'GET',
+    uri: '/job-category/all',
   },
 };
 
@@ -138,7 +142,7 @@ export const businessRegEndPoint = {
 export const businessEndPoint = {
   businessList: {
     method: 'GET',
-    uri: '/mobile/profile/businesses',
+    uri: '/profile/businesses',
   },
   galleryList: {
     method: 'GET',
@@ -187,4 +191,8 @@ export const jobEndPoint = {
     method: 'GET',
     uri: '/applications/my-applications',
   },
+  createJob:{
+    method: 'POST',
+    uri: '/jobs/mobile/create'
+  }
 };

@@ -140,6 +140,8 @@ export const autoCompleteCity = async (body, type = 'city') => {
       endpoint = userProfileEndPoint.degreeList;
     } else if (type === 'skill') {
       endpoint = userProfileEndPoint.skillList;
+    } else if (type === 'jobCategory') {
+      endpoint = userProfileEndPoint.jobCategoryList;
     } else {
       endpoint = businessRegEndPoint.autoCompleteBusiness;
     }
@@ -148,7 +150,7 @@ export const autoCompleteCity = async (body, type = 'city') => {
       endpoint.method,
       body,
       false,
-      ['degree', 'skill'].includes(type),
+      ['degree', 'skill', 'jobCategory'].includes(type),
     );
     if (isLoginResponse(response)) {
       return response;

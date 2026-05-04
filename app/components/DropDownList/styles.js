@@ -15,14 +15,17 @@ const GetStyles = () => {
     },
     dropdown: {
       borderWidth: 1,
-      height: 45,
+      height: 40,
       borderRadius: 5,
       borderColor: color.customBlack(0.3),
       paddingLeft: size.moderateScale(10),
     },
     dropdownItem: {
-      paddingVertical: 10,
-      backgroundColor: color.backgroundColor,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingVertical: 8,
+      paddingHorizontal: 16,
     },
     dropdownItemText: selected => ({
       color: selected ? color.primary : color.gray900,
@@ -53,10 +56,12 @@ const GetStyles = () => {
     },
     labelContainer: {
       flexDirection: 'row',
-      marginBottom: 2,
     },
     label: {
       marginBottom: 10,
+      fontFamily: fontFamily.regular,
+      fontSize: fontSize.small,
+      color: color.black,
     },
     listContainer: {
       borderRadius: 6,
@@ -67,20 +72,6 @@ const GetStyles = () => {
       fontFamily: fontFamily?.regular,
       fontSize: fontSize.littleMedium,
     },
-
-    selectedStyle: {
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 3,
-      backgroundColor: 'white',
-      marginTop: 8,
-      marginRight: 12,
-      paddingHorizontal: 12,
-      paddingVertical: 8,
-      borderWidth: 1,
-      borderColor: color.customBlack(0.3),
-    },
     textSelectedStyle: {
       marginRight: 5,
       fontSize: fontSize.littleMedium,
@@ -90,6 +81,11 @@ const GetStyles = () => {
       fontFamily: fontFamily.regular,
       fontSize: fontSize.verySmall,
       marginTop: size.moderateScale(5),
+    },
+    selectedStyle: {
+      backgroundColor: color.gray,
+      borderRadius: 3,
+      padding: 4,
     },
   });
 };

@@ -406,3 +406,153 @@ export const skillSchema = z.object({
     .min(1, 'Skill name cannot be empty')
     .max(50, 'Skill name is too long'),
 });
+
+const parseCustomDate = dateStr => {
+  if (!dateStr) return null;
+  const [day, month, year] = dateStr.split('/');
+  return new Date(`${year}-${month}-${day}`);
+};
+
+const parseCustomTimeToMinutes = timeStr => {
+  if (!timeStr) return null;
+  const [time, modifier] = timeStr.split(' ');
+  let [hours, minutes] = time.split(':');
+  hours = parseInt(hours, 10);
+  minutes = parseInt(minutes, 10);
+  if (hours === 12) hours = 0;
+  if (modifier?.toUpperCase() === 'PM') hours += 12;
+  return hours * 60 + minutes;
+};
+
+export const postJobSchema = (isWalkIn, isSingleDay) => {
+  return (
+    z
+      .object({
+        title: z.string().min(1, 'Job title is required'),
+        is_walkin_drive: z.boolean().optional(),
+
+        walkin_start_date: isWalkIn
+          ? z.string().min(1, 'Start date is required')
+          : z.string().optional(),
+
+        walkin_end_date:
+          isWalkIn && !isSingleDay
+            ? z.string().min(1, 'End date is required')
+            : z.string().optional(),
+
+        walkin_time_from: isWalkIn
+          ? z.string().min(1, 'Start time is required')
+          : z.string().optional(),
+
+        walkin_time_to: isWalkIn
+          ? z.string().min(1, 'End time is required')
+          : z.string().optional(),
+
+        walkin_venue: isWalkIn
+          ? z.string().min(1, 'Venue is required')
+          : z.string().optional(),
+
+        walkin_contact_name: isWalkIn
+          ? z.string().min(1, 'Contact name is required')
+          : z.string().optional(),
+
+        walkin_contact_number: isWalkIn
+          ? z.string().regex(/^[0-9]{10}$/, 'Valid 10-digit number required')
+          : z.string().optional().or(z.literal('')),
+
+        walkin_instructions: z.string().optional(),
+
+        education: z.string().min(1, 'Education is required'),
+        experience: z.string().min(1, 'Experience is required'),
+        min_age: z.coerce.number({
+          required_error: 'Minimum age is required',
+          invalid_type_error: 'Minimum age is required',
+        }),
+
+        max_age: z.coerce.number({
+          required_error: 'Maximum age is required',
+          invalid_type_error: 'Maximum age is required',
+        }),
+        gender_preference: z.string().min(1, 'Gender preference is required'),
+        vacancies: z.string().min(1, 'Vacancies are required'),
+        job_category_id: z.string().min(1, 'Industry is required'),
+        job_category_name: z.string().min(1, 'Industry is required'),
+        department: z.string().min(1, 'Department is required'),
+        job_type: z.string().min(1, 'Job type is required'),
+        address_line: z.string().min(1, 'Address is required'),
+        location_name: z.string().min(1, 'Location is required'),
+        city: z.string().optional(),
+        state: z.string().optional(),
+        country: z.string().optional(),
+        ctc: z.string().min(1, 'CTC is required'),
+        work_mode: z.string().min(1, 'Work mode is required'),
+        other_benefits: z.string().optional(),
+        working_days: z
+          .array(z.string())
+          .min(1, 'At least one working day is required'),
+        working_time_From: z.string().min(1, 'Start time is required'),
+        working_time_to: z.string().min(1, 'End time is required'),
+        description: z.string().min(1, 'Description is required'),
+        responsibilities: z.string().min(1, 'Responsibilities are required'),
+      })
+
+      // --- CROSS-FIELD VALIDATIONS ---
+      .refine(
+        data => {
+          if (data.min_age && data.max_age) {
+            return data.min_age <= data.max_age;
+          }
+          return true;
+        },
+        {
+          message: 'Minimum age cannot be greater than maximum age',
+          path: ['min_age'],
+        },
+      )
+
+      .refine(
+        data => {
+          if (data.working_time_From && data.working_time_to) {
+            const fromMins = parseCustomTimeToMinutes(data.working_time_From);
+            const toMins = parseCustomTimeToMinutes(data.working_time_to);
+            if (fromMins !== null && toMins !== null) return fromMins < toMins;
+          }
+          return true;
+        },
+        {
+          message: 'Start time must be before end time',
+          path: ['working_time_From'],
+        },
+      )
+
+      .refine(
+        data => {
+          if (isWalkIn && data.walkin_start_date && data.walkin_end_date) {
+            const startDate = parseCustomDate(data.walkin_start_date);
+            const endDate = parseCustomDate(data.walkin_end_date);
+            if (startDate && endDate) return startDate <= endDate;
+          }
+          return true;
+        },
+        {
+          message: 'Start date cannot be after end date',
+          path: ['walkin_start_date'],
+        },
+      )
+
+      .refine(
+        data => {
+          if (isWalkIn && data.walkin_time_from && data.walkin_time_to) {
+            const fromMins = parseCustomTimeToMinutes(data.walkin_time_from);
+            const toMins = parseCustomTimeToMinutes(data.walkin_time_to);
+            if (fromMins !== null && toMins !== null) return fromMins < toMins;
+          }
+          return true;
+        },
+        {
+          message: 'Interview start time must be before end time',
+          path: ['walkin_time_from'],
+        },
+      )
+  );
+};
