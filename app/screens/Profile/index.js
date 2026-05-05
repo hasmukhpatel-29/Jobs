@@ -7,6 +7,7 @@ import CImage from '@components/CImage';
 import {fontSize} from '@config/theme';
 import {Images} from '@config/Images';
 import Icon, {Icons} from '@config/Icons';
+import {size} from '@config/Sizes';
 import useGlobalStore from '@zustand/store';
 import {profileAllDetailsApi} from '@apis/ApiRoutes/UserProfileApi';
 import {useThemeContext} from '@contexts/themeContext';
@@ -146,6 +147,7 @@ export default function Profile({navigation}) {
                 navigation.navigate('BusinessForm');
               }}
               buttonLabelStyle={{fontSize: fontSize.verySmall}}
+              buttonStyle={{marginVertical: size.moderateScale(10)}}
             />
             <View style={styles.card}>
               <SectionHeader

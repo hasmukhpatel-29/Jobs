@@ -31,9 +31,20 @@ export const MainStackNavigation = () => {
     return s.isAuthenticated;
   });
 
+  const linking = {
+    prefixes: ['https://jobs.seaneb.com', 'https://jobs.seaneb.app'],
+    config: {
+      screens: {
+        JobDetails: {
+          path: 'jobs/company/:location/:slug',
+        },
+      },
+    },
+  };
+
   return (
     <SafeAreaProvider>
-      <NavigationContainer ref={navigationRef}>
+      <NavigationContainer ref={navigationRef} linking={linking}>
         <Stack.Navigator
           screenOptions={{headerShown: false}}
           initialRouteName={isAuthenticated ? 'UserTab' : 'SplashScreen'}>

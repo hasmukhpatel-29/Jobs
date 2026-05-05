@@ -8,7 +8,7 @@ const GetStyles = () => {
   return StyleSheet.create({
     mainView: {
       flex: 1,
-      backgroundColor: color.backgroundColor,
+      backgroundColor: color.white,
     },
     title: {
       color: color.black,

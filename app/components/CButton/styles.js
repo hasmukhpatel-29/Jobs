@@ -46,7 +46,7 @@ const GetStyles = () => {
       gap: size.moderateScale(10),
     },
     label: {
-      color: color?.white,
+      color: color.commonWhite,
     },
   });
 };

@@ -150,7 +150,9 @@ const CustomDrawer = ({route, navigation}) => {
         <View style={styles.contentContainer}>
           <View style={styles.profileImageAndCloseIconContainer}>
             <CImage
-              src={getImageUrl(userMeData?.profile_photo)}
+              src={
+                getImageUrl(userMeData?.profile_photo) || Images.imgDefaultUser
+              }
               style={styles.profileStyle}
             />
             <TouchableOpacity
@@ -211,7 +213,7 @@ const CustomDrawer = ({route, navigation}) => {
       </ImageBackground>
       <Animated.View style={[styles.root, animatedStyle]}>
         <Tab.Navigator
-          screenOptions={navOptions}
+          screenOptions={{headerShown: false}}
           tabBar={props => (
             <BottomTabBar {...props} config={currentTabConfig} />
           )}>

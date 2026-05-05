@@ -54,6 +54,8 @@ const GetStyles = () => {
     },
     sectionHeader: {
       paddingBottom: 10,
+      color: color.black,
+      fontFamily: fontFamily.bold,
     },
     closeCont: {
       position: 'absolute',

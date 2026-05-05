@@ -14,7 +14,7 @@ const GetStyles = () => {
       position: 'absolute',
       left: 0,
       right: 0,
-      backgroundColor: '#ffffff', // Or use your theme color e.g., color.white
+      backgroundColor: color.white,
       zIndex: 9999,
     },
     item: {

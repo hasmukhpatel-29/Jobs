@@ -6,8 +6,10 @@ import JobCard from '@components/JobCard';
 import {useQuery} from '@tanstack/react-query';
 import {useToggleSaveJob} from '@hooks/useToggleSaveJob';
 import { getMyApplicantList } from '@apis/ApiRoutes/JobsApi';
+import GetStyles from './styles';
 
 const MyApplication = ({}) => {
+  const styles = GetStyles();
   const toggleSaveJob = useToggleSaveJob();
 
   const {data, isLoading, refetch, isRefetching} = useQuery({
@@ -18,7 +20,7 @@ const MyApplication = ({}) => {
   const myApplicant = data?.data ?? [];
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.root}>
       <CHeader title="My Applicant" back />
       {isLoading ? (
         <CardSkeleton count={4} />

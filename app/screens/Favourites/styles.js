@@ -4,9 +4,9 @@ import {useThemeContext} from '@contexts/themeContext';
 const GetStyles = () => {
   const {color} = useThemeContext();
   return StyleSheet.create({
-    mainView: {
-      flex: 1,
+    root: {
       backgroundColor: color.white,
+      flex: 1,
     },
   });
 };

@@ -7,7 +7,7 @@ const GetStyle = () => {
   return StyleSheet.create({
     mainView: {
       flex: 1,
-      backgroundColor: color.backgroundColor,
+      backgroundColor: color.white,
       paddingHorizontal: size.moderateScale(15),
     },
     imgStyle: {

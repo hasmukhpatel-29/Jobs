@@ -60,7 +60,7 @@ export default function AccountModal({visible, onClose}) {
           onPress={() => {
             onClose();
           }}
-          hitSlop={10}
+          hitSlop={20}
           style={styles.closeCont}>
           <CustomIcon
             name="close"

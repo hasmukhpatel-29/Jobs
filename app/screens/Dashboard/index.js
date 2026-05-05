@@ -9,8 +9,10 @@ import {getJobList} from '@apis/ApiRoutes/JobsApi';
 import {useToggleSaveJob} from '@hooks/useToggleSaveJob';
 import useGlobalStore from '@zustand/store';
 import {getUserProfile, profileMeApi} from '@apis/ApiRoutes/UserProfileApi';
+import GetStyles from './styles';
 
 const Dashboard = ({openDrawer}) => {
+  const styles = GetStyles();
   const isAuthenticated = useGlobalStore(s => {
     return s.isAuthenticated;
   });
@@ -54,7 +56,7 @@ const Dashboard = ({openDrawer}) => {
   const jobs = data?.pages?.flatMap(page => page.data) ?? [];
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.root}>
       <CHeader title="Dashboard" drawer openDrawer={openDrawer} showBusiness />
 
       {isLoading ? (

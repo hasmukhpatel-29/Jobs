@@ -14,6 +14,7 @@ const GetStyles = () => {
       elevation: 3,
       borderWidth: 1,
       borderColor: color.borderColor,
+      backgroundColor: color.white,
     },
     header: {
       flexDirection: 'row',

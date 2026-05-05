@@ -26,6 +26,7 @@ const GetStyles = () => {
       alignItems: 'center',
       paddingVertical: 8,
       paddingHorizontal: 16,
+      backgroundColor: color.white,
     },
     dropdownItemText: selected => ({
       color: selected ? color.primary : color.gray900,

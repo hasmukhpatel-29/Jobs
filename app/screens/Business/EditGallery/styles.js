@@ -11,7 +11,7 @@ const GetStyles = (GAP, NUM_COLUMNS) => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: color.backgroundColor,
+      backgroundColor: color.white,
     },
     listContainer: {
       padding: GAP,

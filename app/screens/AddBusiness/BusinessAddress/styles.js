@@ -6,7 +6,7 @@ const GetStyle = () => {
   const {color} = useThemeContext();
   return StyleSheet.create({
     mainView: {
-      backgroundColor: color.backgroundColor,
+      backgroundColor: color.white,
       paddingHorizontal: size.moderateScale(15),
     },
     cityInputStyle: {

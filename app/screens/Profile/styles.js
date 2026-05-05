@@ -49,6 +49,7 @@ const GetStyles = () => {
       borderWidth: 1,
       borderColor: color.borderColor,
       marginTop: 10,
+      backgroundColor: color.white,
     },
     sectionHeader: {
       flexDirection: 'row',

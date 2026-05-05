@@ -8,12 +8,12 @@ const GetStyles = () => {
   return StyleSheet.create({
     root: {
       paddingBottom: 15,
-      backgroundColor: color.backgroundColor,
+      backgroundColor: color.white,
       flex: 1,
     },
     innerMainView: {
       flexGrow: 1,
-      backgroundColor: color.backgroundColor,
+      backgroundColor: color.white,
       borderTopLeftRadius: size.moderateScale(24),
       overflow: 'hidden',
       borderTopRightRadius: size.moderateScale(24),

@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
   KeyboardAvoidingView,
   ScrollView,
   Platform,
@@ -15,17 +14,16 @@ import CImage from '@components/CImage';
 import Toast from '@components/CToast';
 import {Images} from '@config/Images';
 import {Config} from '@config/Config';
+import {CustomIcon} from '@config/LoadIcons';
 import {useThemeContext} from '@contexts/themeContext';
 import {generateOtp, verifyOtp} from '@apis/ApiRoutes/LoginApi';
 import useGlobalStore from '@zustand/store';
 import GetStyles from './styles';
-import {CustomIcon} from '@config/LoadIcons';
-import {size} from '@config/Sizes';
 
 const OtpVerify = ({route, navigation}) => {
   const IOS = Platform.OS === 'ios';
   const styles = GetStyles();
-  const {theme} = useThemeContext();
+  const {theme, color} = useThemeContext();
   const data = route.params?.data;
   const otpInputRef = useRef(null);
 
@@ -133,7 +131,11 @@ const OtpVerify = ({route, navigation}) => {
               onPress={() => {
                 navigation.goBack();
               }}>
-              <CustomIcon name="edit" style={styles.imgEdit} />
+              <CustomIcon
+                name="edit"
+                style={styles.imgEdit}
+                color={color.black}
+              />
             </TouchableOpacity>
           </Text>
           <COTPInput

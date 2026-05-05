@@ -199,21 +199,21 @@ const JobDetails = ({route}) => {
 
             <View style={styles.infoRow}>
               <View style={styles.infoItem}>
-                <CustomIcon name="location" size={14} />
+                <CustomIcon name="location" size={14} color={color.gray900} />
                 <Text style={styles.infoText}>
                   {jobData?.location?.city}, {jobData?.location?.state}
                 </Text>
               </View>
               <View style={styles.infoItem}>
-                <CustomIcon name="briefcase" size={14} />
+                <CustomIcon name="briefcase" size={14} color={color.gray900} />
                 <Text style={styles.infoText}>{jobData?.job_type}</Text>
               </View>
               <View style={styles.infoItem}>
-                <CustomIcon name="briefcase" size={14} />
+                <CustomIcon name="briefcase" size={14} color={color.gray900} />
                 <Text style={styles.infoText}>{jobData?.work_mode}</Text>
               </View>
               <View style={styles.infoItem}>
-                <CustomIcon name="wallet" size={14} />
+                <CustomIcon name="wallet" size={14} color={color.gray900} />
                 <Text style={styles.infoText}>{jobData?.ctc}</Text>
               </View>
             </View>
@@ -497,7 +497,7 @@ const JobDetails = ({route}) => {
                 </Text>
 
                 <View style={styles.row}>
-                  <CustomIcon name="location" size={14} />
+                  <CustomIcon name="location" size={14} color={color.black} />
                   <Text style={styles.label}>
                     {jobData?.business_details?.city_name}
                   </Text>
@@ -510,7 +510,7 @@ const JobDetails = ({route}) => {
             <View style={styles.divider} />
             <View style={styles.infoRow}>
               <View style={styles.iconBox}>
-                <CustomIcon name="location" size={16} />
+                <CustomIcon name="location" size={16} color={color.black} />
               </View>
               <View>
                 <Text style={styles.label}>ADDRESS</Text>

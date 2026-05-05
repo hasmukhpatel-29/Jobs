@@ -8,7 +8,7 @@ const GetStyles = () => {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: color.backgroundColor,
+      backgroundColor: color.white,
       paddingHorizontal: size.moderateScale(20),
     },
     imgContainer: {

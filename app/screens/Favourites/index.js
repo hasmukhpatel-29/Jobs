@@ -6,8 +6,10 @@ import JobCard from '@components/JobCard';
 import CardSkeleton from '@components/Skeleton/CardSkeleton';
 import {getSavedJobList} from '@apis/ApiRoutes/JobsApi';
 import {useToggleSaveJob} from '@hooks/useToggleSaveJob';
+import GetStyles from './styles';
 
 export default function Favourites() {
+  const styles = GetStyles();
   const toggleSaveJob = useToggleSaveJob();
 
   const {data, isLoading, refetch, isRefetching} = useQuery({
@@ -18,7 +20,7 @@ export default function Favourites() {
   const jobs = data?.data ?? [];
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.root}>
       <CHeader title="Favourites" />
       {isLoading ? (
         <CardSkeleton count={4} />
