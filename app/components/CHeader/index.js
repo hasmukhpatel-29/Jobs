@@ -28,7 +28,7 @@ export const CHeader = React.memo(props => {
     profileImg,
     showBusiness,
     drawer,
-    openDrawer
+    openDrawer,
   } = props;
 
   const userData = useGlobalStore(s => s.userData);
@@ -77,9 +77,7 @@ export const CHeader = React.memo(props => {
               </TouchableOpacity>
             )}
             {drawer && (
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={openDrawer}>
+              <TouchableOpacity activeOpacity={0.8} onPress={openDrawer}>
                 <Icon
                   type={Icons.Feather}
                   name="menu"
@@ -125,26 +123,24 @@ export const CHeader = React.memo(props => {
 
       <View style={styles.profileContainer}>
         {options?.headerRight?.()}
-        {showBusiness &&
-          userMeData?.is_business_registered &&
-          !userMeData?.onboarding?.show_pay_now && (
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => {
-                if (userRole === 'user') {
-                  useGlobalStore.getState().setUserRole('business');
-                  navigation.navigate('BusinessTab');
-                } else {
-                  useGlobalStore.getState().setUserRole('user');
-                  navigation.navigate('UserTab');
-                }
-              }}>
-              <CImage
-                src={getImageUrl(userData?.avatar) || Images.imgDefaultUser}
-                style={styles.profileImg}
-              />
-            </TouchableOpacity>
-          )}
+        {showBusiness && userMeData?.is_business_registered && (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {
+              if (userRole === 'user') {
+                useGlobalStore.getState().setUserRole('business');
+                navigation.navigate('BusinessTab');
+              } else {
+                useGlobalStore.getState().setUserRole('user');
+                navigation.navigate('UserTab');
+              }
+            }}>
+            <CImage
+              src={getImageUrl(userData?.avatar) || Images.imgDefaultUser}
+              style={styles.profileImg}
+            />
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

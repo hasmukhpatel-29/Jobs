@@ -160,6 +160,10 @@ export const businessEndPoint = {
     method: 'PUT',
     uri: '/business/update',
   },
+  businessDashboard:{
+    method: 'GET',
+    uri:'/jobs/mobile/business-dashboard'
+  }
 };
 
 export const jobEndPoint = {

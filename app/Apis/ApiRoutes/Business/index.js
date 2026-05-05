@@ -145,3 +145,26 @@ export const upadateBusinessApi = async body => {
     });
   }
 };
+const commonApi = async (endpoint, data = {}, params = '') => {
+  const url = `${endpoint.uri}${params}`;
+
+  try {
+    const activeBranchId = useGlobalStore.getState().activeBranchId;
+    const headers = {'x-branch-id': activeBranchId};
+    const response = await getApiData(url, endpoint.method, data, headers, true);
+
+    if (!response?.success) {
+      throw new Error(response?.error?.message || 'Request failed');
+    }
+
+    return response;
+  } catch (error) {
+    Toast.show({
+      type: 'error',
+      text1: error?.message || 'Something went wrong',
+    });
+    throw error;
+  }
+};
+export const businessDashboardApi = () =>
+  commonApi(businessEndPoint.businessDashboard);

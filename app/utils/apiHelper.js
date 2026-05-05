@@ -23,7 +23,10 @@ export const getApiData = async (
   };
 
   if (headers) {
-    authHeaders = headers;
+    authHeaders = {
+      ...authHeaders,
+      ...headers,
+    };
   }
   let query = '';
   let qs = '';
@@ -45,7 +48,9 @@ export const getApiData = async (
     const config = {
       method: method,
       timeout: 10000,
-      url: customUrl ? `${Config.JOB_URL}${endpoint}${qs}` : `${Config.API_URL}${endpoint}${qs}`,
+      url: customUrl
+        ? `${Config.JOB_URL}${endpoint}${qs}`
+        : `${Config.API_URL}${endpoint}${qs}`,
       headers: authHeaders,
       ...(method !== 'GET' && {data}),
       validateStatus: status => status >= 200 && status < 501,
