@@ -145,13 +145,19 @@ export const upadateBusinessApi = async body => {
     });
   }
 };
-const commonApi = async (endpoint, data = {}, params = '') => {
+const commonApi = async (endpoint, data = {}, params = '', central = true) => {
   const url = `${endpoint.uri}${params}`;
 
   try {
     const activeBranchId = useGlobalStore.getState().activeBranchId;
     const headers = {'x-branch-id': activeBranchId};
-    const response = await getApiData(url, endpoint.method, data, headers, true);
+    const response = await getApiData(
+      url,
+      endpoint.method,
+      data,
+      headers,
+      central,
+    );
 
     if (!response?.success) {
       throw new Error(response?.error?.message || 'Request failed');
@@ -168,3 +174,6 @@ const commonApi = async (endpoint, data = {}, params = '') => {
 };
 export const businessDashboardApi = () =>
   commonApi(businessEndPoint.businessDashboard);
+
+export const manageJobApi = () =>
+  commonApi(businessEndPoint.manageJob, {}, '', false);

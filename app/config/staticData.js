@@ -97,7 +97,7 @@ export const experienceOptions = [
 ];
 
 export const ageOptions = Array.from({length: 57}, (_, i) => {
-  const age = (i + 14).toString();
+  const age = (i + 14);
   return {name: age, value: age};
 });
 

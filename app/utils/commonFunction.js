@@ -124,3 +124,32 @@ export const GetStatusColor = status => {
       return color.gray900;
   }
 };
+
+export const parseWorkingDays = apiString => {
+  if (!apiString) return [];
+
+  const orderedDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+  if (apiString.includes('-')) {
+    const [startDay, endDay] = apiString.split('-').map(day => day.trim());
+
+    const startIndex = orderedDays.findIndex(
+      d => d.toLowerCase() === startDay.toLowerCase(),
+    );
+    const endIndex = orderedDays.findIndex(
+      d => d.toLowerCase() === endDay.toLowerCase(),
+    );
+
+    if (startIndex !== -1 && endIndex !== -1) {
+      return orderedDays
+        .slice(startIndex, endIndex + 1)
+        .map(d => d.toLowerCase());
+    }
+  }
+
+  if (apiString.includes(',')) {
+    return apiString.split(',').map(day => day.trim().toLowerCase());
+  }
+
+  return [apiString.trim().toLowerCase()];
+};

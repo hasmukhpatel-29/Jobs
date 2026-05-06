@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -28,15 +28,17 @@ import {
 } from '@config/staticData';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {CustomIcon} from '@config/LoadIcons';
-import {formatLocation} from '@utils/commonFunction';
+import {formatLocation, parseWorkingDays} from '@utils/commonFunction';
 import {postJobSchema} from '@zod/validationSchema';
 import {createJobPostApi} from '@apis/ApiRoutes/JobsApi';
 import GetStyles from './styles';
 
 const IOS = Platform.OS === 'ios';
 
-const PostJob = ({navigation}) => {
+const PostJob = ({navigation, route}) => {
   const styles = GetStyles();
+  const repostData = route.params?.repostData || {};
+  console.info('🚀 ~ PostJob ~ repostData:', repostData);
 
   const [isWalkIn, setIsWalkIn] = useState(false);
   const [isSingleDay, setIsSingleDay] = useState(false);
@@ -91,6 +93,74 @@ const PostJob = ({navigation}) => {
     resolver: zodResolver(postJobSchema(isWalkIn, isSingleDay)),
     defaultValues: defaultValues,
   });
+
+  useEffect(() => {
+    if (Object.keys(repostData).length > 0) {
+      // Parse Working Time
+      let timeFrom = '';
+      let timeTo = '';
+      if (repostData.working_time) {
+        const times = repostData.working_time.split(' - ');
+        timeFrom = times[0] || '';
+        timeTo = times[1] || '';
+      }
+
+      // Parse Skills
+      if (repostData.skills) {
+        const parsedSkills = repostData.skills.split(',').map(s => s.trim());
+        setSkillList(parsedSkills);
+      }
+
+      // Set Checkboxes Local State
+      setIsWalkIn(!!repostData.is_walkin_drive);
+      setIsSingleDay(!!repostData.is_single_day);
+
+      // Create a display location name
+      const locationName = repostData.location
+        ? [repostData.location.city, repostData.location.state]
+            .filter(Boolean)
+            .join(', ')
+        : '';
+
+      reset({
+        ...defaultValues,
+        title: repostData.title || '',
+        is_walkin_drive: !!repostData.is_walkin_drive,
+        walkin_start_date: repostData.walkin_start_date || '',
+        walkin_end_date: repostData.walkin_end_date || '',
+        walkin_time_from: repostData.walkin_time_from || '',
+        walkin_time_to: repostData.walkin_time_to || '',
+        walkin_venue: repostData.walkin_venue || '',
+        walkin_contact_name: repostData.walkin_contact_name || '',
+        walkin_contact_number: repostData.walkin_contact_number || '',
+        walkin_instructions: repostData.walkin_instructions || '',
+        education: repostData.education || '',
+        experience: repostData.experience || '',
+        min_age: repostData.min_age || undefined,
+        max_age: repostData.max_age || undefined,
+        gender_preference: repostData.gender_preference?.toLowerCase() || 'any',
+        skills: '',
+        vacancies: repostData.vacancies || '',
+        job_category_id: repostData.job_category_id || '',
+        job_category_name: repostData.job_category_name || '',
+        department: repostData.department || '',
+        job_type: repostData.job_type || '',
+        address_line: repostData.location?.address_line || '',
+        location_name: locationName,
+        city: repostData.location?.city || '',
+        state: repostData.location?.state || '',
+        country: repostData.location?.country || '',
+        ctc: repostData.ctc ? repostData.ctc.toString() : '',
+        work_mode: repostData.work_mode || '',
+        other_benefits: repostData.other_benefits || '',
+        working_days: parseWorkingDays(repostData.working_days),
+        working_time_From: timeFrom,
+        working_time_to: timeTo,
+        description: repostData.description || '',
+        responsibilities: repostData.responsibilities || '',
+      });
+    }
+  }, [repostData, reset]);
 
   const onSubmit = async values => {
     try {

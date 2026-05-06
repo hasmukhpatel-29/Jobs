@@ -160,10 +160,14 @@ export const businessEndPoint = {
     method: 'PUT',
     uri: '/business/update',
   },
-  businessDashboard:{
+  businessDashboard: {
     method: 'GET',
-    uri:'/jobs/mobile/business-dashboard'
-  }
+    uri: '/jobs/mobile/business-dashboard',
+  },
+  manageJob: {
+    method: 'GET',
+    uri: '/jobs/mobile/branch',
+  },
 };
 
 export const jobEndPoint = {
@@ -195,8 +199,8 @@ export const jobEndPoint = {
     method: 'GET',
     uri: '/applications/my-applications',
   },
-  createJob:{
+  createJob: {
     method: 'POST',
-    uri: '/jobs/mobile/create'
-  }
+    uri: '/jobs/mobile/create',
+  },
 };
