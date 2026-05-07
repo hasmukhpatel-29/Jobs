@@ -168,6 +168,14 @@ export const businessEndPoint = {
     method: 'GET',
     uri: '/jobs/mobile/branch',
   },
+  creditBalance:{
+    method: 'GET',
+    uri: '/jobs/mobile/payment/credits/balance',
+  },
+  creditHistory:{
+    method: 'GET',
+    uri: '/jobs/mobile/payment/credits/transactions',
+  }
 };
 
 export const jobEndPoint = {

@@ -29,7 +29,7 @@ const androidVersion = Number(DeviceInfo.getSystemVersion());
 const requestPermission = async (permission, message) => {
   try {
     const granted = await PermissionsAndroid.request(permission, {
-      title: 'SeaNeB',
+      title: 'Jobs',
       message,
       buttonPositive: 'OK',
     });
@@ -86,7 +86,7 @@ const UploadPhoto = props => {
       ? true
       : await requestPermission(
           PermissionsAndroid.PERMISSIONS.CAMERA,
-          'SeaNeB needs access to your camera.',
+          'Jobs needs access to your camera.',
         );
 
     if (permissionGranted) {
@@ -119,7 +119,7 @@ const UploadPhoto = props => {
           androidVersion >= 13
             ? PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES // For Android 13+
             : PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-          'SeaNeB needs access to your storage.',
+          'Jobs needs access to your storage.',
         );
     if (permissionGranted) {
       const totalCount = value?.length || 0;

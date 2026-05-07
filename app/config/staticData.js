@@ -97,7 +97,7 @@ export const experienceOptions = [
 ];
 
 export const ageOptions = Array.from({length: 57}, (_, i) => {
-  const age = (i + 14);
+  const age = i + 14;
   return {name: age, value: age};
 });
 
@@ -136,4 +136,12 @@ export const weekDays = [
   {value: 'fri', name: 'Fri'},
   {value: 'sat', name: 'Sat'},
   {value: 'sun', name: 'Sun'},
+];
+export const creditTypes = [
+  {label: 'All Types', value: 'ALL'},
+  {label: 'Purchases', value: 'PURCHASE'},
+  {label: 'Usage', value: 'USAGE'},
+  {label: 'Free Grants', value: 'FREE_GRANT'},
+  {label: 'Expired', value: 'EXPIRED'},
+  {label: 'Refund', value: 'REFUND'},
 ];

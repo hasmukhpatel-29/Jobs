@@ -182,9 +182,9 @@ export default function ManageJob({navigation}) {
               type={Icons.Feather}
               name="eye"
               size={size.moderateScale(18)}
-              color={color.textColor}
+              color={color.black}
             />
-            <Text style={[styles.menuText, {color: color.textColor}]}>
+            <Text style={[styles.menuText, {color: color.black}]}>
               View Detail
             </Text>
           </TouchableOpacity>

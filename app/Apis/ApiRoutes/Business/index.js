@@ -1,6 +1,6 @@
 import {businessEndPoint} from '@apis/Endpoints';
 import {getApiData, getApiDataProgress} from '@utils/apiHelper';
-import {useQuery} from '@tanstack/react-query';
+import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
 import Toast from '@components/CToast';
 import useGlobalStore from '@zustand/store';
 
@@ -177,3 +177,44 @@ export const businessDashboardApi = () =>
 
 export const manageJobApi = () =>
   commonApi(businessEndPoint.manageJob, {}, '', false);
+
+export const creditBalanceApi = () =>
+  commonApi(businessEndPoint.creditBalance, {}, '', false);
+
+export const useCreditBalance = () => {
+  return useQuery({
+    queryKey: ['creditBalance'],
+    queryFn: async () => {
+      const response = await creditBalanceApi();
+      return response?.data;
+    },
+  });
+};
+
+export const creditHistoryApi = (page = 1, type = 'ALL') => {
+  let params = `?page=${page}`;
+
+  if (type !== 'ALL') {
+    params += `&type=${type}`;
+  }
+  return commonApi(businessEndPoint.creditHistory, {}, params, false);
+};
+
+export const useCreditHistory = filterType => {
+  return useInfiniteQuery({
+    queryKey: ['creditHistory', filterType],
+    queryFn: async ({pageParam = 1}) => {
+      const response = await creditHistoryApi(pageParam, filterType);
+      return response?.data;
+    },
+    getNextPageParam: lastPage => {
+      if (!lastPage || !lastPage.pagination) return undefined;
+      const {page, total_pages} = lastPage.pagination;
+
+      if (page < total_pages) {
+        return page + 1;
+      }
+      return undefined;
+    },
+  });
+};
