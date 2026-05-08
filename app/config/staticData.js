@@ -145,3 +145,17 @@ export const creditTypes = [
   {label: 'Expired', value: 'EXPIRED'},
   {label: 'Refund', value: 'REFUND'},
 ];
+export const ApplicantFilter = [
+  {label: 'All', value: 'ALL'},
+  {label: 'Applied', value: 'Applied'},
+  {label: 'Under Review', value: 'Under+Review'},
+  {label: 'Shortlisted', value: 'Shortlisted'},
+  {label: 'Hired', value: 'Hired'},
+  {label: 'Rejected', value: 'Rejected'},
+];
+export const statusOptions = [
+  'Under Review',
+  'Shortlisted',
+  'Hired',
+  'Rejected',
+];

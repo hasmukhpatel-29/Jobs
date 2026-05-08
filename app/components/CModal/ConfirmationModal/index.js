@@ -83,11 +83,12 @@ export const ConfirmationModal = ({
   );
 };
 
-export const EnterReportCommentReasonModal = ({
+export const EnterCommentModal = ({
   isVisible,
   onConfirm,
   onReject,
   title,
+  subTitle,
   yesText,
   noText,
 }) => {
@@ -109,19 +110,17 @@ export const EnterReportCommentReasonModal = ({
       isVisible={isVisible}
       avoidKeyboard
       onBackdropPress={onReject}
-      backdropOpacity={0.1}
+      backdropOpacity={0.8}
       backdropColor="black"
-      animationOut="slideOutDown"
-      animationIn="slideInUp"
+      animationIn="fadeIn"
+      animationOut="fadeOut"
       onBackButtonPress={onReject}>
       <View style={styles.reportContainer}>
         <TouchableOpacity style={styles.closeBtn} onPress={onReject} />
 
-        <Text style={styles.reportTitle}>{title || 'Report Post'}</Text>
+        <Text style={styles.reportTitle}>{title}</Text>
 
-        <Text style={styles.reportSubtitle}>
-          Why are you reporting this post
-        </Text>
+        {subTitle && <Text style={styles.reportSubtitle}>{subTitle}</Text>}
 
         <CInput
           value={reason}
@@ -139,23 +138,20 @@ export const EnterReportCommentReasonModal = ({
 
         <View style={styles.actionRow}>
           <CButton
-            label={yesText || 'Block'}
+            label={noText || 'Cancel'}
+            outLineBtn
             onPress={() => {
-              if (reason.trim()) {
-                onConfirm(reason);
-              } else {
-                setError('Please enter reason');
-              }
+              onReject();
             }}
             buttonStyle={styles.btn}
           />
           <CButton
-            label={noText || 'Report'}
+            label={yesText || 'Yes'}
             onPress={() => {
               if (reason.trim()) {
                 onConfirm(reason);
               } else {
-                setError('Please enter reason');
+                setError('Please enter description');
               }
             }}
             buttonStyle={styles.btn}

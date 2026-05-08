@@ -1,6 +1,11 @@
 import {businessEndPoint} from '@apis/Endpoints';
 import {getApiData, getApiDataProgress} from '@utils/apiHelper';
-import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import Toast from '@components/CToast';
 import useGlobalStore from '@zustand/store';
 
@@ -215,6 +220,104 @@ export const useCreditHistory = filterType => {
         return page + 1;
       }
       return undefined;
+    },
+  });
+};
+export const applicantsListApi = (page = 1, status = 'ALL', search = '') => {
+  let params = `?page=${page}`;
+
+  if (status !== 'ALL') {
+    params += `&status=${status}`;
+  }
+  if (search) {
+    params += `&search=${encodeURIComponent(search)}`;
+  }
+  return commonApi(businessEndPoint.applicantsList, {}, params, false);
+};
+
+export const useApplicantsList = (filterType, search) => {
+  return useInfiniteQuery({
+    queryKey: ['applicantsList', filterType, search],
+    queryFn: async ({pageParam = 1}) => {
+      const response = await applicantsListApi(pageParam, filterType, search);
+      return response;
+    },
+    getNextPageParam: lastPage => {
+      if (!lastPage || !lastPage.pagination) return undefined;
+      const {page, total_pages} = lastPage.pagination;
+
+      if (page < total_pages) {
+        return page + 1;
+      }
+      return undefined;
+    },
+  });
+};
+
+export const updateApplicantStatusApi = (applicationId, status) => {
+  const params = `/${applicationId}/status`;
+
+  const data = {status: status};
+
+  return commonApi(businessEndPoint.updateApplicantStatus, data, params, false);
+};
+
+export const useUpdateApplicantStatus = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({applicationId, status}) =>
+      updateApplicantStatusApi(applicationId, status),
+
+    onSuccess: response => {
+      queryClient.invalidateQueries({queryKey: ['applicantsList']});
+
+      Toast.show({
+        type: 'success',
+        text1: response?.message || 'Status updated successfully',
+      });
+    },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error?.message || 'Failed to update status',
+      });
+    },
+  });
+};
+export const updateApplicantTimeLineApi = (applicationId, message) => {
+  const params = `/${applicationId}/update`;
+
+  const data = {message: message};
+
+  return commonApi(
+    businessEndPoint.updateApplicationTimeLine,
+    data,
+    params,
+    false,
+  );
+};
+
+export const useUpdateTimeLine = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({applicationId, message}) =>
+      updateApplicantTimeLineApi(applicationId, message),
+
+    onSuccess: response => {
+      queryClient.invalidateQueries({queryKey: ['applicantsList']});
+
+      Toast.show({
+        type: 'success',
+        text1: response?.message || 'Message updated successfully',
+      });
+    },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error?.message || 'Failed to update status',
+      });
     },
   });
 };

@@ -86,6 +86,14 @@ const GetStyles = () => {
       right: size.moderateScale(15),
       top: size.moderateScale(15),
     },
+    actionRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    btn: {
+      width: '48%',
+    },
   });
 };
 

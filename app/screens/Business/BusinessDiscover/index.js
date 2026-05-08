@@ -5,32 +5,9 @@ import {CHeader} from '@components/CHeader';
 import useGlobalStore from '@zustand/store';
 import {useThemeContext} from '@contexts/themeContext';
 import {businessDashboardApi, getBusinessList} from '@apis/ApiRoutes/Business';
-import Icon, {Icons} from '@config/Icons';
 import {getTimeAgo} from '@utils/commonFunction';
 import GetStyles from './styles';
-
-const StatCard = ({title, value, icon, color, bgColor}) => {
-  const styles = GetStyles();
-
-  return (
-    <View style={styles.cardShadowWrapper}>
-      <View style={styles.cardInnerContent}>
-        <View style={styles.cardInner}>
-          <View style={[styles.iconWrapper, {backgroundColor: bgColor}]}>
-            <Icon type={Icons.Feather} name={icon} size={20} color={color} />
-          </View>
-          <Text
-            numberOfLines={1}
-            adjustsFontSizeToFit={true}
-            style={styles.cardValue}>
-            {value}
-          </Text>
-        </View>
-        <Text style={styles.cardTitle}>{title}</Text>
-      </View>
-    </View>
-  );
-};
+import {StatCard} from '@components/StatCard';
 
 export default function BusinessDiscover({openDrawer}) {
   const styles = GetStyles();
@@ -101,32 +78,28 @@ export default function BusinessDiscover({openDrawer}) {
           contentContainerStyle={styles.scrollContent}>
           <View style={styles.grid}>
             <StatCard
-              title="Total Jobs Posted"
+              label="Total Jobs Posted"
               value={dashboardData.stats?.totalJobsPosted || 0}
-              icon="briefcase"
-              color={color.primary}
-              bgColor={`${color.primary}10`}
+              iconName="briefcase"
+              baseColor={color.primary}
             />
             <StatCard
-              title="Active Listings"
+              label="Active Listings"
               value={dashboardData.stats?.activeListings || 0}
-              icon="check-circle"
-              color={color.green}
-              bgColor={`${color.green}10`}
+              iconName="check-circle"
+              baseColor={color.green}
             />
             <StatCard
-              title="Total Applications"
+              label="Total Applications"
               value={dashboardData.stats?.totalApplications || 0}
-              icon="users"
-              color={color.hexBlue}
-              bgColor={`${color.hexBlue}10`}
+              iconName="users"
+              baseColor={color.hexBlue}
             />
             <StatCard
-              title="Shortlisted Candidates"
+              label="Shortlisted Candidates"
               value={dashboardData.stats?.shortlistedCandidates || 0}
-              icon="star"
-              color={color.orange}
-              bgColor={`${color.orange}10`}
+              iconName="star"
+              baseColor={color.orange}
             />
           </View>
 

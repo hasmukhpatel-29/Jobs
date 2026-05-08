@@ -168,14 +168,26 @@ export const businessEndPoint = {
     method: 'GET',
     uri: '/jobs/mobile/branch',
   },
-  creditBalance:{
+  creditBalance: {
     method: 'GET',
     uri: '/jobs/mobile/payment/credits/balance',
   },
-  creditHistory:{
+  creditHistory: {
     method: 'GET',
     uri: '/jobs/mobile/payment/credits/transactions',
-  }
+  },
+  applicantsList: {
+    method: 'GET',
+    uri: '/jobs/mobile/applications/branch/applicants',
+  },
+  updateApplicantStatus: {
+    method: 'PUT',
+    uri: '/jobs/mobile/applications/branch/applicants',
+  },
+  updateApplicationTimeLine: {
+    method: 'POST',
+    uri: '/jobs/mobile/applications/branch/applicants',
+  },
 };
 
 export const jobEndPoint = {
