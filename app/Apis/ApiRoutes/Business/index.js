@@ -332,20 +332,10 @@ export const updateNoteApi = (applicationId, message) => {
 
   const data = {note: message};
 
-  return commonApi(
-    businessEndPoint.updateApplicationNote,
-    data,
-    params,
-    false,
-  );
+  return commonApi(businessEndPoint.updateApplicationNote, data, params, false);
 };
-export const saveApplicantApi = (applicationId) => {
+export const saveApplicantApi = applicationId => {
   const params = `/${applicationId}/save`;
 
-  return commonApi(
-    businessEndPoint.saveApplicant,
-    {},
-    params,
-    false,
-  );
+  return commonApi(businessEndPoint.saveApplicant, {}, params, false);
 };

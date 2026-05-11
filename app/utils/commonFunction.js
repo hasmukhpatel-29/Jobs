@@ -1,8 +1,10 @@
-import {Alert, Linking} from 'react-native';
+import {Alert, Linking, Platform} from 'react-native';
+import ReactNativeBlobUtil from 'react-native-blob-util';
+import moment from 'moment';
 import {navigationRef} from '@navigation/mainStackNavigation';
+import Toast from '@components/CToast';
 import useGlobalStore from '@zustand/store';
 import {Config} from '@config/Config';
-import moment from 'moment';
 import {useThemeContext} from '@contexts/themeContext';
 
 export const NumberValidation = val => {
@@ -152,4 +154,53 @@ export const parseWorkingDays = apiString => {
   }
 
   return [apiString.trim().toLowerCase()];
+};
+
+export const downloadInvoice = async (
+  url,
+  fileName = `${Date.now()}.pdf`,
+  mimeType = 'application/pdf',
+) => {
+  try {
+    const {fs} = ReactNativeBlobUtil;
+
+    const downloadDir =
+      Platform.OS === 'ios' ? fs.dirs.DocumentDir : fs.dirs.DownloadDir;
+    const filePath = `${downloadDir}/${fileName}`;
+
+    const ext = fileName.split('.').pop();
+
+    const options = Platform.select({
+      ios: {
+        fileCache: true,
+        path: filePath,
+        appendExt: ext,
+      },
+      android: {
+        fileCache: true,
+        addAndroidDownloads: {
+          useDownloadManager: true,
+          notification: true,
+          path: filePath,
+          description: `Downloading ${fileName}...`,
+          mime: mimeType,
+        },
+      },
+    });
+
+    // Await the fetch call
+    const res = await ReactNativeBlobUtil.config(options).fetch('GET', url);
+
+    if (Platform.OS === 'ios') {
+      ReactNativeBlobUtil.ios.previewDocument(res.path());
+    } else {
+      Toast.show({type: 'success', text1: `${fileName} saved to Downloads!`});
+    }
+
+    return {success: true, path: res.path()};
+  } catch (error) {
+    console.log('Download error:', error);
+    Toast.show({type: 'error', text1: `Failed to download ${fileName}`});
+    return {success: false, error};
+  }
 };

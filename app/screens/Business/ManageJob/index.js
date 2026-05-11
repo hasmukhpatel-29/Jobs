@@ -17,7 +17,7 @@ import {size} from '@config/Sizes';
 import {getTimeAgo} from '@utils/commonFunction';
 import Popover from 'react-native-popover-view';
 
-const JobCardItem = ({item, onMenuPress, styles, color}) => {
+const JobCardItem = ({item, onMenuPress,onView, styles, color}) => {
   const menuRef = useRef(null);
 
   return (
@@ -64,7 +64,10 @@ const JobCardItem = ({item, onMenuPress, styles, color}) => {
           </View>
         </View>
 
-        <TouchableOpacity activeOpacity={0.8} style={styles.viewButton}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.viewButton}
+          onPress={() => onView(item)}>
           <Text style={styles.viewButtonText}>View Job Posting</Text>
         </TouchableOpacity>
       </View>
@@ -142,6 +145,11 @@ export default function ManageJob({navigation}) {
                   setPopoverAnchor(ref);
                   setSelectedJob(data);
                 }}
+                onView={() => {
+                  navigation.navigate('JobEmployerDetails', {
+                    jobData: item,
+                  });
+                }}
               />
             )}
             showsVerticalScrollIndicator={false}
@@ -177,6 +185,9 @@ export default function ManageJob({navigation}) {
             activeOpacity={0.7}
             onPress={() => {
               closePopover();
+              navigation.navigate('JobEmployerDetails', {
+                jobData: selectedJob,
+              });
             }}>
             <Icon
               type={Icons.Feather}

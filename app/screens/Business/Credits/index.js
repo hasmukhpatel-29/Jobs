@@ -12,6 +12,7 @@ import {useThemeContext} from '@contexts/themeContext';
 import Icon, {Icons} from '@config/Icons';
 import {creditTypes} from '@config/staticData';
 import {useCreditBalance, useCreditHistory} from '@apis/ApiRoutes/Business';
+import {downloadInvoice, getImageUrl} from '@utils/commonFunction';
 import GetStyles from './styles';
 
 const Credits = () => {
@@ -104,7 +105,15 @@ const Credits = () => {
               </Text>
             )}
             {item?.invoice_pdf && (
-              <TouchableOpacity activeOpacity={0.7} style={styles.invoiceBtn}>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                style={styles.invoiceBtn}
+                onPress={() => {
+                  downloadInvoice(
+                    getImageUrl(item?.invoice_pdf),
+                    `Invoice_${Date.now()}.pdf`,
+                  );
+                }}>
                 <Icon
                   type={Icons.Feather}
                   name="file-text"
