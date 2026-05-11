@@ -188,6 +188,18 @@ export const businessEndPoint = {
     method: 'POST',
     uri: '/jobs/mobile/applications/branch/applicants',
   },
+  applicantProfile:{
+    method: 'GET',
+    uri: '/jobs/mobile/applications/branch/applicants',
+  },
+  updateApplicationNote: {
+    method: 'PUT',
+    uri: '/jobs/mobile/applications/branch/applicants',
+  },
+  saveApplicant: {
+    method: 'PUT',
+    uri: '/jobs/mobile/applications/branch/applicants',
+  },
 };
 
 export const jobEndPoint = {

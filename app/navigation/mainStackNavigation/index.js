@@ -22,6 +22,7 @@ import PostJob from '@screens/Business/PostJob';
 import ManageJob from '@screens/Business/ManageJob';
 import Credits from '@screens/Business/Credits';
 import Applicants from '@screens/Business/Applicants';
+import ApplicantProfile from '@screens/Business/ApplicantProfile';
 import CLoginModal from '@components/CLoginModal';
 
 const Stack = createStackNavigator();
@@ -71,6 +72,7 @@ export const MainStackNavigation = () => {
           <Stack.Screen name="ManageJob" component={ManageJob} />
           <Stack.Screen name="Credits" component={Credits} />
           <Stack.Screen name="Applicants" component={Applicants} />
+          <Stack.Screen name="ApplicantProfile" component={ApplicantProfile} />
         </Stack.Navigator>
         <CLoginModal ref={loginModalRef} />
       </NavigationContainer>

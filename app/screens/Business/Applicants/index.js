@@ -39,7 +39,7 @@ const useDebounce = (value, delay) => {
   return debouncedValue;
 };
 
-const ApplicantRow = ({item, onUpdate}) => {
+const ApplicantRow = ({item, onUpdate, navigation}) => {
   const {color} = useThemeContext();
   const styles = GetStyles();
   const statusColor = GetStatusColor(item.status);
@@ -58,7 +58,9 @@ const ApplicantRow = ({item, onUpdate}) => {
   };
 
   return (
-    <View style={styles.applicantCard}>
+    <TouchableOpacity
+      style={styles.applicantCard}
+      onPress={() => navigation.navigate('ApplicantProfile', {applicantId: item?.application_id})}>
       <View style={styles.cardHeader}>
         <View style={styles.userInfo}>
           <View style={styles.avatar}>
@@ -206,11 +208,11 @@ const ApplicantRow = ({item, onUpdate}) => {
           })}
         </View>
       </Popover>
-    </View>
+    </TouchableOpacity>
   );
 };
 
-const Applicants = () => {
+const Applicants = ({navigation}) => {
   const styles = GetStyles();
   const {color} = useThemeContext();
   const [filter, setFilter] = useState(ApplicantFilter[0]);
@@ -350,7 +352,11 @@ const Applicants = () => {
           <FlatList
             data={applicants}
             renderItem={({item}) => (
-              <ApplicantRow item={item} onUpdate={() => openModal(item)} />
+              <ApplicantRow
+                item={item}
+                onUpdate={() => openModal(item)}
+                navigation={navigation}
+              />
             )}
             keyExtractor={item => item.transaction_id}
             contentContainerStyle={styles.listContent}

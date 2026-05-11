@@ -321,3 +321,31 @@ export const useUpdateTimeLine = () => {
     },
   });
 };
+
+export const applicantProfileApi = applicationId => {
+  const params = `/${applicationId}`;
+  return commonApi(businessEndPoint.applicantProfile, {}, params, false);
+};
+
+export const updateNoteApi = (applicationId, message) => {
+  const params = `/${applicationId}/note`;
+
+  const data = {note: message};
+
+  return commonApi(
+    businessEndPoint.updateApplicationNote,
+    data,
+    params,
+    false,
+  );
+};
+export const saveApplicantApi = (applicationId) => {
+  const params = `/${applicationId}/save`;
+
+  return commonApi(
+    businessEndPoint.saveApplicant,
+    {},
+    params,
+    false,
+  );
+};
