@@ -16,8 +16,7 @@ export default function BottomTabBar({
 
   const tabRefs = useRef([]);
 
-  const focusedOptions =
-    descriptors[state.routes[state.index].key].options;
+  const focusedOptions = descriptors[state.routes[state.index].key].options;
 
   if (focusedOptions.tabBarVisible === false) {
     return null;
@@ -78,6 +77,16 @@ export default function BottomTabBar({
               key={index}
               activeOpacity={0.8}
               onPress={onPress}
+              onLongPress={() => {
+                const event = navigation.emit({
+                  type: 'tabLongPress',
+                  target: route.key,
+                  canPreventDefault: true,
+                });
+
+                if (!event.defaultPrevented) {
+                }
+              }}
               style={styles.tab}>
               {renderTab(route, isFocused, index)}
             </TouchableOpacity>

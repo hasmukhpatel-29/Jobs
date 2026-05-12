@@ -1,7 +1,10 @@
+/* eslint-disable react-native/no-inline-styles */
+import CImage from '@components/CImage';
 import Icon, {Icons} from '@config/Icons';
 import {CustomIcon} from '@config/LoadIcons';
+import {getImageUrl} from '@utils/commonFunction';
 
-export const businessTabConfig = [
+export const businessTabConfig = branchData => [
   {
     name: 'BusinessDiscover',
     label: 'Dashboard',
@@ -16,11 +19,22 @@ export const businessTabConfig = [
   {
     name: 'BusinessProfile',
     label: 'Profile',
-    icon: (isFocused, color) => (
-      <CustomIcon
-        name="user"
-        style={{color, fontSize: 22}}
-      />
-    ),
+    enableLongPress: true,
+    icon: (isFocused, color) =>
+      branchData?.branch_logo ? (
+        <CImage
+          src={getImageUrl(branchData?.branch_logo)}
+          resizeMode="cover"
+          style={{
+            width: 26,
+            height: 26,
+            borderRadius: 13,
+            borderWidth: isFocused ? 1 : 0,
+            borderColor: color,
+          }}
+        />
+      ) : (
+        <CustomIcon name="user" style={{color, fontSize: 22}} />
+      ),
   },
 ];

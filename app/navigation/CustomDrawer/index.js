@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unstable-nested-components */
 // DrawerNavigator.js
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {
   View,
   FlatList,
@@ -30,6 +30,7 @@ import BusinessProfile from '@screens/Business/BusinessProfile';
 import CImage from '@components/CImage';
 import {CButton} from '@components/CButton';
 import CommonModal from '@components/CModal/CommonModal';
+import AccountModal from '@components/AccountModal';
 import {busDashboardList, dashboardList} from '@config/staticData';
 import {Images} from '@config/Images';
 import {CustomIcon} from '@config/LoadIcons';
@@ -54,12 +55,38 @@ const CustomDrawer = ({route, navigation}) => {
   const userMeData = useGlobalStore(s => s.userMeData);
   const userRole = useGlobalStore.getState().userRole;
   const isBusiness = userRole?.toUpperCase() === 'BUSINESS';
-  const currentTabConfig = isBusiness ? businessTabConfig : userTabConfig;
+
+  const userBusinessData = useGlobalStore(s => s.businessData);
+  const activeBusinessId = useGlobalStore(s => s.activeBusinessId);
+  const activeBranchId = useGlobalStore(s => s.activeBranchId);
+
+  const businessData = useMemo(() => {
+    return userBusinessData?.find(b => b.business_id === activeBusinessId);
+  }, [userBusinessData, activeBusinessId]);
+
+  const branchData = useMemo(() => {
+    return businessData?.branches?.find(b => b.branch_id === activeBranchId);
+  }, [businessData, activeBranchId]);
+
+  useEffect(() => {
+    if (!activeBusinessId && userBusinessData?.length > 0) {
+      const firstBusiness = userBusinessData[0];
+      const firstBranch = firstBusiness?.branches?.[0];
+
+      const store = useGlobalStore.getState();
+      store.setActiveBusinessId(firstBusiness.business_id);
+      store.setActiveBranchId(firstBranch?.branch_id);
+    }
+  }, [userBusinessData]);
+  const currentTabConfig = isBusiness
+    ? businessTabConfig(branchData)
+    : userTabConfig;
 
   // State Variables
   const [show, setShow] = useState(false);
   const [btnLoader, setBtnLoader] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const screenWidth = Dimensions.get('screen').width;
 
@@ -151,7 +178,11 @@ const CustomDrawer = ({route, navigation}) => {
           <View style={styles.profileImageAndCloseIconContainer}>
             <CImage
               src={
-                getImageUrl(userMeData?.profile_photo) || Images.imgDefaultUser
+                getImageUrl(
+                  isBusiness
+                    ? branchData?.branch_logo
+                    : userMeData?.profile_photo,
+                ) || Images.imgDefaultUser
               }
               style={styles.profileStyle}
             />
@@ -166,7 +197,11 @@ const CustomDrawer = ({route, navigation}) => {
             </TouchableOpacity>
           </View>
           <Text style={styles.fullNameText}>
-            {isAuthenticated ? userMeData?.full_name : 'Guest'}
+            {!isAuthenticated
+              ? 'Guest'
+              : isBusiness
+              ? branchData?.branch_name
+              : userMeData?.full_name}
           </Text>
           <FlatList
             data={isBusiness ? busDashboardList : dashboardList}
@@ -224,7 +259,14 @@ const CustomDrawer = ({route, navigation}) => {
                   <BusinessDiscover {...props} openDrawer={openDrawer} />
                 )}
               </Tab.Screen>
-              <Tab.Screen name="BusinessProfile">
+              <Tab.Screen
+                name="BusinessProfile"
+                listeners={{
+                  tabLongPress: e => {
+                    e.preventDefault();
+                    setShowModal(true);
+                  },
+                }}>
                 {props => (
                   <BusinessProfile {...props} openDrawer={openDrawer} />
                 )}
@@ -246,6 +288,7 @@ const CustomDrawer = ({route, navigation}) => {
         </Tab.Navigator>
       </Animated.View>
       <Overlay active={active} onPress={closeDrawer} />
+      <AccountModal visible={showModal} onClose={() => setShowModal(false)} />
       <CommonModal
         isVisible={visible}
         childrenViewStyle={styles.modalCont}

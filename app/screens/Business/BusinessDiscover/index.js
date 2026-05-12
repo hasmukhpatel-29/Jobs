@@ -113,23 +113,28 @@ export default function BusinessDiscover({openDrawer}) {
               </View>
               <Text style={styles.chartTotal}>{totalWeeklyApps}</Text>
             </View>
-
-            <View style={styles.barsContainer}>
-              {weeklyApps.map((item, index) => {
-                const heightPct =
-                  maxWeeklyApps > 0 ? (item.count / maxWeeklyApps) * 100 : 0;
-                return (
-                  <View key={index} style={styles.barColumn}>
-                    <View style={styles.barBackground}>
-                      <View
-                        style={[styles.barFill, {height: `${heightPct}%`}]}
-                      />
+            {weeklyApps.length === 0 ? (
+              <View style={styles.emptyContainer}>
+                <Text style={styles.emptyText}>No data available</Text>
+              </View>
+            ) : (
+              <View style={styles.barsContainer}>
+                {weeklyApps.map((item, index) => {
+                  const heightPct =
+                    maxWeeklyApps > 0 ? (item.count / maxWeeklyApps) * 100 : 0;
+                  return (
+                    <View key={index} style={styles.barColumn}>
+                      <View style={styles.barBackground}>
+                        <View
+                          style={[styles.barFill, {height: `${heightPct}%`}]}
+                        />
+                      </View>
+                      <Text style={styles.barLabel}>{item.day}</Text>
                     </View>
-                    <Text style={styles.barLabel}>{item.day}</Text>
-                  </View>
-                );
-              })}
-            </View>
+                  );
+                })}
+              </View>
+            )}
           </View>
 
           <View style={styles.chartCard}>
@@ -141,38 +146,46 @@ export default function BusinessDiscover({openDrawer}) {
                 </Text>
               </View>
             </View>
-            {dashboardData?.hiringFunnel.map((item, index) => {
-              const maxCount = Math.max(
-                1,
-                ...dashboardData?.hiringFunnel.map(i => i.count),
-              );
-              const widthPct = `${(item.count / maxCount) * 100}%`;
-              const bgColor = [
-                color.primary,
-                color.hexBlue,
-                color.orange,
-                color.green,
-              ];
-              return (
-                <View key={index} style={styles.chartHiringContainer}>
-                  <View style={styles.chartHiring}>
-                    <Text style={styles.hiringTitle}>{item.stage}</Text>
-                    <Text style={styles.hiringTitle}>{item.count}</Text>
-                  </View>
-                  <View style={styles.progressBarBg}>
-                    <View
-                      style={[
-                        styles.progressBarFill,
-                        {
-                          width: widthPct,
-                          backgroundColor: bgColor[index % bgColor.length],
-                        },
-                      ]}
-                    />
-                  </View>
-                </View>
-              );
-            })}
+            {dashboardData?.hiringFunnel.length === 0 ? (
+              <View style={styles.emptyContainer}>
+                <Text style={styles.emptyText}>No funnel data</Text>
+              </View>
+            ) : (
+              <>
+                {dashboardData?.hiringFunnel.map((item, index) => {
+                  const maxCount = Math.max(
+                    1,
+                    ...dashboardData?.hiringFunnel.map(i => i.count),
+                  );
+                  const widthPct = `${(item.count / maxCount) * 100}%`;
+                  const bgColor = [
+                    color.primary,
+                    color.hexBlue,
+                    color.orange,
+                    color.green,
+                  ];
+                  return (
+                    <View key={index} style={styles.chartHiringContainer}>
+                      <View style={styles.chartHiring}>
+                        <Text style={styles.hiringTitle}>{item.stage}</Text>
+                        <Text style={styles.hiringTitle}>{item.count}</Text>
+                      </View>
+                      <View style={styles.progressBarBg}>
+                        <View
+                          style={[
+                            styles.progressBarFill,
+                            {
+                              width: widthPct,
+                              backgroundColor: bgColor[index % bgColor.length],
+                            },
+                          ]}
+                        />
+                      </View>
+                    </View>
+                  );
+                })}
+              </>
+            )}
           </View>
 
           <View style={styles.chartCard}>
@@ -182,59 +195,71 @@ export default function BusinessDiscover({openDrawer}) {
                 <Text style={styles.chartSubtitle}>By applications</Text>
               </View>
             </View>
-            <View style={styles.jobsListContainer}>
-              {dashboardData?.topPerformingJobs.map((job, index) => (
-                <View key={job.job_id || index} style={styles.jobRow}>
-                  <View style={styles.rankBadge}>
-                    <Text style={styles.rankText}>{index + 1}</Text>
+            {dashboardData?.topPerformingJobs.length === 0 ? (
+              <View style={styles.emptyContainer}>
+                <Text style={styles.emptyText}>No job data yet</Text>
+              </View>
+            ) : (
+              <View style={styles.jobsListContainer}>
+                {dashboardData?.topPerformingJobs.map((job, index) => (
+                  <View key={job.job_id || index} style={styles.jobRow}>
+                    <View style={styles.rankBadge}>
+                      <Text style={styles.rankText}>{index + 1}</Text>
+                    </View>
+                    <Text style={styles.jobTitleText} numberOfLines={1}>
+                      {job.title.charAt(0).toUpperCase() + job.title.slice(1)}
+                    </Text>
+                    <Text style={styles.jobCountText}>{job.applications}</Text>
                   </View>
-                  <Text style={styles.jobTitleText} numberOfLines={1}>
-                    {job.title.charAt(0).toUpperCase() + job.title.slice(1)}
-                  </Text>
-                  <Text style={styles.jobCountText}>{job.applications}</Text>
-                </View>
-              ))}
-            </View>
+                ))}
+              </View>
+            )}
           </View>
 
           <View style={styles.chartCard}>
             <View style={styles.chartHeader}>
               <Text style={styles.chartTitle}>Recent Activity</Text>
             </View>
-            <View style={styles.jobsListContainer}>
-              {dashboardData?.recentActivity.map((item, index) => {
-                const bgColor = [
-                  color.primary,
-                  color.hexBlue,
-                  color.orange,
-                  color.green,
-                ];
-                return (
-                  <View key={item.job_id || index} style={styles.jobRow}>
-                    <View
-                      style={[
-                        styles.avatar,
-                        {backgroundColor: bgColor[index % bgColor.length]},
-                      ]}>
-                      <Text style={styles.avatarText}>
-                        {item?.profile_initial}
-                      </Text>
+            {dashboardData?.recentActivity.length === 0 ? (
+              <View style={styles.emptyContainer}>
+                <Text style={styles.emptyText}>No recent activity</Text>
+              </View>
+            ) : (
+              <View style={styles.jobsListContainer}>
+                {dashboardData?.recentActivity.map((item, index) => {
+                  const bgColor = [
+                    color.primary,
+                    color.hexBlue,
+                    color.orange,
+                    color.green,
+                  ];
+                  return (
+                    <View key={item.job_id || index} style={styles.jobRow}>
+                      <View
+                        style={[
+                          styles.avatar,
+                          {backgroundColor: bgColor[index % bgColor.length]},
+                        ]}>
+                        <Text style={styles.avatarText}>
+                          {item?.profile_initial}
+                        </Text>
+                      </View>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.actionText}>
+                          <Text style={styles.nameText}>
+                            {item?.applicant_name}
+                          </Text>{' '}
+                          applied for {item?.job_title}
+                        </Text>
+                        <Text style={styles.timeText}>
+                          {getTimeAgo(item?.applied_at)}
+                        </Text>
+                      </View>
                     </View>
-                    <View style={styles.textContainer}>
-                      <Text style={styles.actionText}>
-                        <Text style={styles.nameText}>
-                          {item?.applicant_name}
-                        </Text>{' '}
-                        applied for {item?.job_title}
-                      </Text>
-                      <Text style={styles.timeText}>
-                        {getTimeAgo(item?.applied_at)}
-                      </Text>
-                    </View>
-                  </View>
-                );
-              })}
-            </View>
+                  );
+                })}
+              </View>
+            )}
           </View>
         </ScrollView>
       )}

@@ -226,6 +226,12 @@ const GetStyles = () => {
       color: color.gray200,
       fontFamily: fontFamily.regular,
     },
+    emptyContainer: {alignItems: 'center'},
+    emptyText:{
+      fontSize: fontSize.small,
+      color: color.gray900,
+      fontFamily: fontFamily.regular,
+    }
   });
 };
 export default GetStyles;
