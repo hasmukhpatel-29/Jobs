@@ -38,7 +38,6 @@ const IOS = Platform.OS === 'ios';
 const PostJob = ({navigation, route}) => {
   const styles = GetStyles();
   const repostData = route.params?.repostData || {};
-  console.info('🚀 ~ PostJob ~ repostData:', repostData);
 
   const [isWalkIn, setIsWalkIn] = useState(false);
   const [isSingleDay, setIsSingleDay] = useState(false);
@@ -88,6 +87,7 @@ const PostJob = ({navigation, route}) => {
     setValue,
     reset,
     clearErrors,
+    getValues,
     formState: {errors},
   } = useForm({
     resolver: zodResolver(postJobSchema(isWalkIn, isSingleDay)),
@@ -271,6 +271,7 @@ const PostJob = ({navigation, route}) => {
                           valueFormat="DD/MM/YYYY"
                           onDateChange={onChange}
                           errorMsg={error?.message}
+                          minDate={new Date()}
                         />
                       )}
                     />
@@ -292,6 +293,7 @@ const PostJob = ({navigation, route}) => {
                           disabled={isSingleDay}
                           editable={!isSingleDay}
                           errorMsg={error?.message}
+                          minDate={new Date()}
                         />
                       )}
                     />
@@ -539,7 +541,10 @@ const PostJob = ({navigation, route}) => {
             <Controller
               name="job_category_name"
               control={control}
-              render={({field: {onChange, value}, fieldState: {error}}) => (
+              render={({
+                field: {onChange, onBlur, value},
+                fieldState: {error},
+              }) => (
                 <CAutoComplete
                   required
                   label="Industry"
@@ -549,8 +554,19 @@ const PostJob = ({navigation, route}) => {
                     setValue('job_category_id', item?.job_category_id);
                     onChange(item?.job_category_name);
                   }}
+                  onChangeTextValue={text => {
+                    onChange(text);
+                    setValue('job_category_id', null);
+                  }}
                   errorMsg={error?.message}
                   type="jobCategory"
+                  onBlur={() => {
+                    onBlur();
+                    const currentId = getValues('job_category_id');
+                    if (!currentId) {
+                      onChange('');
+                    }
+                  }}
                 />
               )}
             />
@@ -600,7 +616,7 @@ const PostJob = ({navigation, route}) => {
               name="location_name"
               control={control}
               defaultValue={null}
-              render={({field: {onChange, value}}) => (
+              render={({field: {onChange, onBlur, value}}) => (
                 <CAutoComplete
                   required
                   label="Location"
@@ -613,7 +629,18 @@ const PostJob = ({navigation, route}) => {
                     setValue('state', item?.state_name);
                     setValue('country', item?.country_name);
                   }}
-                  errorMsg={errors?.place_name?.message}
+                  errorMsg={errors?.location_name?.message}
+                  onChangeTextValue={text => {
+                    onChange(text);
+                    setValue('location_name', null);
+                  }}
+                  onBlur={() => {
+                    onBlur();
+                    const currentId = getValues('location_name');
+                    if (!currentId) {
+                      onChange('');
+                    }
+                  }}
                 />
               )}
             />

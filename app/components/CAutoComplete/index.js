@@ -24,6 +24,10 @@ const CAutoComplete = ({
   type = 'city',
   direction = 'bottom',
   onChangeTextValue = () => {},
+  mainContainerStyle,
+  inputViewStyle,
+  inputStyle,
+  onBlur = () => {},
 }) => {
   const styles = GetStyles();
   const inputRef = useRef(null);
@@ -129,7 +133,7 @@ const CAutoComplete = ({
   );
 
   return (
-    <View style={{zIndex: 1000}}>
+    <View style={{zIndex: 1000, flex: 1}}>
       <CInput
         ref={inputRef}
         required={required}
@@ -140,10 +144,16 @@ const CAutoComplete = ({
         onFocus={() => {
           if (query.length > 1) setShowDropdown(true);
         }}
-        onBlur={() => setShowDropdown(false)}
+        onBlur={() => {
+          setShowDropdown(false);
+          onBlur();
+        }}
         errorMsg={errorMsg}
         textInputWrapper={textInputWrapper}
         editable={editable}
+        mainContainerStyle={mainContainerStyle}
+        inputViewStyle={inputViewStyle}
+        inputStyle={inputStyle}
       />
 
       {showDropdown && (

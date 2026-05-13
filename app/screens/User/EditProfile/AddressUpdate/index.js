@@ -49,6 +49,7 @@ const AddressUpdate = ({navigation, route}) => {
     handleSubmit,
     setValue,
     reset,
+    getValues,
     formState: {errors},
   } = useForm({
     resolver: zodResolver(profileAddressSchema(checked)),
@@ -176,7 +177,10 @@ const AddressUpdate = ({navigation, route}) => {
               name="city"
               control={control}
               defaultValue={null}
-              render={({field: {onChange, value}, fieldState: {error}}) => (
+              render={({
+                field: {onChange, onBlur, value},
+                fieldState: {error},
+              }) => (
                 <CAutoComplete
                   required
                   label="City"
@@ -189,6 +193,17 @@ const AddressUpdate = ({navigation, route}) => {
                     setValue('country', item?.country_name);
                   }}
                   errorMsg={error?.message}
+                  onChangeTextValue={text => {
+                    onChange(text);
+                    setValue('city', null);
+                  }}
+                  onBlur={() => {
+                    onBlur();
+                    const currentId = getValues('city');
+                    if (!currentId) {
+                      onChange('');
+                    }
+                  }}
                 />
               )}
             />
@@ -236,7 +251,6 @@ const AddressUpdate = ({navigation, route}) => {
                   placeholder="Enter Pincode"
                   value={value}
                   onChangeText={onChange}
-                  keyboardType="number-pad"
                   errorMsg={error?.message}
                 />
               )}
@@ -282,7 +296,10 @@ const AddressUpdate = ({navigation, route}) => {
                 <Controller
                   name="current_city"
                   control={control}
-                  render={({field: {onChange, value}, fieldState: {error}}) => (
+                  render={({
+                    field: {onChange, onBlur, value},
+                    fieldState: {error},
+                  }) => (
                     <CAutoComplete
                       label="City"
                       value={value}
@@ -291,6 +308,17 @@ const AddressUpdate = ({navigation, route}) => {
                         setValue('current_city', item?.city_name);
                         setValue('current_state', item?.state_name);
                         setValue('current_country', item?.country_name);
+                      }}
+                      onChangeTextValue={text => {
+                        onChange(text);
+                        setValue('current_city', null);
+                      }}
+                      onBlur={() => {
+                        onBlur();
+                        const currentId = getValues('current_city');
+                        if (!currentId) {
+                          onChange('');
+                        }
                       }}
                       errorMsg={error?.message}
                     />
@@ -336,8 +364,7 @@ const AddressUpdate = ({navigation, route}) => {
                       label="Pincode"
                       value={value}
                       onChangeText={onChange}
-                      placeholder='Enter Pincode'
-                      keyboardType="number-pad"
+                      placeholder="Enter Pincode"
                       errorMsg={error?.message}
                     />
                   )}

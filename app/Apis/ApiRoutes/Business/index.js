@@ -1,3 +1,6 @@
+import {Platform} from 'react-native';
+import ReactNativeBlobUtil from 'react-native-blob-util';
+import Toast from '@components/CToast';
 import {businessEndPoint} from '@apis/Endpoints';
 import {getApiData, getApiDataProgress} from '@utils/apiHelper';
 import {
@@ -6,8 +9,8 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import Toast from '@components/CToast';
 import useGlobalStore from '@zustand/store';
+import {Config} from '@config/Config';
 
 const isLoginResponse = response => {
   return response && typeof response.success === 'boolean';
@@ -338,4 +341,114 @@ export const saveApplicantApi = applicationId => {
   const params = `/${applicationId}/save`;
 
   return commonApi(businessEndPoint.saveApplicant, {}, params, false);
+};
+export const matchingResumeApi = (
+  page = 1,
+  limit = 10,
+  sort = 'match',
+  order = 'DESC',
+  body = {},
+) => {
+  let params = `?page=${page}&limit=${limit}&sort=${sort}&order=${order}`;
+
+  return commonApi(businessEndPoint.matchingResume, body, params, false);
+};
+export const useMatchingResume = (
+  searchBody,
+  sort = 'match',
+  order = 'DESC',
+  limit = 10,
+) => {
+  const hasRequiredSkills =
+    !!searchBody &&
+    Array.isArray(searchBody.skills) &&
+    searchBody.skills.length > 0;
+
+  return useInfiniteQuery({
+    queryKey: ['matchingResume', searchBody, sort, order, limit],
+
+    queryFn: async ({pageParam = 1}) => {
+      const response = await matchingResumeApi(
+        pageParam,
+        limit,
+        sort,
+        order,
+        searchBody,
+      );
+      return response;
+    },
+
+    getNextPageParam: lastPage => {
+      if (!lastPage || !lastPage.pagination) return undefined;
+
+      const {page, total_pages} = lastPage.pagination;
+
+      if (page < total_pages) {
+        return page + 1;
+      }
+      return undefined;
+    },
+
+    // The query will ONLY run if hasRequiredSkills is true
+    enabled: hasRequiredSkills,
+  });
+};
+
+export const resumeGenerateApi = async seekerId => {
+  const url = `${Config.API_URL}${businessEndPoint.resumeGenerate.uri}/${seekerId}`;
+  const fileName = `Resume_${seekerId}.pdf`;
+
+  const activeBranchId = useGlobalStore.getState().activeBranchId;
+  const authState = useGlobalStore.getState()?.userLoginData || {};
+  const token = authState?.access_token || '';
+  const headers = {
+    'x-branch-id': activeBranchId,
+    Accept: 'application/pdf',
+    'x-product-key': Config.PRODUCT_KEY,
+    authorization: token ? `Bearer ${token}` : '',
+  };
+
+  try {
+    const {fs} = ReactNativeBlobUtil;
+
+    const downloadDir =
+      Platform.OS === 'ios' ? fs.dirs.DocumentDir : fs.dirs.DownloadDir;
+    const filePath = `${downloadDir}/${fileName}`;
+
+    const options = Platform.select({
+      ios: {
+        fileCache: true,
+        path: filePath,
+        appendExt: 'pdf',
+      },
+      android: {
+        fileCache: true,
+        addAndroidDownloads: {
+          useDownloadManager: true,
+          notification: true,
+          path: filePath,
+          description: `Downloading ${fileName}...`,
+          mime: 'application/pdf',
+        },
+      },
+    });
+
+    const res = await ReactNativeBlobUtil.config(options).fetch(
+      'GET',
+      url,
+      headers,
+    );
+
+    if (Platform.OS === 'ios') {
+      ReactNativeBlobUtil.ios.previewDocument(res.path());
+    } else {
+      Toast.show({type: 'success', text1: 'Resume downloaded successfully'});
+    }
+
+    return {success: true, path: res.path()};
+  } catch (error) {
+    console.log('Download error:', error);
+    Toast.show({type: 'error', text1: 'Error while downloading'});
+    throw error;
+  }
 };

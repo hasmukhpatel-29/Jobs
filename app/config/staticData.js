@@ -50,6 +50,11 @@ export const busDashboardList = [
     title: 'Saved Candidates',
     navigate: 'SavedCandidates',
   },
+  {
+    id: 7,
+    title: 'Matched Resumes',
+    navigate: 'MatchedResumes',
+  },
 ];
 
 export const businessFormStep = [
@@ -98,7 +103,7 @@ export const experienceOptions = [
 
 export const ageOptions = Array.from({length: 57}, (_, i) => {
   const age = i + 14;
-  return {name: age, value: age};
+  return {name: age.toString(), value: age};
 });
 
 export const genderOptions = [
@@ -158,4 +163,8 @@ export const statusOptions = [
   'Shortlisted',
   'Hired',
   'Rejected',
+];
+export const sortArray = [
+  {label: 'High - Low', value: 'DESC'},
+  {label: 'Low - High', value: 'ASC'},
 ];

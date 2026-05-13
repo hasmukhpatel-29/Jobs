@@ -23,6 +23,7 @@ import ManageJob from '@screens/Business/ManageJob';
 import Credits from '@screens/Business/Credits';
 import Applicants from '@screens/Business/Applicants';
 import ApplicantProfile from '@screens/Business/ApplicantProfile';
+import MatchedResumes from '@screens/Business/MatchedResumes';
 import JobEmployerDetails from '@screens/Business/JobEmployerDetails';
 import CLoginModal from '@components/CLoginModal';
 
@@ -74,6 +75,7 @@ export const MainStackNavigation = () => {
           <Stack.Screen name="Credits" component={Credits} />
           <Stack.Screen name="Applicants" component={Applicants} />
           <Stack.Screen name="ApplicantProfile" component={ApplicantProfile} />
+          <Stack.Screen name="MatchedResumes" component={MatchedResumes} />
           <Stack.Screen
             name="JobEmployerDetails"
             component={JobEmployerDetails}

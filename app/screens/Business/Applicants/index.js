@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   FlatList,
   ActivityIndicator,
+  Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import Popover from 'react-native-popover-view';
 import moment from 'moment';
@@ -22,6 +24,8 @@ import {
 } from '@apis/ApiRoutes/Business';
 import {GetStatusColor} from '@utils/commonFunction';
 import GetStyles from './styles';
+
+const IOS = Platform.OS === 'ios';
 
 const useDebounce = (value, delay) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -60,7 +64,11 @@ const ApplicantRow = ({item, onUpdate, navigation}) => {
   return (
     <TouchableOpacity
       style={styles.applicantCard}
-      onPress={() => navigation.navigate('ApplicantProfile', {applicantId: item?.application_id})}>
+      onPress={() =>
+        navigation.navigate('ApplicantProfile', {
+          applicantId: item?.application_id,
+        })
+      }>
       <View style={styles.cardHeader}>
         <View style={styles.userInfo}>
           <View style={styles.avatar}>
@@ -279,105 +287,114 @@ const Applicants = ({navigation}) => {
   return (
     <View style={styles.root}>
       <CHeader title="Applicants List" back />
-      <View style={styles.statsGrid}>
-        <StatCard
-          value={stats.total}
-          label="Total Applicants"
-          iconName="users"
-          baseColor={color.primary}
-        />
-        <StatCard
-          value={stats.new}
-          label="New"
-          iconName="info"
-          baseColor={color.blue}
-        />
-        <StatCard
-          value={stats.shortlisted}
-          label="Shortlisted"
-          iconName="shield"
-          baseColor={color.hexBlue}
-        />
-        <StatCard
-          value={stats.hired}
-          label="Hired"
-          iconName="check-circle"
-          baseColor={color.green}
-        />
-        <StatCard
-          value={stats.under_review}
-          label="Under Review"
-          iconName="alert-triangle"
-          baseColor={color.orange}
-        />
-        <StatCard
-          value={stats.rejected}
-          label="Rejected"
-          iconName="slash"
-          baseColor={color.red}
-        />
-      </View>
+      <KeyboardAvoidingView behavior={IOS ? 'padding' : null} style={{flex: 1}}>
+        <View style={styles.statsGrid}>
+          <StatCard
+            value={stats.total}
+            label="Total Applicants"
+            iconName="users"
+            baseColor={color.primary}
+          />
+          <StatCard
+            value={stats.new}
+            label="New"
+            iconName="info"
+            baseColor={color.blue}
+          />
+          <StatCard
+            value={stats.shortlisted}
+            label="Shortlisted"
+            iconName="shield"
+            baseColor={color.hexBlue}
+          />
+          <StatCard
+            value={stats.hired}
+            label="Hired"
+            iconName="check-circle"
+            baseColor={color.green}
+          />
+          <StatCard
+            value={stats.under_review}
+            label="Under Review"
+            iconName="alert-triangle"
+            baseColor={color.orange}
+          />
+          <StatCard
+            value={stats.rejected}
+            label="Rejected"
+            iconName="slash"
+            baseColor={color.red}
+          />
+        </View>
 
-      <View style={styles.screenHeader}>
-        <View style={{flex: 1}}>
+        <View style={styles.screenHeader}>
           <CInput
             value={search}
             onChangeText={text => setSearch(text)}
-            mainContainerStyle={{marginBottom: 0}}
+            mainContainerStyle={{marginBottom: 0, flex: 1}}
+            placeholder="Search by headline,etc"
+            multiline={false}
+            inputStyle={{
+              flex: 1,
+              minWidth: '100%',
+              paddingVertical: 0,
+            }}
             inputViewStyle={{height: 35}}
-            placeholder="Search by headline,bio or title"
+            returnKeyType="search"
+            onSubmitEditing={() => refetch()}
+            blurOnSubmit
           />
+          <TouchableOpacity
+            ref={filterBtnRef}
+            activeOpacity={0.7}
+            style={styles.filterBtn}
+            onPress={() => setPopoverAnchor(filterBtnRef)}>
+            <Text style={styles.filterText}>{filter?.label}</Text>
+            <Icon
+              type={Icons.Feather}
+              name="chevron-down"
+              size={16}
+              color={color.black}
+            />
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          ref={filterBtnRef}
-          activeOpacity={0.7}
-          style={styles.filterBtn}
-          onPress={() => setPopoverAnchor(filterBtnRef)}>
-          <Text style={styles.filterText}>{filter?.label}</Text>
-          <Icon
-            type={Icons.Feather}
-            name="chevron-down"
-            size={16}
-            color={color.black}
-          />
-        </TouchableOpacity>
-      </View>
 
-      {isLoading ? (
-        <View style={styles.emptyComponeemptyComponentnt}>
-          <ActivityIndicator size="large" color={color.primary} />
-        </View>
-      ) : (
-        <View style={{flex: 1}}>
-          <FlatList
-            data={applicants}
-            renderItem={({item}) => (
-              <ApplicantRow
-                item={item}
-                onUpdate={() => openModal(item)}
-                navigation={navigation}
-              />
-            )}
-            keyExtractor={item => item.transaction_id}
-            contentContainerStyle={styles.listContent}
-            showsVerticalScrollIndicator={false}
-            onEndReached={loadMore}
-            onEndReachedThreshold={0.5}
-            refreshing={isRefetching}
-            onRefresh={refetch}
-            ListEmptyComponent={
-              <View style={styles.emptyComponent}>
-                <Text style={styles.emptyText}>No Applicant found</Text>/
-              </View>
-            }
-            ListFooterComponent={
-              isFetchingNextPage ? (
-                <ActivityIndicator color={color.primary} />
-              ) : null
-            }
-          />
-        </View>
-      )}
+        {isLoading ? (
+          <View style={styles.emptyComponeemptyComponentnt}>
+            <ActivityIndicator size="large" color={color.primary} />
+          </View>
+        ) : (
+          <View style={{flex: 1}}>
+            <FlatList
+              data={applicants}
+              renderItem={({item}) => (
+                <ApplicantRow
+                  item={item}
+                  onUpdate={() => openModal(item)}
+                  navigation={navigation}
+                />
+              )}
+              keyExtractor={item => item.transaction_id}
+              contentContainerStyle={styles.listContent}
+              showsVerticalScrollIndicator={false}
+              onEndReached={loadMore}
+              onEndReachedThreshold={0.5}
+              refreshing={isRefetching}
+              onRefresh={refetch}
+              ListEmptyComponent={
+                <View style={styles.emptyComponent}>
+                  <Text style={styles.emptyText}>No Applicant found</Text>/
+                </View>
+              }
+              ListFooterComponent={
+                isFetchingNextPage ? (
+                  <ActivityIndicator color={color.primary} />
+                ) : null
+              }
+            />
+          </View>
+        )}
+      </KeyboardAvoidingView>
       <Popover
         isVisible={!!popoverAnchor}
         from={popoverAnchor}

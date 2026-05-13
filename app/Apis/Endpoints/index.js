@@ -200,6 +200,14 @@ export const businessEndPoint = {
     method: 'PUT',
     uri: '/jobs/mobile/applications/branch/applicants',
   },
+  matchingResume:{
+    method: 'POST',
+    uri: '/jobs/matching-resume/search',
+  },
+  resumeGenerate:{
+    method: 'GET',
+    uri: '/jobs/resume/generate',
+  }
 };
 
 export const jobEndPoint = {
