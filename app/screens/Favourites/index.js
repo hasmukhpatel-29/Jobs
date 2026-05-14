@@ -31,6 +31,7 @@ export default function Favourites() {
           renderItem={({item}) => (
             <JobCard item={item} toggleSaveJob={toggleSaveJob} />
           )}
+          contentContainerStyle={styles.contentContainerStyle}
           refreshing={isRefetching}
           onRefresh={refetch}
           ListEmptyComponent={

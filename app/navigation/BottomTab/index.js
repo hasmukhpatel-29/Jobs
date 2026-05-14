@@ -1,6 +1,7 @@
 import React, {useRef} from 'react';
-import {View, TouchableOpacity, Text} from 'react-native';
+import {View, TouchableOpacity, Text, StyleSheet, useColorScheme} from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import {BlurView} from '@react-native-community/blur';
 import {useThemeContext} from '@contexts/themeContext';
 import {fontFamily} from '@config/theme';
 import GetStyles from './styles';
@@ -13,6 +14,7 @@ export default function BottomTabBar({
 }) {
   const {color} = useThemeContext();
   const styles = GetStyles();
+  const colorScheme = useColorScheme();
 
   const tabRefs = useRef([]);
 
@@ -54,6 +56,12 @@ export default function BottomTabBar({
 
   return (
     <View style={styles.tabContainer}>
+      <BlurView
+        style={StyleSheet.absoluteFill}
+        blurType={colorScheme === 'light' ? "light" : "dark"}
+        blurAmount={20}
+        reducedTransparencyFallbackColor="white"
+      />
       <View style={styles.tabBar}>
         {state.routes.map((route, index) => {
           const isFocused = state.index === index;

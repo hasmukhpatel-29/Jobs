@@ -20,6 +20,7 @@ const GetStyles = () => {
     },
     scrollContent: {
       padding: size.moderateScale(16),
+      paddingBottom: 100,
     },
     grid: {
       flexDirection: 'row',
@@ -227,11 +228,11 @@ const GetStyles = () => {
       fontFamily: fontFamily.regular,
     },
     emptyContainer: {alignItems: 'center'},
-    emptyText:{
+    emptyText: {
       fontSize: fontSize.small,
       color: color.gray900,
       fontFamily: fontFamily.regular,
-    }
+    },
   });
 };
 export default GetStyles;

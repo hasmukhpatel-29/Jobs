@@ -8,6 +8,7 @@ const GetStyles = () => {
       backgroundColor: color.white,
       flex: 1,
     },
+    contentContainerStyle: {paddingBottom: 100},
   });
 };
 export default GetStyles;

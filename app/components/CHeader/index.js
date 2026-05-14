@@ -7,7 +7,6 @@ import {Images} from '@config/Images';
 import {CustomIcon} from '@config/LoadIcons';
 import {size} from '@config/Sizes';
 import {useThemeContext} from '@contexts/themeContext';
-// import {isLiquidGlassSupported, LiquidGlassView} from '@callstack/liquid-glass';
 import useGlobalStore from '@zustand/store';
 import {getImageUrl} from '@utils/commonFunction';
 import Icon, {Icons} from '@config/Icons';
@@ -59,25 +58,18 @@ export const CHeader = React.memo(props => {
                 disabled={isDisabled}
                 style={styles.backButton}
                 onPress={onBackPress ? onBackPress : () => navigation.goBack()}>
-                {/* {isLiquidGlassSupported ? (
-                  <LiquidGlassView effect="clear" interactive>
-                    <CustomIcon
-                      name="leftArrow"
-                      size={size.moderateScale(18)}
-                      color={color.black}
-                    />
-                  </LiquidGlassView>
-                ) : ( */}
                 <CustomIcon
                   name="leftArrow"
                   size={size.moderateScale(18)}
                   color={color.black}
                 />
-                {/* )} */}
               </TouchableOpacity>
             )}
             {drawer && (
-              <TouchableOpacity activeOpacity={0.8} onPress={openDrawer}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={openDrawer}
+                hitSlop={20}>
                 <Icon
                   type={Icons.Feather}
                   name="menu"

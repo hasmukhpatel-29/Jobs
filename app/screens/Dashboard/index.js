@@ -68,6 +68,7 @@ const Dashboard = ({openDrawer}) => {
           renderItem={({item}) => (
             <JobCard item={item} toggleSaveJob={handleToggleSaveJob} />
           )}
+          contentContainerStyle={styles.contentContainerStyle}
           onEndReached={() => {
             if (hasNextPage && !isFetchingNextPage) {
               fetchNextPage();

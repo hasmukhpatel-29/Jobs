@@ -118,7 +118,7 @@ export default function Profile({navigation}) {
     <View style={styles.mainView}>
       <CHeader title={userData?.seaneb_id || 'Profile'} />
       {isAuthenticated && (
-        <ScrollView contentContainerStyle={{paddingBottom: 80}}>
+        <ScrollView contentContainerStyle={styles.contentContainerStyle}>
           <View style={styles.profileMainCont}>
             <View style={styles.profileCont}>
               <CImage

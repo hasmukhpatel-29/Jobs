@@ -7,12 +7,21 @@ const GetStyles = () => {
   const IOS = Platform.OS === 'ios';
   return StyleSheet.create({
     tabContainer: {
-      backgroundColor: color.white,
       shadowColor: '#000',
       shadowOffset: {width: 0, height: 2},
       shadowOpacity: IOS ? 0.32 : 0.32,
       shadowRadius: IOS ? 4.9 : 20,
       elevation: 7,
+      position: 'absolute',
+      bottom: 20,
+      left: 20,
+      right: 20,
+      borderRadius: 50,
+      borderWidth: 1,
+      borderColor: color.borderColor,
+      backgroundColor:
+        Platform.OS === 'android' ? 'rgba(0,0,0,0.01)' : color.transparent,
+      overflow: 'hidden',
     },
     bottomTabIcons: {
       fontSize: fontSize.middleSmallMedium,

@@ -171,6 +171,7 @@ export default function BusinessProfile({navigation}) {
         </View>
       </View>
       <ScrollView
+        contentContainerStyle={styles.contentContainerStyle}
         style={{
           paddingHorizontal: size.moderateScale(10),
           marginTop: size.moderateScale(20),

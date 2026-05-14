@@ -138,6 +138,7 @@ const GetStyles = () => {
       fontFamily: fontFamily.regular,
       color: color.black,
     },
+    contentContainerStyle: {paddingBottom: 100},
   });
 };
 export default GetStyles;

@@ -130,6 +130,7 @@ const GetStyles = () => {
       color: color.primary,
     },
     skillCont: {flexDirection: 'row', gap: 10, flexWrap: 'wrap'},
+    contentContainerStyle: {paddingBottom: 180},
   });
 };
 
