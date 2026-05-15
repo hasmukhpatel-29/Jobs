@@ -78,8 +78,8 @@ export const CButton = ({
             <Text
               style={[
                 Typography.buttomLabel,
-                buttonLabelStyle,
                 styles.outLineLabel,
+                buttonLabelStyle,
               ]}>
               {label}
             </Text>

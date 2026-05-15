@@ -188,7 +188,7 @@ export const businessEndPoint = {
     method: 'POST',
     uri: '/jobs/mobile/applications/branch/applicants',
   },
-  applicantProfile:{
+  applicantProfile: {
     method: 'GET',
     uri: '/jobs/mobile/applications/branch/applicants',
   },
@@ -200,11 +200,11 @@ export const businessEndPoint = {
     method: 'PUT',
     uri: '/jobs/mobile/applications/branch/applicants',
   },
-  matchingResume:{
+  matchingResume: {
     method: 'POST',
     uri: '/jobs/matching-resume/search',
   },
-  resumeGenerate:{
+  resumeGenerate: {
     method: 'GET',
     uri: '/jobs/resume/generate',
   }
@@ -238,6 +238,10 @@ export const jobEndPoint = {
   myApplications: {
     method: 'GET',
     uri: '/applications/my-applications',
+  },
+  withdrawApplyJob: {
+    method: 'DELETE',
+    uri: '/applications/withdraw',
   },
   createJob: {
     method: 'POST',

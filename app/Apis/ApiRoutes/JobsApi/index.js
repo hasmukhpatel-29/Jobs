@@ -101,6 +101,26 @@ export const applyJobApi = async jobId => {
     throw error;
   }
 };
+export const withdrawApplyJobApi = async jobId => {
+  const endpoint = jobEndPoint.withdrawApplyJob;
+  const url = `${endpoint.uri}/${jobId}`;
+
+  try {
+    const response = await getApiData(url, endpoint.method, {}, false, true);
+
+    if (!response?.success) {
+      throw new Error(response?.error?.message || 'Failed to withdraw job');
+    }
+
+    return response;
+  } catch (error) {
+    Toast.show({
+      type: 'error',
+      text1: error?.message || 'Something went wrong',
+    });
+    throw error;
+  }
+};
 
 export const getMyApplicantList = async () => {
   const endpoint = jobEndPoint.myApplications;

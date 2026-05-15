@@ -1,12 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import {ScrollView, Text, View, Modal, TouchableOpacity} from 'react-native';
 import {loginModalRef} from '@navigation/mainStackNavigation';
 import {CHeader} from '@components/CHeader';
 import Toast from '@components/CToast';
 import CImage from '@components/CImage';
 import {CButton} from '@components/CButton';
 import CardSkeleton from '@components/Skeleton/CardSkeleton';
-import {applyJobApi, jobDetailsApi} from '@apis/ApiRoutes/JobsApi';
+import {size} from '@config/Sizes';
+import {
+  applyJobApi,
+  jobDetailsApi,
+  withdrawApplyJobApi,
+} from '@apis/ApiRoutes/JobsApi';
 import {CustomIcon} from '@config/LoadIcons';
 import {GetStatusColor, getTimeAgo} from '@utils/commonFunction';
 import {useToggleSaveJob} from '@hooks/useToggleSaveJob';
@@ -46,6 +51,8 @@ const JobDetails = ({route}) => {
 
   const [jobData, setJobData] = useState({});
   const [applyLoading, setApplyLoading] = useState(false);
+  const [withdrawLoading, setWithdrawLoading] = useState(false);
+  const [withdrawModalVisible, setWithdrawModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const isAuthenticated = useGlobalStore(s => {
     return s.isAuthenticated;
@@ -71,6 +78,30 @@ const JobDetails = ({route}) => {
     } catch (e) {
     } finally {
       setApplyLoading(false);
+    }
+  };
+
+  const handleWithdraw = async () => {
+    try {
+      setWithdrawLoading(true);
+      const res = await withdrawApplyJobApi(
+        jobData?.application_details?.application_id,
+      );
+
+      if (res?.success) {
+        setJobData(prev => ({
+          ...prev,
+          already_applied: false,
+          application_status: null,
+        }));
+        Toast.show({
+          type: 'success',
+          text1: 'Application withdrawn successfully!',
+        });
+      }
+    } catch (e) {
+    } finally {
+      setWithdrawLoading(false);
     }
   };
 
@@ -171,7 +202,24 @@ const JobDetails = ({route}) => {
 
   return (
     <View style={styles.root}>
-      <CHeader title="Job Details" back />
+      <CHeader
+        title="Job Details"
+        back
+        options={{
+          headerRight: () => (
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => handleToggleSaveJob(jobData?.job_id)}
+              style={{padding: size.moderateScale(5)}}>
+              <CustomIcon
+                name={jobData?.is_saved ? 'likeFilled' : 'like'}
+                size={size.moderateScale(20)}
+                color={color.black}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
       {loading ? (
         <CardSkeleton count={4} />
       ) : !jobData?.job_id ? (
@@ -553,6 +601,16 @@ const JobDetails = ({route}) => {
               }}
               buttonStyle={styles.saveBtn}
             />
+            {jobData?.already_applied && (
+              <CButton
+                label="Withdraw Application"
+                onPress={() => setWithdrawModalVisible(true)}
+                loading={withdrawLoading}
+                buttonStyle={[styles.saveBtn, {borderColor: color.red}]}
+                buttonLabelStyle={{color: color.red}}
+                outLineBtn
+              />
+            )}
             <View style={styles.divider} />
             <DetailRow label="Salary" value={jobData?.ctc} />
             <DetailRow label="Type" value={jobData?.job_type} />
@@ -570,15 +628,81 @@ const JobDetails = ({route}) => {
           </View>
         </ScrollView>
       )}
-      {jobData?.job_id && (
-        <CButton
-          label={jobData?.application_status || 'Apply Now'}
-          onPress={handleApply}
-          disabled={jobData?.already_applied || applyLoading}
-          loading={applyLoading}
-          buttonStyle={styles.floatingBtn}
-        />
-      )}
+      {jobData?.job_id &&
+        (jobData?.already_applied ? (
+          <CButton
+            label="Withdraw Appliacation"
+            onPress={() => setWithdrawModalVisible(true)}
+            loading={withdrawLoading}
+            buttonStyle={[styles.floatingBtn, {backgroundColor: color.red}]}
+          />
+        ) : (
+          <CButton
+            label={jobData?.application_status || 'Apply Now'}
+            onPress={handleApply}
+            disabled={applyLoading}
+            loading={applyLoading}
+            buttonStyle={styles.floatingBtn}
+          />
+        ))}
+      <Modal
+        visible={withdrawModalVisible}
+        transparent={true}
+        animationType="fade"
+        statusBarTranslucent
+        onRequestClose={() => setWithdrawModalVisible(false)}>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeaderRow}>
+              <View style={styles.warningIconCont}>
+                <Icon
+                  type={Icons.AntDesign}
+                  name="warning"
+                  size={24}
+                  color={color.isRejected}
+                />
+              </View>
+              <View style={{flex: 1}}>
+                <Text style={styles.modalTitle}>Withdraw Application?</Text>
+                <Text style={styles.modalSubtitle}>
+                  This action cannot be undone.
+                </Text>
+              </View>
+            </View>
+
+            <Text style={styles.modalDesc}>
+              You are about to withdraw your application for "{jobData?.title}".
+              The employer will no longer see your application, and you will
+              need to re-apply if you change your mind.
+            </Text>
+
+            <View style={styles.modalBtnRow}>
+              <TouchableOpacity
+                style={styles.keepBtn}
+                onPress={() => setWithdrawModalVisible(false)}
+                activeOpacity={0.7}>
+                <Text style={styles.keepBtnText}>Keep Application</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.yesWithdrawBtn}
+                onPress={() => {
+                  setWithdrawModalVisible(false);
+                  handleWithdraw();
+                }}
+                activeOpacity={0.7}>
+                <Icon
+                  type={Icons.Entypo}
+                  name="block"
+                  size={16}
+                  color={color.white}
+                />
+                <Text style={styles.yesWithdrawBtnText}>Yes, Withdraw</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
