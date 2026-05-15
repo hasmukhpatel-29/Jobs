@@ -7,14 +7,17 @@ import CardSkeleton from '@components/Skeleton/CardSkeleton';
 import {getSavedJobList} from '@apis/ApiRoutes/JobsApi';
 import {useToggleSaveJob} from '@hooks/useToggleSaveJob';
 import GetStyles from './styles';
+import useGlobalStore from '@zustand/store';
 
 export default function Favourites() {
   const styles = GetStyles();
   const toggleSaveJob = useToggleSaveJob();
+  const isAuthenticated = useGlobalStore(state => state.isAuthenticated);
 
   const {data, isLoading, refetch, isRefetching} = useQuery({
     queryKey: ['saveJobs'],
     queryFn: getSavedJobList,
+    enabled: !!isAuthenticated,
   });
 
   const jobs = data?.data ?? [];

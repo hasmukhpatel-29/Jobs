@@ -20,7 +20,7 @@ const SplashScreen = ({navigation}) => {
 
     setTimeout(() => {
       navigation.reset({
-        routes: [{name: 'UserTab'}],
+        routes: [{name: 'Login'}],
       });
     }, 1500);
   }, []);
@@ -28,10 +28,7 @@ const SplashScreen = ({navigation}) => {
   return (
     <>
       <View style={styles.container}>
-        <Image
-          style={styles.imgStyle}
-          source={Images.darkLogo}
-        />
+        <Image style={styles.imgStyle} source={Images.darkLogo} />
 
         <Animated.View
           style={[

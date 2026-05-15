@@ -1,4 +1,5 @@
 import React from 'react';
+import {Platform} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -27,6 +28,8 @@ import MatchedResumes from '@screens/Business/MatchedResumes';
 import JobEmployerDetails from '@screens/Business/JobEmployerDetails';
 import CLoginModal from '@components/CLoginModal';
 
+const IOS = Platform.OS === 'ios';
+
 const Stack = createStackNavigator();
 
 export const navigationRef = React.createRef();
@@ -47,12 +50,16 @@ export const MainStackNavigation = () => {
       },
     },
   };
-
   return (
     <SafeAreaProvider>
       <NavigationContainer ref={navigationRef} linking={linking}>
         <Stack.Navigator
-          screenOptions={{headerShown: false}}
+          screenOptions={{
+            animationEnabled: true,
+            gestureEnabled: IOS,
+            animation: 'fade',
+            headerShown: false,
+          }}
           initialRouteName={isAuthenticated ? 'UserTab' : 'SplashScreen'}>
           <Stack.Screen name="UserTab" component={CustomDrawer} />
           <Stack.Screen name="BusinessTab" component={CustomDrawer} />

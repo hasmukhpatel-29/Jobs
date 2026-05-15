@@ -11,7 +11,7 @@ import {size} from '@config/Sizes';
 import useGlobalStore from '@zustand/store';
 import {profileAllDetailsApi} from '@apis/ApiRoutes/UserProfileApi';
 import {useThemeContext} from '@contexts/themeContext';
-import {getImageUrl} from '@utils/commonFunction';
+import {getImageUrl, openWebsite} from '@utils/commonFunction';
 import GetStyles from './styles';
 
 const addressFields = [
@@ -110,14 +110,16 @@ export default function Profile({navigation}) {
 
   useFocusEffect(
     useCallback(() => {
-      getProfileDetails();
-    }, []),
+      if (isAuthenticated) {
+        getProfileDetails();
+      }
+    }, [isAuthenticated]),
   );
 
   return (
     <View style={styles.mainView}>
       <CHeader title={userData?.seaneb_id || 'Profile'} />
-      {isAuthenticated && (
+      {isAuthenticated ? (
         <ScrollView contentContainerStyle={styles.contentContainerStyle}>
           <View style={styles.profileMainCont}>
             <View style={styles.profileCont}>
@@ -144,7 +146,10 @@ export default function Profile({navigation}) {
             <CButton
               label="Add Business"
               onPress={() => {
-                navigation.navigate('BusinessForm');
+                const url =
+                  'https://jobs.seaneb.app/auth/login?prompt=login&target_product=jobs&redirect_url=https%3A%2F%2Fjobs.seaneb.com';
+                openWebsite(url);
+                // navigation.navigate('BusinessForm');
               }}
               buttonLabelStyle={{fontSize: fontSize.verySmall}}
               buttonStyle={{marginVertical: size.moderateScale(10)}}
@@ -241,6 +246,18 @@ export default function Profile({navigation}) {
             </View>
           </View>
         </ScrollView>
+      ) : (
+        <View style={styles.loginContainer}>
+          <Text style={styles.loginTitle}>Please Log In to Continue</Text>
+          <Text style={styles.loginSubtitle}>
+            Please login to view your profile and manage your career details.
+          </Text>
+          <CButton
+            label="Log In"
+            onPress={() => navigation.navigate('Login')}
+            buttonStyle={styles.loginBtn}
+          />
+        </View>
       )}
     </View>
   );

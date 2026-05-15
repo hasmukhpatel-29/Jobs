@@ -39,7 +39,7 @@ const CLoginModal = React.forwardRef((props, ref) => {
       animationOut="zoomOut"
       onBackdropPress={closeFun}>
       <View style={styles.modalContainer}>
-        <CImage src={Images?.imgSplashImage} style={styles.appImage} />
+        <CImage src={Images?.appLogo} style={styles.appImage} />
         <TouchableOpacity
           activeOpacity={0.9}
           onPress={closeFun}

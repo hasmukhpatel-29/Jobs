@@ -131,6 +131,29 @@ const GetStyles = () => {
     },
     skillCont: {flexDirection: 'row', gap: 10, flexWrap: 'wrap'},
     contentContainerStyle: {paddingBottom: 180},
+    loginContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingHorizontal: size.moderateScale(20),
+    },
+    loginTitle: {
+      fontSize: fontSize.large,
+      fontFamily: fontFamily.bold,
+      color: color.black,
+      marginBottom: size.moderateScale(10),
+      textAlign: 'center',
+    },
+    loginSubtitle: {
+      fontSize: fontSize.smallerMedium,
+      fontFamily: fontFamily.regular,
+      color: color.gray900,
+      textAlign: 'center',
+      marginBottom: size.moderateScale(30),
+    },
+    loginBtn: {
+      width: '100%',
+    },
   });
 };
 
