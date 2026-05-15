@@ -155,8 +155,8 @@ const JobCard = ({item, toggleSaveJob, myApplicant}) => {
         )}
       </View>
 
-      {item?.business_details && (
-        <View style={styles.footer}>
+      <View style={styles.footer}>
+        {item?.business_details && (
           <View style={styles.businessCont}>
             <View style={styles.imgContainer}>
               <CImage
@@ -176,15 +176,16 @@ const JobCard = ({item, toggleSaveJob, myApplicant}) => {
               </Text>
             </View>
           </View>
-          <CButton
-            label={item?.application_status || 'Apply Now'}
-            onPress={handleApply}
-            disabled={item?.already_applied || applyLoading}
-            loading={applyLoading}
-            buttonStyle={styles.btnStyle}
-          />
-        </View>
-      )}
+        )}
+
+        <CButton
+          label={item?.application_status || 'Apply Now'}
+          onPress={handleApply}
+          disabled={item?.already_applied || applyLoading}
+          loading={applyLoading}
+          buttonStyle={styles.btnStyle}
+        />
+      </View>
       {item?.job && (
         <View style={styles.footer}>
           <View style={styles.headerView}>

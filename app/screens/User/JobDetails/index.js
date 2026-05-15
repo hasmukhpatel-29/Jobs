@@ -482,56 +482,58 @@ const JobDetails = ({route}) => {
             </View>
           )}
 
-          <View style={styles.card}>
-            <Text style={styles.sectionTitle}>About the Company</Text>
-            <View style={styles.divider} />
+          {jobData?.business_details && (
+            <View style={styles.card}>
+              <Text style={styles.sectionTitle}>About the Company</Text>
+              <View style={styles.divider} />
 
-            <View style={styles.companyRow}>
-              <CImage
-                src={jobData?.business_details?.branch_logo}
-                style={styles.companyLogo}
-              />
-              <View>
-                <Text style={styles.companyName}>
-                  {jobData?.business_details?.display_name}
-                </Text>
+              <View style={styles.companyRow}>
+                <CImage
+                  src={jobData?.business_details?.branch_logo}
+                  style={styles.companyLogo}
+                />
+                <View>
+                  <Text style={styles.companyName}>
+                    {jobData?.business_details?.display_name}
+                  </Text>
 
-                <View style={styles.row}>
-                  <CustomIcon name="location" size={14} color={color.black} />
-                  <Text style={styles.label}>
-                    {jobData?.business_details?.city_name}
+                  <View style={styles.row}>
+                    <CustomIcon name="location" size={14} color={color.black} />
+                    <Text style={styles.label}>
+                      {jobData?.business_details?.city_name}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <Text style={styles.value}>
+                {jobData?.business_details?.about_branch}
+              </Text>
+              <View style={styles.divider} />
+              <View style={styles.infoRow}>
+                <View style={styles.iconBox}>
+                  <CustomIcon name="location" size={16} color={color.black} />
+                </View>
+                <View>
+                  <Text style={styles.label}>ADDRESS</Text>
+                  <Text style={styles.value}>
+                    {jobData?.business_details?.address}
+                  </Text>
+                </View>
+              </View>
+
+              <View style={styles.infoRow}>
+                <View style={styles.iconBox}>
+                  <CustomIcon name="call" size={16} />
+                </View>
+                <View>
+                  <Text style={styles.label}>CONTACT</Text>
+                  <Text style={styles.value}>
+                    {jobData?.business_details?.primary_number}
                   </Text>
                 </View>
               </View>
             </View>
-            <Text style={styles.value}>
-              {jobData?.business_details?.about_branch}
-            </Text>
-            <View style={styles.divider} />
-            <View style={styles.infoRow}>
-              <View style={styles.iconBox}>
-                <CustomIcon name="location" size={16} color={color.black} />
-              </View>
-              <View>
-                <Text style={styles.label}>ADDRESS</Text>
-                <Text style={styles.value}>
-                  {jobData?.business_details?.address}
-                </Text>
-              </View>
-            </View>
-
-            <View style={styles.infoRow}>
-              <View style={styles.iconBox}>
-                <CustomIcon name="call" size={16} />
-              </View>
-              <View>
-                <Text style={styles.label}>CONTACT</Text>
-                <Text style={styles.value}>
-                  {jobData?.business_details?.primary_number}
-                </Text>
-              </View>
-            </View>
-          </View>
+          )}
 
           <View style={styles.card}>
             <Text style={styles.sectionTitle}>Apply for this position</Text>

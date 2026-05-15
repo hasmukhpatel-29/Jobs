@@ -23,15 +23,9 @@ export const openWebsite = url => {
       ? url
       : `https://${url}`;
 
-  Linking.canOpenURL(formattedUrl)
-    .then(supported => {
-      if (!supported) {
-        Alert.alert('Error', 'Unable to open website');
-        return;
-      }
-      return Linking.openURL(formattedUrl);
-    })
-    .catch(() => Alert.alert('Error', 'Unable to open website'));
+  Linking.openURL(formattedUrl).catch(() =>
+    Alert.alert('Error', 'Unable to open website'),
+  );
 };
 export const redirectToLogin = () => {
   navigationRef?.current?.reset({

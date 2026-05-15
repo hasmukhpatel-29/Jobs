@@ -1,3 +1,9 @@
+import Auto from '@assets/svg/auto.svg';
+import Jobs from '@assets/svg/jobs.svg';
+import Ngo from '@assets/svg/ngo.svg';
+import News from '@assets/svg/news.svg';
+import Property from '@assets/svg/property.svg';
+import Tiffin from '@assets/svg/tiffin.svg';
 export const OtpOptions = [
   {
     id: 1,
@@ -167,4 +173,81 @@ export const statusOptions = [
 export const sortArray = [
   {label: 'High - Low', value: 'DESC'},
   {label: 'Low - High', value: 'ASC'},
+];
+
+export const SIDEBAR_DATA = [
+  {id: 'job_category', title: 'JOB CATEGORY'},
+  {id: 'salary_range', title: 'SALARY RANGE'},
+  {id: 'work_mode', title: 'WORK MODE'},
+  {id: 'job_type', title: 'JOB TYPE'},
+  {id: 'experience', title: 'EXPERIENCE'},
+];
+
+export const OPTIONS_DATA = {
+  job_category: [
+    {id: 'it', label: 'Information Technology', count: 32},
+    {id: 'beauty', label: 'Beauty & Cosmetology', count: 3},
+  ],
+  salary_range: [
+    {id: '0-3', label: '0 - 3 LPA'},
+    {id: '3-6', label: '3 - 6 LPA'},
+    {id: '6-10', label: '6 - 10 LPA'},
+    {id: '10plus', label: '10+ LPA'},
+  ],
+  work_mode: [
+    {id: 'office', label: 'Work From Office'},
+    {id: 'remote', label: 'Remote'},
+    {id: 'hybrid', label: 'Hybrid'},
+  ],
+  job_type: [
+    {id: 'full_time', label: 'Full Time'},
+    {id: 'part_time', label: 'Part Time'},
+    {id: 'internship', label: 'Internship'},
+    {id: 'contract', label: 'Contract'},
+  ],
+  experience: [
+    {id: 'fresher', label: 'Fresher'},
+    {id: '1-3', label: '1 - 3 Years'},
+    {id: '3-5', label: '3 - 5 Years'},
+    {id: '5plus', label: '5+ Years'},
+  ],
+};
+
+export const productData = [
+  {
+    id: '1',
+    title: 'Tiffin',
+    Icon: Tiffin,
+    url: 'https://www.tiffinservice.app/',
+  },
+  {
+    id: '2',
+    title: 'Jobs',
+    Icon: Jobs,
+    url: 'https://jobs.seaneb.com/',
+  },
+  {
+    id: '3',
+    title: 'Auto',
+    Icon: Auto,
+    url: 'https://auto.seaneb.com/',
+  },
+  {
+    id: '4',
+    title: 'Property',
+    Icon: Property,
+    url: 'https://property.seaneb.com/',
+  },
+  {
+    id: '5',
+    title: 'News',
+    Icon: News,
+    url: 'https://news.seaneb.com/',
+  },
+  {
+    id: '6',
+    title: 'NGO',
+    Icon: Ngo,
+    url: 'https://ngo.seaneb.com/',
+  },
 ];

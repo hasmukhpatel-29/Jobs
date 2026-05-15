@@ -41,6 +41,7 @@ export const colors = {
     customWhite: opacity => `rgba(255, 255, 255,${opacity ?? 1})`,
     customBlack: opacity => `rgba(0, 0, 0,${opacity ?? 1})`,
     commonLightWhite: opacity => `rgba(255, 255, 255,${opacity ?? 1})`,
+    gradientSubtle: ['#f2f5f8', '#f3f2f8'],
   },
   darkThem: {
     white: 'rgba(0,0,0,1)',
@@ -80,6 +81,7 @@ export const colors = {
     customWhite: opacity => `rgba(0, 0, 0,${opacity ?? 1})`,
     customBlack: opacity => `rgba(255, 255, 255,${opacity ?? 1})`,
     commonLightWhite: opacity => `rgba(255, 255, 255,${opacity ?? 1})`,
+    gradientSubtle: ['#181f25', '#1b1825'],
   },
 };
 
