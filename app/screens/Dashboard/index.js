@@ -94,7 +94,6 @@ const Dashboard = ({openDrawer}) => {
         title="Dashboard"
         drawer
         openDrawer={openDrawer}
-        showBusiness
         options={{
           headerRight: () => (
             <>

@@ -42,12 +42,14 @@ const GetStyles = () => {
     },
     description: {
       fontSize: fontSize.smallerMedium,
-      color: color.textColor,
-      fontFamily: fontFamily.regular,
+      color: color.black,
+      fontFamily: fontFamily.light,
     },
     tagsContainer: {
       flexDirection: 'row',
       marginTop: 10,
+      flexWrap: 'wrap',
+      gap: 10,
     },
     tag: {
       backgroundColor: color.gray,

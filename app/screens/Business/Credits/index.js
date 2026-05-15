@@ -8,11 +8,12 @@ import {
 } from 'react-native';
 import Popover from 'react-native-popover-view';
 import {CHeader} from '@components/CHeader';
+import {CButton} from '@components/CButton';
 import {useThemeContext} from '@contexts/themeContext';
 import Icon, {Icons} from '@config/Icons';
 import {creditTypes} from '@config/staticData';
 import {useCreditBalance, useCreditHistory} from '@apis/ApiRoutes/Business';
-import {downloadInvoice, getImageUrl} from '@utils/commonFunction';
+import {downloadInvoice, getImageUrl, openWebsite} from '@utils/commonFunction';
 import GetStyles from './styles';
 
 const Credits = () => {
@@ -132,10 +133,24 @@ const Credits = () => {
   return (
     <View style={styles.root}>
       <CHeader title="Credits" back />
+      <CButton
+        outLineBtn
+        label="Manage Credit"
+        iconName="add"
+        buttonStyle={styles.manageCreditButton}
+        onPress={() => {
+          const url =
+            'https://jobs.seaneb.app/auth/login?prompt=login&target_product=jobs&redirect_url=https%3A%2F%2Fjobs.seaneb.com';
+          openWebsite(url);
+        }}
+      />
+
       {!isBalanceLoading && (
         <View style={styles.summaryCard}>
           <Text style={styles.balanceLabel}>Available Credits</Text>
-          <Text style={styles.balanceValue}>{balanceData?.balance ?? 0} </Text>
+          <Text style={styles.balanceValue}>
+            {balanceData?.available_credits ?? 0}{' '}
+          </Text>
         </View>
       )}
 

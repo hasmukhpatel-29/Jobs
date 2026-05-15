@@ -7,7 +7,6 @@ import {CButton} from '@components/CButton';
 import Toast from '@components/CToast';
 import {CustomIcon} from '@config/LoadIcons';
 import {size} from '@config/Sizes';
-import Icon, {Icons} from '@config/Icons';
 import {useThemeContext} from '@contexts/themeContext';
 import {GetStatusColor, getTimeAgo} from '@utils/commonFunction';
 import {useApplyJob} from '@hooks/useApplyJob';
@@ -113,11 +112,10 @@ const JobCard = ({item, toggleSaveJob, myApplicant}) => {
             onPress={() => {
               toggleSaveJob(item?.job_id);
             }}>
-            <Icon
-              type={Icons.FontAwesome}
-              name={item?.is_saved ? 'bookmark' : 'bookmark-o'}
+            <CustomIcon
+              name={!item?.is_saved ? 'like' : 'likeFilled'}
               size={size.moderateScale(18)}
-              color={color?.black}
+              color={item?.is_saved ? color?.red : color?.black}
             />
           </TouchableOpacity>
         )}

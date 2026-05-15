@@ -25,14 +25,11 @@ export const CHeader = React.memo(props => {
     title,
     isUploading,
     profileImg,
-    showBusiness,
     drawer,
     openDrawer,
   } = props;
 
   const userData = useGlobalStore(s => s.userData);
-  const userMeData = useGlobalStore.getState().userMeData;
-  const userRole = useGlobalStore.getState().userRole;
 
   const navigation = useNavigation();
   const styles = GetStyles();
@@ -113,27 +110,7 @@ export const CHeader = React.memo(props => {
         )}
       </View>
 
-      <View style={styles.profileContainer}>
-        {options?.headerRight?.()}
-        {showBusiness && userMeData?.is_business_registered && (
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => {
-              if (userRole === 'user') {
-                useGlobalStore.getState().setUserRole('business');
-                navigation.navigate('BusinessTab');
-              } else {
-                useGlobalStore.getState().setUserRole('user');
-                navigation.navigate('UserTab');
-              }
-            }}>
-            <CImage
-              src={getImageUrl(userData?.avatar) || Images.imgDefaultUser}
-              style={styles.profileImg}
-            />
-          </TouchableOpacity>
-        )}
-      </View>
+      <View style={styles.profileContainer}>{options?.headerRight?.()}</View>
     </View>
   );
 });

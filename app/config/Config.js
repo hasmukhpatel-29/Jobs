@@ -5,11 +5,12 @@ import {
   PRODUCT_KEY,
   IMAGE_STORAGE_URL,
   JOB_URL,
+  JOB_DEV_URL,
 } from '@env';
 
 export const Config = {
   API_URL: IS_STAGING === 'true' ? DEV_URL : CENTRAL_URL,
-  JOB_URL,
+  JOB_URL: IS_STAGING === 'true' ? JOB_DEV_URL : JOB_URL,
   IS_STAGING: IS_STAGING,
   PRODUCT_KEY,
   IMAGE_STORAGE_URL,

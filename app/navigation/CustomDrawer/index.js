@@ -280,7 +280,22 @@ const CustomDrawer = ({route, navigation}) => {
               <Tab.Screen name="Favourites">
                 {props => <Favourites {...props} openDrawer={openDrawer} />}
               </Tab.Screen>
-              <Tab.Screen name="Profile">
+              <Tab.Screen
+                name="Profile"
+                listeners={{
+                  tabLongPress: e => {
+                    e.preventDefault();
+                    const hasActiveBranch =
+                      userMeData?.onboarding?.branches?.some(
+                        branch =>
+                          branch.branch_status == 1 &&
+                          branch.onboarding_status == 1,
+                      );
+                    if (hasActiveBranch) {
+                      setShowModal(true);
+                    }
+                  },
+                }}>
                 {props => <Profile {...props} openDrawer={openDrawer} />}
               </Tab.Screen>
             </>

@@ -2,12 +2,12 @@
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, ScrollView, Text, View} from 'react-native';
 import {CHeader} from '@components/CHeader';
+import {StatCard} from '@components/StatCard';
 import useGlobalStore from '@zustand/store';
 import {useThemeContext} from '@contexts/themeContext';
 import {businessDashboardApi, getBusinessList} from '@apis/ApiRoutes/Business';
 import {getTimeAgo} from '@utils/commonFunction';
 import GetStyles from './styles';
-import {StatCard} from '@components/StatCard';
 
 export default function BusinessDiscover({openDrawer}) {
   const styles = GetStyles();
@@ -63,7 +63,7 @@ export default function BusinessDiscover({openDrawer}) {
 
   return (
     <View style={styles.root}>
-      <CHeader showBusiness title="Dashboard" drawer openDrawer={openDrawer} />
+      <CHeader title="Dashboard" drawer openDrawer={openDrawer} />
       {loading ? (
         <View style={styles.loaderContainer}>
           <ActivityIndicator size="large" color={color.primary} />

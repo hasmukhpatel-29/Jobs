@@ -113,9 +113,9 @@ const GetStyles = () => {
       marginBottom: size.moderateScale(4),
     },
     refText: {
-      fontFamily: fontFamily.regular,
+      fontFamily: fontFamily.light,
       fontSize: fontSize.verySmallMedium,
-      color: color.gray200,
+      color: color.black,
     },
     cardFooter: {
       flexDirection: 'row',
@@ -126,9 +126,9 @@ const GetStyles = () => {
       borderTopColor: color.borderColor,
     },
     dateText: {
-      fontFamily: fontFamily.regular,
+      fontFamily: fontFamily.light,
       fontSize: fontSize.verySmall,
-      color: color.gray200,
+      color: color.black,
     },
     actionContainer: {
       flexDirection: 'row',
@@ -209,7 +209,8 @@ const GetStyles = () => {
       backgroundColor: color.white,
       marginHorizontal: size.moderateScale(16),
       marginTop: size.moderateScale(16),
-      padding: size.moderateScale(15),
+      paddingVertical: size.moderateScale(10),
+      paddingHorizontal: size.moderateScale(16),
       borderRadius: size.moderateScale(12),
       borderWidth: 1,
       borderColor: color.borderColor,
@@ -231,6 +232,10 @@ const GetStyles = () => {
       fontFamily: fontFamily.bold,
       fontSize: fontSize.littleMedium,
       color: color.black,
+    },
+    manageCreditButton: {
+      marginHorizontal: size.moderateScale(16),
+      marginTop: size.moderateScale(16),
     },
   });
 };

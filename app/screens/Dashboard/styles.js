@@ -8,6 +8,7 @@ const GetStyles = () => {
   return StyleSheet.create({
     root: {
       flex: 1,
+      backgroundColor: color.white,
     },
     contentContainerStyle: {paddingBottom: 100},
     menuContainer: {
