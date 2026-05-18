@@ -176,6 +176,7 @@ export const sortArray = [
 ];
 
 export const SIDEBAR_DATA = [
+  {id: 'location', title: 'LOCATION'},
   {id: 'job_category', title: 'JOB CATEGORY'},
   {id: 'salary_range', title: 'SALARY RANGE'},
   {id: 'work_mode', title: 'WORK MODE'},
@@ -195,18 +196,18 @@ export const OPTIONS_DATA = {
     {id: '10plus', label: '10+ LPA'},
   ],
   work_mode: [
-    {id: 'office', label: 'Work From Office'},
-    {id: 'remote', label: 'Remote'},
-    {id: 'hybrid', label: 'Hybrid'},
+    {id: 'On-site', label: 'Work From Office'},
+    {id: 'Remote', label: 'Remote'},
+    {id: 'Hybrid', label: 'Hybrid'},
   ],
   job_type: [
-    {id: 'full_time', label: 'Full Time'},
-    {id: 'part_time', label: 'Part Time'},
-    {id: 'internship', label: 'Internship'},
-    {id: 'contract', label: 'Contract'},
+    {id: 'Full-time', label: 'Full Time'},
+    {id: 'Part-time', label: 'Part Time'},
+    {id: 'Internship', label: 'Internship'},
+    {id: 'Contract', label: 'Contract'},
   ],
   experience: [
-    {id: 'fresher', label: 'Fresher'},
+    {id: 'Fresher', label: 'Fresher'},
     {id: '1-3', label: '1 - 3 Years'},
     {id: '3-5', label: '3 - 5 Years'},
     {id: '5plus', label: '5+ Years'},

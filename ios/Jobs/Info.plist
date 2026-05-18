@@ -35,7 +35,7 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string>App wants access your location to show relevant jobs near you</string>
 	<key>NSCameraUsageDescription</key>
 	<string>App wants access your camera for taking and uploading photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>

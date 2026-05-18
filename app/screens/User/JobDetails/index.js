@@ -236,7 +236,7 @@ const JobDetails = ({route}) => {
                   style={styles.companyLogo}
                 />
               </View>
-              <Text style={styles.companyName}>
+              <Text style={styles.companyName} numberOfLines={2}>
                 {jobData?.business_details?.display_name}
               </Text>
               <Text style={styles.dot}>•</Text>

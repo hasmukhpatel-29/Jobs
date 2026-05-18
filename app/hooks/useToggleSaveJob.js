@@ -1,6 +1,19 @@
 import {useQueryClient} from '@tanstack/react-query';
 import {saveJobApi} from '@apis/ApiRoutes/JobsApi';
 
+const updatePagesData = (oldData, jobId) => {
+  if (!oldData?.pages) return oldData;
+  return {
+    ...oldData,
+    pages: oldData.pages.map(page => ({
+      ...page,
+      data: page.data.map(job =>
+        job.job_id === jobId ? {...job, is_saved: !job.is_saved} : job,
+      ),
+    })),
+  };
+};
+
 export const useToggleSaveJob = () => {
   const queryClient = useQueryClient();
 
@@ -8,24 +21,15 @@ export const useToggleSaveJob = () => {
     try {
       await saveJobApi(jobId);
 
-      // Update Dashboard (jobs)
-      queryClient.setQueryData(['jobs'], oldData => {
-        if (!oldData) return oldData;
+      queryClient.setQueriesData({queryKey: ['jobs'], exact: false}, oldData =>
+        updatePagesData(oldData, jobId),
+      );
+      queryClient.setQueriesData(
+        {queryKey: ['jobsSearch'], exact: false},
+        oldData => updatePagesData(oldData, jobId),
+      );
 
-        return {
-          ...oldData,
-          pages: oldData.pages.map(page => ({
-            ...page,
-            data: page.data.map(job =>
-              job.job_id === jobId
-                ? {...job, is_saved: !job.is_saved}
-                : job,
-            ),
-          })),
-        };
-      });
-
-      // Update Favourites
+      // Update Favourites list
       queryClient.setQueryData(['saveJobs'], oldData => {
         if (!oldData) return oldData;
 
@@ -39,17 +43,23 @@ export const useToggleSaveJob = () => {
           };
         }
 
-        // add if saved
-        const jobFromDashboard =
-          queryClient
-            .getQueryData(['jobs'])
-            ?.pages?.flatMap(p => p.data)
+        // add if saved — try to grab the job object from any cached jobs query
+        const allCachedQueries = queryClient.getQueriesData({
+          queryKey: ['jobs'],
+          exact: false,
+        });
+        let jobFromDashboard;
+        for (const [, data] of allCachedQueries) {
+          jobFromDashboard = data?.pages
+            ?.flatMap(p => p.data)
             ?.find(j => j.job_id === jobId);
+          if (jobFromDashboard) break;
+        }
 
         return {
           ...oldData,
           data: jobFromDashboard
-            ? [jobFromDashboard, ...oldData.data]
+            ? [{...jobFromDashboard, is_saved: true}, ...oldData.data]
             : oldData.data,
         };
       });

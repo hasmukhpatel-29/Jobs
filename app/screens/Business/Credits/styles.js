@@ -87,6 +87,10 @@ const GetStyles = () => {
       backgroundColor: `${color.green}30`,
       borderColor: color.green,
     },
+    badgeFreeGrant: {
+      backgroundColor: `${color.purple}30`,
+      borderColor: color.purple,
+    },
     badgeText: {
       fontFamily: fontFamily.medium,
       fontSize: fontSize.verySmall,
@@ -97,6 +101,9 @@ const GetStyles = () => {
     },
     textPurchase: {
       color: color.green,
+    },
+    textFreeGrant: {
+      color: color.purple,
     },
     creditText: {
       fontFamily: fontFamily.bold,

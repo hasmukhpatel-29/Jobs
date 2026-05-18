@@ -54,35 +54,40 @@ const Credits = () => {
 
   const renderTransaction = ({item}) => {
     const isUsage = item.type === 'USAGE';
+    const isFreeGrant = item.type === 'FREE_GRANT';
+
+    const getStatusColor = () => {
+      if (isUsage) return color.orange;
+      if (isFreeGrant) return color.purple;
+      return color.green;
+    };
+
+    const getBadgeStyle = () => {
+      if (isUsage) return styles.badgeUsage;
+      if (isFreeGrant) return styles.badgeFreeGrant;
+      return styles.badgePurchase;
+    };
+
+    const getTextStyle = () => {
+      if (isUsage) return styles.textUsage;
+      if (isFreeGrant) return styles.textFreeGrant;
+      return styles.textPurchase;
+    };
 
     return (
       <View style={styles.card}>
         <View style={styles.cardHeader}>
-          <View
-            style={[
-              styles.badge,
-              isUsage ? styles.badgeUsage : styles.badgePurchase,
-            ]}>
+          <View style={[styles.badge, getBadgeStyle()]}>
             <Icon
               type={Icons.Feather}
               name={isUsage ? 'arrow-down' : 'arrow-up'}
               size={16}
-              color={isUsage ? color.orange : color.green}
+              color={getStatusColor()}
             />
-            <Text
-              style={[
-                styles.badgeText,
-                isUsage ? styles.textUsage : styles.textPurchase,
-              ]}>
-              {item?.type}
-            </Text>
+            <Text style={[styles.badgeText, getTextStyle()]}>{item?.type}</Text>
           </View>
 
-          <Text
-            style={[
-              styles.creditText,
-              isUsage ? styles.textUsage : styles.textPurchase,
-            ]}>
+          <Text style={[styles.creditText, getTextStyle()]}>
             {item.credits > 0 ? `+${item.credits}` : item.credits}
           </Text>
         </View>
@@ -91,9 +96,11 @@ const Credits = () => {
           <Text style={styles.title} numberOfLines={2}>
             {item?.description}
           </Text>
-          <Text style={styles.refText} numberOfLines={1}>
-            Ref: {item?.reference_id}
-          </Text>
+          {item?.reference_id && (
+            <Text style={styles.refText} numberOfLines={1}>
+              Ref: {item?.reference_id}
+            </Text>
+          )}
         </View>
 
         <View style={styles.cardFooter}>

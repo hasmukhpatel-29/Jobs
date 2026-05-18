@@ -64,7 +64,7 @@ const GetStyles = () => {
       fontFamily: fontFamily.regular,
     },
     profileView: {
-      marginTop: -size.moderateScale(18),
+      marginTop: -size.moderateScale(10),
       paddingHorizontal: size.moderateScale(10),
     },
     businessImgCont: {
@@ -79,6 +79,8 @@ const GetStyles = () => {
       justifyContent: 'center',
       backgroundColor: color.blue,
       overflow: 'hidden',
+      borderWidth: 1,
+      borderColor: color.borderColor,
     },
     businessIconImage: {
       color: color.black,

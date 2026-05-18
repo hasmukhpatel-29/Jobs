@@ -247,4 +247,8 @@ export const jobEndPoint = {
     method: 'POST',
     uri: '/jobs/mobile/create',
   },
+  popularJobCategory: {
+    method: 'GET',
+    uri: '/job-category/popular',
+  },
 };

@@ -10,7 +10,7 @@ const GetStyles = () => {
   return StyleSheet.create({
     modalContainer: {
       flex: 1,
-      backgroundColor: color.background,
+      backgroundColor: color.cardColor,
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
       overflow: 'hidden',
@@ -23,12 +23,12 @@ const GetStyles = () => {
       paddingVertical: 15,
       borderBottomWidth: 1,
       borderBottomColor: color.borderColor,
-      backgroundColor: color.white,
+      backgroundColor: color.cardColor,
     },
     headerTitle: {
       fontSize: fontSize.middleLargeMedium,
       fontFamily: fontFamily.bold,
-      color: color.secondary,
+      color: color.black,
     },
     clearAllText: {
       fontSize: fontSize.small,
@@ -51,7 +51,7 @@ const GetStyles = () => {
       position: 'relative',
     },
     activeSidebarItem: {
-      backgroundColor: color.white,
+      backgroundColor: color.cardColor,
     },
     sidebarIndicator: {
       position: 'absolute',
@@ -74,8 +74,6 @@ const GetStyles = () => {
       fontFamily: fontFamily.semiBold,
       color: color.black,
       flex: 1,
-      // textTransform: 'uppercase',
-      // letterSpacing: 0.5,
     },
     activeSidebarLabel: {
       color: color.primary,
@@ -98,7 +96,7 @@ const GetStyles = () => {
     },
     contentArea: {
       flex: 1,
-      backgroundColor: color.white,
+      backgroundColor: color.cardColor,
     },
     sectionContent: {
       padding: 15,
@@ -117,7 +115,7 @@ const GetStyles = () => {
       flexWrap: 'wrap',
     },
     chip: {
-      backgroundColor: color.white,
+      backgroundColor: color.cardColor,
       borderWidth: 1,
       borderColor: color.borderColor,
       borderRadius: 100,
@@ -154,7 +152,7 @@ const GetStyles = () => {
       paddingBottom: 35,
       borderTopWidth: 1,
       borderTopColor: color.borderColor,
-      backgroundColor: color.white,
+      backgroundColor: color.cardColor,
     },
     closeButton: {
       flex: 1,
@@ -167,21 +165,79 @@ const GetStyles = () => {
     },
     applyButton: {
       flex: 1.5,
-      // backgroundColor: color.primary,
-      // paddingVertical: 14,
-      // borderRadius: 10,
-      // alignItems: 'center',
-      // justifyContent: 'center',
-      // elevation: 4,
-      // shadowColor: color.primary,
-      // shadowOffset: {width: 0, height: 4},
-      // shadowOpacity: 0.3,
-      // shadowRadius: 6,
     },
     applyButtonText: {
       fontSize: fontSize.small,
       fontFamily: fontFamily.bold,
       color: color.commonWhite,
+    },
+    // Location Styles
+    locationSearchContainer: {
+      marginBottom: 20,
+    },
+    locationInputWrapper: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: color.sheetColor,
+      borderWidth: 1,
+      borderColor: color.borderColor,
+      borderRadius: 12,
+      paddingHorizontal: 12,
+      height: 48,
+    },
+    locationInput: {
+      flex: 1,
+      height: 48,
+      color: color.black,
+      fontFamily: fontFamily.medium,
+      fontSize: 14,
+      marginLeft: 8,
+    },
+    currentLocationBtn: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: color.sheetColor,
+      borderWidth: 1,
+      borderColor: color.borderColor,
+      borderRadius: 12,
+      padding: 12,
+      marginBottom: 25,
+    },
+    currentLocationIcon: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: 'rgba(34, 197, 94, 0.1)',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: 12,
+    },
+    currentLocationContent: {
+      flex: 1,
+    },
+    currentLocationTitle: {
+      fontSize: 14,
+      fontFamily: fontFamily.bold,
+      color: '#22C55E',
+    },
+    currentLocationText: {
+      fontSize: 12,
+      fontFamily: fontFamily.medium,
+      color: color.gray200,
+      marginTop: 2,
+    },
+    locationResultItem: {
+      paddingVertical: 15,
+      borderBottomWidth: 1,
+      borderBottomColor: color.borderColor,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    locationResultText: {
+      fontSize: 14,
+      fontFamily: fontFamily.medium,
+      color: color.black,
+      marginLeft: 10,
     },
   });
 };

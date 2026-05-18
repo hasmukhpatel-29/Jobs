@@ -42,6 +42,7 @@ const GetStyles = () => {
       fontSize: fontSize.smallerMedium,
       color: color.gray900,
       fontFamily: fontFamily.semiBold,
+      flexShrink: 1,
     },
     jobStatus: {
       fontSize: fontSize.smallerMedium,

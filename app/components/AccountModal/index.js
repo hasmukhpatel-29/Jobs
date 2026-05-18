@@ -44,7 +44,6 @@ export default function AccountModal({visible, onClose}) {
       business_id: b.business_id,
       data: b.branches || [],
     })) || [];
-  console.info('🚀 ~ AccountModal ~ businessList:', businessList);
 
   return (
     <Modal

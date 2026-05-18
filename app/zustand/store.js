@@ -28,6 +28,8 @@ const useGlobalStore = create(
       setActiveBranchId: id => set({activeBranchId: id}),
       businessData: null,
       setBusinessData: response => set({businessData: response}),
+      selectedCity: 'Anand',
+      setSelectedCity: city => set({selectedCity: city}),
       reset: () =>
         set({
           isAuthenticated: false,
@@ -41,6 +43,7 @@ const useGlobalStore = create(
           activeBusinessId: '',
           activeBranchId: '',
           businessData: null,
+          selectedCity: 'Anand',
         }),
     }),
     {
