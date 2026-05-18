@@ -8,7 +8,7 @@ import React, {
 import {View, Text} from 'react-native';
 import {CodeField, Cursor} from 'react-native-confirmation-code-field';
 import {CButton} from '@components/CButton';
-import CTab from '@components/CTab';
+import CRadio from '@components/CRadio';
 import Toast from '@components/CToast';
 import {CustomIcon} from '@config/LoadIcons';
 import {OtpOptions} from '@config/staticData';
@@ -32,7 +32,7 @@ const COTPInput = forwardRef((props, ref) => {
   const [timeExpired, setTimeExpired] = useState(false);
   const [time, setTime] = useState('00:00');
   const [btnLoader, setBtnLoader] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(OtpOptions[0]?.value);
+  const [selectedOption, setSelectedOption] = useState(OtpOptions[0]);
 
   const countdown = useRef(null);
 
@@ -121,23 +121,28 @@ const COTPInput = forwardRef((props, ref) => {
       />
       {timeExpired ? (
         <>
-          <CTab
-            data={OtpOptions}
-            valueProp="value"
-            labelProp="label"
-            selectedTab={selectedOption}
-            onPress={option => {
+          <CRadio
+            options={OtpOptions}
+            handleOptionSelect={option => {
               setSelectedOption(option);
             }}
-            style={styles.tabStyle}
+            selectedOption={selectedOption}
+            style={styles.radioButtonContainer}
           />
           <CButton
             label="Resend OTP"
             disabled={btnLoader}
+            loading={btnLoader}
             linkBtn
-            onPress={() => {
+            onPress={async () => {
               setBtnLoader(true);
-              onResend(selectedOption);
+              try {
+                await onResend(selectedOption?.value);
+              } catch (e) {
+                console.error(e);
+              } finally {
+                setBtnLoader(false);
+              }
             }}
             buttonLabelStyle={styles.resendButton}
           />

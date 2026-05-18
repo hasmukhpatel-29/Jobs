@@ -74,11 +74,14 @@ const GetStyles = () => {
       alignItems: 'center',
       paddingVertical: 20,
     },
-		profileImage: {
-			height: size.moderateScale(90),
-			width: size.moderateScale(90),
-			borderRadius: size.moderateScale(45),
-		},
+    profileImage: {
+      backgroundColor: color.commonWhite,
+      borderWidth: 1,
+      borderColor: color.borderColor,
+      height: size.moderateScale(90),
+      width: size.moderateScale(90),
+      borderRadius: size.moderateScale(45),
+    },
     profileImageUploadBtn: {
       position: 'absolute',
       bottom: size.moderateScale(2),
@@ -91,7 +94,7 @@ const GetStyles = () => {
       justifyContent: 'center',
     },
     uploadModal: {
-			backgroundColor: color.white,
+      backgroundColor: color.white,
       padding: 20,
     },
     uploadModalIconAndTextContainer: {

@@ -109,5 +109,12 @@ export const GetStyles = () => {
       fontFamily: fontFamily.regular,
       fontSize: fontSize.small,
     },
+    radioButtonContainer: {
+      flexDirection: 'row',
+      marginVertical: size.moderateScale(20),
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: size.moderateScale(20),
+    },
   });
 };

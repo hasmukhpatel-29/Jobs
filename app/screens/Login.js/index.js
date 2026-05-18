@@ -13,7 +13,7 @@ import {phoneSchema} from '@zod/validationSchema';
 import CImage from '@components/CImage';
 import CInput from '@components/CInput';
 import {CButton} from '@components/CButton';
-import CTab from '@components/CTab';
+import CRadio from '@components/CRadio';
 import Toast from '@components/CToast';
 import {useThemeContext} from '@contexts/themeContext';
 import {OtpOptions} from '@config/staticData';
@@ -30,7 +30,7 @@ export default function Login({navigation}) {
   const [countryCode, setCountryCode] = useState('IN');
   const [phoneCode, setPhoneCode] = useState('+91');
 
-  const [selectedOption, setSelectedOption] = useState(OtpOptions[0]?.value);
+  const [selectedOption, setSelectedOption] = useState(OtpOptions[0]);
   const [btnLoader, setBtnLoader] = useState(false);
 
   const {
@@ -46,7 +46,7 @@ export default function Login({navigation}) {
     const data = {
       mobile_number: data1.phone,
       country_code: phoneCode,
-      via: selectedOption,
+      via: selectedOption?.value,
       purpose: 0,
     };
     const resp = await generateOtp(data);
@@ -89,15 +89,13 @@ export default function Login({navigation}) {
             <Text style={styles.title}>Find Jobs and Hire Talent Easily</Text>
 
             <Text style={styles.title1}>The confirmation code was sent on</Text>
-            <CTab
-              data={OtpOptions}
-              valueProp="value"
-              labelProp="label"
-              selectedTab={selectedOption}
-              onPress={option => {
+            <CRadio
+              options={OtpOptions}
+              handleOptionSelect={option => {
                 setSelectedOption(option);
               }}
-              style={styles.tabStyle}
+              selectedOption={selectedOption}
+              style={styles.radioButtonContainer}
             />
 
             <Controller

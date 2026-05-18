@@ -72,6 +72,13 @@ const GetStyles = () => {
     resendButton: {
       color: color.red,
     },
+    radioButtonContainer: {
+      flexDirection: 'row',
+      marginVertical: size.moderateScale(20),
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: size.moderateScale(20),
+    },
   });
 };
 export default GetStyles;

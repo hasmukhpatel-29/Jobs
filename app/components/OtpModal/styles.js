@@ -75,6 +75,13 @@ const GetStyles = () => {
       width: '100%',
       marginTop: 10,
     },
+    radioButtonContainer: {
+      flexDirection: 'row',
+      marginVertical: size.moderateScale(20),
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: size.moderateScale(20),
+    },
     resendOtpText: {
       color: color.red,
       fontSize: fontSize.verySmall,

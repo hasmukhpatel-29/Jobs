@@ -9,7 +9,7 @@ import {
   Platform,
 } from 'react-native';
 import {CodeField, Cursor} from 'react-native-confirmation-code-field';
-import CTab from '@components/CTab';
+import CRadio from '@components/CRadio';
 import {CButton} from '@components/CButton';
 import Toast from '@components/CToast';
 import {OtpOptions} from '@config/staticData';
@@ -34,7 +34,7 @@ const OtpModal = ({
   const styles = GetStyles();
 
   const [otp, setOtp] = useState('');
-  const [selectedOption, setSelectedOption] = useState('whatsapp');
+  const [selectedOption, setSelectedOption] = useState(OtpOptions[0]);
   const [time, setTime] = useState('00:00');
   const [timeExpired, setTimeExpired] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
@@ -66,7 +66,7 @@ const OtpModal = ({
 
   const initModal = async () => {
     setOtp('');
-    setSelectedOption('whatsapp');
+    setSelectedOption(OtpOptions[0]);
 
     const success = await sendOtp();
 
@@ -108,7 +108,7 @@ const OtpModal = ({
           mobile_number: valueToVerify,
           country_code: countryCode,
           purpose,
-          via: selectedOption,
+          via: selectedOption?.value || selectedOption,
         };
 
         const res = await generateOtp(body);
@@ -152,7 +152,7 @@ const OtpModal = ({
           mobile_number: valueToVerify,
           country_code: countryCode,
           purpose: purpose,
-          via: selectedOption,
+          via: selectedOption?.value || selectedOption,
         };
         const res = await verifyOtp(body);
         resMsg = res;
@@ -179,7 +179,11 @@ const OtpModal = ({
   };
 
   return (
-    <Modal visible={showModal} transparent animationType="slide">
+    <Modal
+      visible={showModal}
+      transparent
+      animationType="slide"
+      statusBarTranslucent>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={styles.modalOverlay}>
@@ -229,15 +233,12 @@ const OtpModal = ({
           </View>
 
           {type === 'mobile' && timeExpired && (
-            <View style={styles.tabStyle}>
-              <CTab
-                data={OtpOptions}
-                valueProp="value"
-                labelProp="label"
-                selectedTab={selectedOption}
-                onPress={option => setSelectedOption(option)}
-              />
-            </View>
+            <CRadio
+              options={OtpOptions}
+              handleOptionSelect={option => setSelectedOption(option)}
+              selectedOption={selectedOption}
+              style={styles.radioButtonContainer}
+            />
           )}
 
           {timeExpired ? (
