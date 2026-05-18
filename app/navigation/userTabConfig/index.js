@@ -24,6 +24,13 @@ export const userTabConfig = [
     ),
   },
   {
+    name: 'MyApplication',
+    label: 'MyApplication',
+    icon: (isFocused, color) => (
+      <CustomIcon name={'briefcase'} style={{color, fontSize: 22}} />
+    ),
+  },
+  {
     name: 'Profile',
     label: 'Profile',
     icon: (isFocused, color) => (

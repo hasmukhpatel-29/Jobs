@@ -49,10 +49,17 @@ export const getJobList = async ({pageParam = 1, queryKey}) => {
       '5plus': '5+',
     };
     const expStr = mapValues(filters.experience, id => expMapping[id] || id);
-    if (expStr) queryStr += `&experience=${encodeURIComponent(expStr)}`;
+    if (expStr) queryStr += `&experience_range=${encodeURIComponent(expStr)}`;
 
     const categoryStr = mapValues(filters.job_category, id => id);
     if (categoryStr) queryStr += `&category=${encodeURIComponent(categoryStr)}`;
+
+    const salaryMapping = {'10plus': '10+'};
+    const salaryStr = mapValues(
+      filters.salary_range,
+      id => salaryMapping[id] || id,
+    );
+    if (salaryStr) queryStr += `&salary_range=${encodeURIComponent(salaryStr)}`;
 
     if (filters.city) queryStr += `&city=${encodeURIComponent(filters.city)}`;
     if (filters.skills)

@@ -43,13 +43,13 @@ export default function BottomTabBar({
           {tab.icon(isFocused, tabIconColor)}
         </Animatable.View>
 
-        <Text
+        {/* <Text
           style={[
             styles.bottomTabLabels,
             {color: tabIconColor, fontFamily: tabText},
           ]}>
           {tab.label}
-        </Text>
+        </Text> */}
       </>
     );
   };

@@ -14,7 +14,6 @@ import CustomDrawer from '@navigation/CustomDrawer';
 import EditGallery from '@screens/Business/EditGallery';
 import EditBusiness from '@screens/Business/EditBusiness';
 import JobDetails from '@screens/User/JobDetails';
-import MyApplication from '@screens/User/MyApplication';
 import AddressUpdate from '@screens/User/EditProfile/AddressUpdate';
 import EducationUpdate from '@screens/User/EditProfile/EducationUpdate';
 import ExperienceUpdate from '@screens/User/EditProfile/ExperienceUpdate';
@@ -72,7 +71,6 @@ export const MainStackNavigation = () => {
           <Stack.Screen name="EditGallery" component={EditGallery} />
           <Stack.Screen name="EditBusiness" component={EditBusiness} />
           <Stack.Screen name="JobDetails" component={JobDetails} />
-          <Stack.Screen name="MyApplication" component={MyApplication} />
           <Stack.Screen name="AddressUpdate" component={AddressUpdate} />
           <Stack.Screen name="EducationUpdate" component={EducationUpdate} />
           <Stack.Screen name="ExperienceUpdate" component={ExperienceUpdate} />

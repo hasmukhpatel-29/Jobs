@@ -7,14 +7,11 @@ import CImage from '@components/CImage';
 import {CButton} from '@components/CButton';
 import CardSkeleton from '@components/Skeleton/CardSkeleton';
 import {size} from '@config/Sizes';
-import {
-  applyJobApi,
-  jobDetailsApi,
-  withdrawApplyJobApi,
-} from '@apis/ApiRoutes/JobsApi';
+import {jobDetailsApi, withdrawApplyJobApi} from '@apis/ApiRoutes/JobsApi';
 import {CustomIcon} from '@config/LoadIcons';
 import {GetStatusColor, getTimeAgo} from '@utils/commonFunction';
 import {useToggleSaveJob} from '@hooks/useToggleSaveJob';
+import {useApplyJob} from '@hooks/useApplyJob';
 import useGlobalStore from '@zustand/store';
 import Icon, {Icons} from '@config/Icons';
 import {useThemeContext} from '@contexts/themeContext';
@@ -66,15 +63,17 @@ const JobDetails = ({route}) => {
     try {
       setApplyLoading(true);
 
-      const res = await applyJobApi(jobData?.job_id);
+      await applyJob(jobData?.job_id);
 
-      if (res?.success) {
-        setJobData(prev => ({...prev, already_applied: true}));
-        Toast.show({
-          type: 'success',
-          text1: 'Applied successfully!',
-        });
-      }
+      setJobData(prev => ({
+        ...prev,
+        already_applied: true,
+        application_status: 'Applied',
+      }));
+      Toast.show({
+        type: 'success',
+        text1: 'Applied successfully!',
+      });
     } catch (e) {
     } finally {
       setApplyLoading(false);
@@ -143,6 +142,7 @@ const JobDetails = ({route}) => {
     : [];
 
   const toggleSaveJob = useToggleSaveJob();
+  const applyJob = useApplyJob();
   const handleToggleSaveJob = id => {
     if (!isAuthenticated) {
       loginModalRef.current?.open();
@@ -214,7 +214,7 @@ const JobDetails = ({route}) => {
               <CustomIcon
                 name={jobData?.is_saved ? 'likeFilled' : 'like'}
                 size={size.moderateScale(20)}
-                color={color.black}
+                color={jobData?.is_saved ? color.red : color.black}
               />
             </TouchableOpacity>
           ),
@@ -275,9 +275,7 @@ const JobDetails = ({route}) => {
               <Text style={styles.footerText}>
                 Vacancies: {jobData?.vacancies}
               </Text>
-              <Text style={styles.footerText}>
-                Dept: {jobData?.department} developmefhh
-              </Text>
+              <Text style={styles.footerText}>Dept: {jobData?.department}</Text>
             </View>
           </View>
 

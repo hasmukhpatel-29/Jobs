@@ -52,11 +52,13 @@ const GetStyles = () => {
       gap: 10,
     },
     tag: {
-      backgroundColor: color.gray,
+      backgroundColor: `${color.gray200}40`,
       paddingHorizontal: 8,
       paddingVertical: 4,
       borderRadius: 6,
       marginRight: 6,
+      borderWidth: 1,
+      borderColor: color.borderColor,
     },
     tagText: {
       fontSize: fontSize.verySmall,

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Text,
   TextInput,
+  ScrollView,
   Platform,
 } from 'react-native';
 import ReactNativeModal from 'react-native-modal';
@@ -26,9 +27,8 @@ import {getUserProfile, profileMeApi} from '@apis/ApiRoutes/UserProfileApi';
 import {useThemeContext} from '@contexts/themeContext';
 import {CustomIcon} from '@config/LoadIcons';
 import {size} from '@config/Sizes';
-import {productData} from '@config/staticData';
+import {productData, SIDEBAR_DATA} from '@config/staticData';
 import {openWebsite} from '@utils/commonFunction';
-import {fontFamily, fontSize} from '@config/theme';
 import GetStyles from './styles';
 
 const Dashboard = ({openDrawer}) => {
@@ -41,6 +41,7 @@ const Dashboard = ({openDrawer}) => {
 
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState({});
+  const [filterCategoryId, setFilterCategoryId] = useState(null);
   const {selectedCity, setSelectedCity} = useGlobalStore();
   const isAuthenticated = useGlobalStore(s => {
     return s.isAuthenticated;
@@ -169,18 +170,28 @@ const Dashboard = ({openDrawer}) => {
   const handleShowResults = filters => {
     setSelectedFilters(filters);
     setIsFilterVisible(false);
-    // Here you would typically trigger a refetch with the new filters
-    // refetch();
+    setFilterCategoryId(null);
   };
 
   const handleClearFilters = () => {
     setSelectedFilters({});
   };
 
+  // Chips: all SIDEBAR_DATA except location
+  const filterChips = SIDEBAR_DATA.filter(s => s.id !== 'location');
+
+  const openFilterOnCategory = categoryId => {
+    setFilterCategoryId(categoryId);
+    setIsFilterVisible(true);
+  };
+
+  const hasAnyFilter = Object.keys(selectedFilters).some(
+    k => selectedFilters[k]?.length > 0,
+  );
+
   return (
     <View style={styles.root}>
       <CHeader
-        // headerLogo
         drawer
         openDrawer={openDrawer}
         options={{
@@ -188,12 +199,7 @@ const Dashboard = ({openDrawer}) => {
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => setIsFilterVisible(true)}
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginLeft: 15,
-                marginTop: 2,
-              }}>
+              style={styles.headerLocationBtn}>
               <Icon
                 type={Icons.Ionicons}
                 name="location"
@@ -201,13 +207,12 @@ const Dashboard = ({openDrawer}) => {
                 color={color.black}
               />
               <Text
-                style={{
-                  marginLeft: 4,
-                  fontFamily: fontFamily.bold,
-                  fontSize: fontSize.small,
-                  color: color.black,
-                }}>
-                {selectedCity}
+                style={
+                  selectedCity
+                    ? styles.headerCityText
+                    : styles.headerCityPlaceholder
+                }>
+                {selectedCity || 'Search location...'}
               </Text>
             </TouchableOpacity>
           ),
@@ -216,21 +221,10 @@ const Dashboard = ({openDrawer}) => {
               <TouchableOpacity
                 activeOpacity={0.7}
                 onPress={() => setIsSearchVisible(true)}
-                style={{marginRight: 15}}>
+                style={styles.headerSearchBtn}>
                 <Icon
                   type={Icons.Ionicons}
                   name="search"
-                  size={24}
-                  color={color.black}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() => setIsFilterVisible(true)}
-                style={{marginRight: 10}}>
-                <Icon
-                  type={Icons.Ionicons}
-                  name="filter"
                   size={24}
                   color={color.black}
                 />
@@ -250,11 +244,73 @@ const Dashboard = ({openDrawer}) => {
         }}
       />
 
+      <View style={styles.filterBar}>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => {
+            setFilterCategoryId(null);
+            setIsFilterVisible(true);
+          }}
+          style={[
+            styles.filterIconBtn,
+            hasAnyFilter && styles.filterIconBtnActive,
+          ]}>
+          <Icon
+            type={Icons.Ionicons}
+            name="options-outline"
+            size={16}
+            color={hasAnyFilter ? color.primary : color.black}
+          />
+          <Text
+            style={[
+              styles.filterIconText,
+              hasAnyFilter && styles.filterIconTextActive,
+            ]}>
+            Filter
+          </Text>
+        </TouchableOpacity>
+
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.filterChipsContent}>
+          {filterChips.map(chip => {
+            const count = (selectedFilters[chip.id] || []).length;
+            const isActive = count > 0;
+            return (
+              <TouchableOpacity
+                key={chip.id}
+                activeOpacity={0.7}
+                onPress={() => openFilterOnCategory(chip.id)}
+                style={[
+                  styles.filterChip,
+                  isActive && styles.filterChipActive,
+                ]}>
+                <Text
+                  style={[
+                    styles.filterChipText,
+                    isActive && styles.filterChipTextActive,
+                  ]}>
+                  {chip.title.replace('_', ' ')}
+                  {isActive ? ` (${count})` : ''}
+                </Text>
+                <Icon
+                  type={Icons.Ionicons}
+                  name="chevron-down"
+                  size={13}
+                  color={isActive ? color.primary : color.black}
+                />
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+      </View>
+
       <ReactNativeModal
         isVisible={isSearchVisible}
         onBackdropPress={() => setIsSearchVisible(false)}
         onBackButtonPress={() => setIsSearchVisible(false)}
-        style={{margin: 0, justifyContent: 'flex-start'}}
+        style={styles.searchModal}
         statusBarTranslucent
         animationIn="slideInUp"
         animationOut="slideOutDown">
@@ -336,28 +392,16 @@ const Dashboard = ({openDrawer}) => {
         isVisible={isFilterVisible}
         onBackdropPress={() => setIsFilterVisible(false)}
         onBackButtonPress={() => setIsFilterVisible(false)}
-        style={{margin: 0, justifyContent: 'flex-end'}}
         statusBarTranslucent
         animationIn="slideInUp"
-        animationOut="slideOutDown">
-        <View style={{height: '90%', width: '100%'}}>
-          <View style={{alignItems: 'center', marginBottom: 10}}>
+        animationOut="slideOutDown"
+        style={styles.filterModal}>
+        <View style={styles.filterSheet}>
+          <View style={styles.filterCloseRow}>
             <TouchableOpacity
               activeOpacity={0.8}
               onPress={() => setIsFilterVisible(false)}
-              style={{
-                backgroundColor: '#333',
-                width: 50,
-                height: 50,
-                borderRadius: 25,
-                justifyContent: 'center',
-                alignItems: 'center',
-                shadowColor: '#000',
-                shadowOffset: {width: 0, height: 2},
-                shadowOpacity: 0.3,
-                shadowRadius: 4,
-                elevation: 5,
-              }}>
+              style={styles.closeIcon}>
               <Icon
                 type={Icons.MaterialCommunityIcons}
                 name="close"
@@ -368,6 +412,7 @@ const Dashboard = ({openDrawer}) => {
           </View>
           <JobFilter
             initialFilters={selectedFilters}
+            initialCategoryId={filterCategoryId}
             onClose={() => setIsFilterVisible(false)}
             onShowResults={handleShowResults}
             onClearAll={handleClearFilters}
@@ -407,7 +452,7 @@ const Dashboard = ({openDrawer}) => {
                     type={Icons.Feather}
                     name="search"
                     size={36}
-                    color="#CBD5E1"
+                    color={color.black}
                   />
                 </View>
                 <Text style={styles.emptyStateTitle}>No matching jobs</Text>
@@ -457,7 +502,7 @@ const Dashboard = ({openDrawer}) => {
             numColumns={3}
             keyExtractor={item => item.id}
             columnWrapperStyle={styles.columnContStyle}
-            ItemSeparatorComponent={<View style={{paddingTop: 20}} />}
+            ItemSeparatorComponent={<View style={styles.itemSeparator} />}
           />
         </View>
       </Popover>

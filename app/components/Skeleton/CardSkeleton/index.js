@@ -5,23 +5,30 @@ import GetStyles from './styles';
 
 const CardSkeleton = ({count = 4}) => {
   const styles = GetStyles();
-  const { width: SCREEN_WIDTH } = Dimensions.get('window');
+  const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
   return (
     <View style={styles.container}>
       {Array.from({length: count}).map((_, index) => (
         <View key={index} style={styles.card}>
-          
           <View style={styles.header}>
             <Skeleton height={40} width={40} borderRadius={8} />
 
             <View style={styles.headerText}>
-              <Skeleton height={14} width={SCREEN_WIDTH * 0.60} />
-              <Skeleton height={12} width={SCREEN_WIDTH * 0.40} style={styles.mt6} />
+              <Skeleton height={14} width={SCREEN_WIDTH * 0.6} />
+              <Skeleton
+                height={12}
+                width={SCREEN_WIDTH * 0.4}
+                style={styles.mt6}
+              />
             </View>
           </View>
 
-          <Skeleton height={18} width={SCREEN_WIDTH * 0.70} style={styles.mt12} />
+          <Skeleton
+            height={18}
+            width={SCREEN_WIDTH * 0.7}
+            style={styles.mt12}
+          />
 
           <View style={styles.infoRow}>
             <Skeleton height={12} width={80} />
@@ -30,8 +37,12 @@ const CardSkeleton = ({count = 4}) => {
           </View>
 
           <View style={styles.mt12}>
-            <Skeleton height={12} width={SCREEN_WIDTH * 1} />
-            <Skeleton height={12} width={SCREEN_WIDTH * 0.90} style={styles.mt6} />
+            <Skeleton height={12} width={SCREEN_WIDTH * 0.8} />
+            <Skeleton
+              height={12}
+              width={SCREEN_WIDTH * 0.8}
+              style={styles.mt6}
+            />
           </View>
 
           <View style={styles.tags}>

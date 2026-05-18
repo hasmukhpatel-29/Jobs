@@ -23,13 +23,16 @@ import GetStyles from './styles';
 
 const JobFilter = ({
   initialFilters = {},
+  initialCategoryId = null,
   onShowResults = () => {},
   onClearAll = () => {},
   onClose = () => {},
 }) => {
   const styles = GetStyles();
   const {color} = useThemeContext();
-  const [activeCategoryId, setActiveCategoryId] = useState(SIDEBAR_DATA[0].id);
+  const [activeCategoryId, setActiveCategoryId] = useState(
+    initialCategoryId || SIDEBAR_DATA[0].id,
+  );
   const [selectedFilters, setSelectedFilters] = useState(initialFilters);
 
   const {selectedCity, setSelectedCity} = useGlobalStore();
@@ -46,6 +49,8 @@ const JobFilter = ({
 
   useEffect(() => {
     setSelectedFilters(initialFilters);
+    // Pre-fill location input with the current city from store or initialFilters
+    setLocationQuery(initialFilters?.city || selectedCity || '');
   }, [initialFilters]);
 
   const handleLocationSearch = async text => {
@@ -197,7 +202,16 @@ const JobFilter = ({
             onChangeText={handleLocationSearch}
           />
           {locationQuery.length > 0 && (
-            <TouchableOpacity onPress={() => handleLocationSearch('')}>
+            <TouchableOpacity
+              onPress={() => {
+                setLocationQuery('');
+                setLocationResults([]);
+                setSelectedFilters(prev => {
+                  const next = {...prev};
+                  delete next.city;
+                  return next;
+                });
+              }}>
               <Icon
                 type={Icons.Ionicons}
                 name="close-circle"
@@ -239,13 +253,13 @@ const JobFilter = ({
             disabled={isLocatingMe}>
             <View style={styles.currentLocationIcon}>
               {isLocatingMe ? (
-                <ActivityIndicator size="small" color="#22C55E" />
+                <ActivityIndicator size="small" color={color.green} />
               ) : (
                 <Icon
                   type={Icons.MaterialIcons}
                   name="my-location"
                   size={20}
-                  color="#22C55E"
+                  color={color.green}
                 />
               )}
             </View>
@@ -388,6 +402,9 @@ const JobFilter = ({
           onPress={() => {
             if (selectedFilters.city) {
               setSelectedCity(selectedFilters.city);
+            } else {
+              // City was cleared — reset selectedCity in store
+              setSelectedCity('');
             }
             setLocationQuery('');
             onShowResults(selectedFilters);

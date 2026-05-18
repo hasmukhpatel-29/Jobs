@@ -27,6 +27,7 @@ import Dashboard from '@screens/Dashboard';
 import Favourites from '@screens/Favourites';
 import BusinessDiscover from '@screens/Business/BusinessDiscover';
 import BusinessProfile from '@screens/Business/BusinessProfile';
+import MyApplication from '@screens/User/MyApplication';
 import CImage from '@components/CImage';
 import {CButton} from '@components/CButton';
 import CommonModal from '@components/CModal/CommonModal';
@@ -279,6 +280,9 @@ const CustomDrawer = ({route, navigation}) => {
               </Tab.Screen>
               <Tab.Screen name="Favourites">
                 {props => <Favourites {...props} openDrawer={openDrawer} />}
+              </Tab.Screen>
+              <Tab.Screen name="MyApplication">
+                {props => <MyApplication {...props} openDrawer={openDrawer} />}
               </Tab.Screen>
               <Tab.Screen
                 name="Profile"

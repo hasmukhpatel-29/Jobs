@@ -5,23 +5,26 @@ import {CHeader} from '@components/CHeader';
 import JobCard from '@components/JobCard';
 import {useQuery} from '@tanstack/react-query';
 import {useToggleSaveJob} from '@hooks/useToggleSaveJob';
-import { getMyApplicantList } from '@apis/ApiRoutes/JobsApi';
+import {getMyApplicantList} from '@apis/ApiRoutes/JobsApi';
+import useGlobalStore from '@zustand/store';
 import GetStyles from './styles';
 
 const MyApplication = ({}) => {
   const styles = GetStyles();
+  const isAuthenticated = useGlobalStore(state => state.isAuthenticated);
   const toggleSaveJob = useToggleSaveJob();
 
   const {data, isLoading, refetch, isRefetching} = useQuery({
     queryKey: ['myApplicants'],
     queryFn: getMyApplicantList,
+    enabled: !!isAuthenticated,
   });
 
   const myApplicant = data?.data ?? [];
 
   return (
     <View style={styles.root}>
-      <CHeader title="My Applicant" back />
+      <CHeader title="My Applicant" />
       {isLoading ? (
         <CardSkeleton count={4} />
       ) : (
