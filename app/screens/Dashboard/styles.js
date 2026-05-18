@@ -8,7 +8,7 @@ const GetStyles = () => {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: color.white,
+      backgroundColor: color.background2,
     },
     contentContainerStyle: {paddingBottom: 100},
     menuContainer: {
@@ -151,7 +151,7 @@ const GetStyles = () => {
       paddingLeft: 12,
       borderBottomWidth: 1,
       borderBottomColor: color.borderColor,
-      backgroundColor: color.white,
+      backgroundColor: color.background2,
     },
     filterIconBtn: {
       flexDirection: 'row',

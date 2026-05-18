@@ -31,6 +31,7 @@ const MyApplication = ({}) => {
         <FlatList
           data={myApplicant}
           keyExtractor={(item, index) => item.job_id || index.toString()}
+          contentContainerStyle={styles.contentContainerStyle}
           renderItem={({item}) => (
             <JobCard item={item} toggleSaveJob={toggleSaveJob} myApplicant />
           )}
@@ -38,9 +39,7 @@ const MyApplication = ({}) => {
           onRefresh={refetch}
           ListEmptyComponent={
             !isLoading && (
-              <Text style={{textAlign: 'center', marginTop: 20}}>
-                No Applicant found
-              </Text>
+              <Text style={styles.emptyText}>No Applicant found</Text>
             )
           }
         />

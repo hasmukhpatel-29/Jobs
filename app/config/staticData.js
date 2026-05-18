@@ -176,12 +176,12 @@ export const sortArray = [
 ];
 
 export const SIDEBAR_DATA = [
-  {id: 'location', title: 'LOCATION'},
-  {id: 'job_category', title: 'JOB CATEGORY'},
-  {id: 'salary_range', title: 'SALARY RANGE'},
-  {id: 'work_mode', title: 'WORK MODE'},
-  {id: 'job_type', title: 'JOB TYPE'},
-  {id: 'experience', title: 'EXPERIENCE'},
+  {id: 'location', title: 'Location'},
+  {id: 'job_category', title: 'Job Category'},
+  {id: 'salary_range', title: 'Salary Range'},
+  {id: 'work_mode', title: 'Work Mode'},
+  {id: 'job_type', title: 'Job Type'},
+  {id: 'experience', title: 'Experience'},
 ];
 
 export const OPTIONS_DATA = {

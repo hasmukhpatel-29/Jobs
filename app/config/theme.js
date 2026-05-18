@@ -43,6 +43,8 @@ export const colors = {
     customBlack: opacity => `rgba(0, 0, 0,${opacity ?? 1})`,
     commonLightWhite: opacity => `rgba(255, 255, 255,${opacity ?? 1})`,
     gradientSubtle: ['#f2f5f8', '#f3f2f8'],
+    background2: '#F2F3F5',
+    cardColor2: 'rgba(255,255,255,1)',
   },
   darkThem: {
     white: 'rgba(0,0,0,1)',
@@ -84,6 +86,8 @@ export const colors = {
     customBlack: opacity => `rgba(255, 255, 255,${opacity ?? 1})`,
     commonLightWhite: opacity => `rgba(255, 255, 255,${opacity ?? 1})`,
     gradientSubtle: ['#181f25', '#1b1825'],
+    background2: '#0F1215',
+    cardColor2: '#252F37',
   },
 };
 

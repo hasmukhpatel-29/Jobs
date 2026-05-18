@@ -39,9 +39,7 @@ export default function Favourites() {
           onRefresh={refetch}
           ListEmptyComponent={
             !isLoading && (
-              <Text style={{textAlign: 'center', marginTop: 20}}>
-                No saved jobs found
-              </Text>
+              <Text style={styles.emptyText}>No saved jobs found</Text>
             )
           }
         />
