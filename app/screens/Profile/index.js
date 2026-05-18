@@ -12,6 +12,8 @@ import useGlobalStore from '@zustand/store';
 import {profileAllDetailsApi} from '@apis/ApiRoutes/UserProfileApi';
 import {useThemeContext} from '@contexts/themeContext';
 import {getImageUrl, openWebsite} from '@utils/commonFunction';
+import CommonModal from '@components/CModal/CommonModal';
+import {logoutApi} from '@apis/ApiRoutes/LoginApi';
 import GetStyles from './styles';
 
 const addressFields = [
@@ -85,12 +87,15 @@ const AddressSection = ({title, data}) => {
 
 export default function Profile({navigation}) {
   const styles = GetStyles();
+  const {color} = useThemeContext();
   const userData = useGlobalStore(s => {
     return s.userData;
   });
   const isAuthenticated = useGlobalStore(s => s.isAuthenticated);
   const [profileDetails, setProfileDetails] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [logoutVisible, setLogoutVisible] = useState(false);
+  const [logoutLoading, setLogoutLoading] = useState(false);
 
   //  Fetch profile details
   const getProfileDetails = async () => {
@@ -118,7 +123,25 @@ export default function Profile({navigation}) {
 
   return (
     <View style={styles.mainView}>
-      <CHeader title={userData?.seaneb_id || 'Profile'} />
+      <CHeader
+        title={userData?.seaneb_id || 'Profile'}
+        options={{
+          headerRight: () =>
+            isAuthenticated ? (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => setLogoutVisible(true)}
+                style={styles.logoutHeaderBtn}>
+                <Icon
+                  type={Icons.MaterialIcons}
+                  name="logout"
+                  size={size.moderateScale(22)}
+                  color={color.red}
+                />
+              </TouchableOpacity>
+            ) : null,
+        }}
+      />
       {isAuthenticated ? (
         <ScrollView contentContainerStyle={styles.contentContainerStyle}>
           <View style={styles.profileMainCont}>
@@ -259,6 +282,44 @@ export default function Profile({navigation}) {
           />
         </View>
       )}
+      <CommonModal
+        isVisible={logoutVisible}
+        childrenViewStyle={styles.modalCont}
+        onReject={() => setLogoutVisible(false)}>
+        <View style={styles.textContainer}>
+          <View style={styles.deleteIcon}>
+            <Icon type={Icons.MaterialIcons} name="logout" color={color.red} />
+          </View>
+          <Text style={styles.deleteAccountText}>Logout</Text>
+          <Text style={styles.titleText}>Are you sure you want to logout?</Text>
+        </View>
+        <View style={styles.btnContainer}>
+          <CButton
+            outLineBtn
+            label="Cancel"
+            buttonStyle={styles.btn}
+            disabled={logoutLoading}
+            onPress={() => setLogoutVisible(false)}
+          />
+          <CButton
+            label="Yes, Logout"
+            buttonStyle={styles.btn}
+            loading={logoutLoading}
+            disabled={logoutLoading}
+            onPress={async () => {
+              try {
+                setLogoutLoading(true);
+                await logoutApi();
+                setLogoutVisible(false);
+              } catch (e) {
+                console.log(e);
+              } finally {
+                setLogoutLoading(false);
+              }
+            }}
+          />
+        </View>
+      </CommonModal>
     </View>
   );
 }

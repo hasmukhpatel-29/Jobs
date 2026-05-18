@@ -115,7 +115,13 @@ const GetStyles = () => {
       marginTop: 10,
       marginBottom: 20,
     },
-    modalCont: {padding: 20, backgroundColor: color.white, borderRadius: 10},
+    modalCont: {
+      padding: 20,
+      backgroundColor: color.white,
+      borderRadius: 10,
+      borderWidth: 1,
+      borderColor: color.borderColor,
+    },
     deleteIcon: {
       padding: 10,
       borderWidth: 1,

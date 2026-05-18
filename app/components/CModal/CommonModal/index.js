@@ -14,9 +14,10 @@ const CommonModal = ({
   return (
     <ReactNativeModal
       isVisible={isVisible}
-      backdropOpacity={0.5}
+      backdropOpacity={0.8}
       animationIn="zoomIn"
       animationOut="zoomOut"
+      statusBarTranslucent
       onBackdropPress={onReject}>
       <View style={[styles.modalMainView, modalMainStyle]}>
         <View style={[childrenViewStyle]}>{children}</View>

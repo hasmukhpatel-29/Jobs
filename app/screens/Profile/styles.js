@@ -154,6 +154,50 @@ const GetStyles = () => {
     loginBtn: {
       width: '100%',
     },
+    modalCont: {
+      padding: 20,
+      backgroundColor: color.white,
+      borderRadius: 10,
+      borderWidth: 1,
+      borderColor: color.borderColor,
+    },
+    textContainer: {
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    deleteIcon: {
+      padding: 10,
+      borderWidth: 1,
+      borderColor: color.red,
+      borderRadius: 10,
+    },
+    deleteAccountText: {
+      fontSize: fontSize.middleSmallMedium,
+      color: color.black,
+      fontFamily: fontFamily.semiBold,
+      marginTop: 10,
+      marginBottom: 20,
+    },
+    titleText: {
+      fontSize: fontSize.smallMedium,
+      color: color.black,
+      fontFamily: fontFamily.regular,
+      marginBottom: 25,
+      lineHeight: 30,
+      textAlign: 'center',
+      width: '80%',
+    },
+    btnContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    btn: {
+      width: '48.5%',
+    },
+    logoutHeaderBtn: {
+      padding: size.moderateScale(5),
+      marginRight: size.moderateScale(10),
+    },
   });
 };
 
