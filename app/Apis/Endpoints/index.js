@@ -102,6 +102,10 @@ export const userProfileEndPoint = {
     method: 'GET',
     uri: '/job-category/all',
   },
+  jobDepartment: {
+    method: 'GET',
+    uri: '/jobs/ai/suggest-departments',
+  },
 };
 
 export const businessRegEndPoint = {
@@ -166,7 +170,7 @@ export const businessEndPoint = {
   },
   manageJob: {
     method: 'GET',
-    uri: '/jobs/mobile/branch',
+    uri: '/jobs/branch',
   },
   creditBalance: {
     method: 'GET',
@@ -207,7 +211,11 @@ export const businessEndPoint = {
   resumeGenerate: {
     method: 'GET',
     uri: '/jobs/resume/generate',
-  }
+  },
+  aiJobDescription: {
+    method: 'POST',
+    uri: '/jobs/ai-description/generate',
+  },
 };
 
 export const jobEndPoint = {

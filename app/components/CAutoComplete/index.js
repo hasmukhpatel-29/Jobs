@@ -58,7 +58,12 @@ const CAutoComplete = ({
       setLoading(true);
 
       try {
-        const payload = ['degree', 'skill', 'jobCategory'].includes(type)
+        const payload = [
+          'degree',
+          'skill',
+          'jobCategory',
+          'jobDepartment',
+        ].includes(type)
           ? {query: text}
           : {input: text};
 
@@ -86,7 +91,8 @@ const CAutoComplete = ({
         item?.job_category_name ||
         '') +
       (item?.state_name ? `, ${item.state_name}` : '') +
-      (item?.country_name ? `, ${item.country_name}` : '');
+      (item?.country_name ? `, ${item.country_name}` : '') +
+      (type === 'jobDepartment' ? item : '');
 
     setQuery(locationText);
     setData([item]);
@@ -126,6 +132,7 @@ const CAutoComplete = ({
           {item?.state_name ? `, ${item?.state_name}` : ''}
           {item?.country_name ? `, ${item?.country_name}` : ''}
           {item?.degree_name} {item?.name} {item?.job_category_name}
+          {type === 'jobDepartment' ? item : ''}
         </Text>
       </TouchableOpacity>
     ),

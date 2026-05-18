@@ -142,6 +142,8 @@ export const autoCompleteCity = async (body, type = 'city') => {
       endpoint = userProfileEndPoint.skillList;
     } else if (type === 'jobCategory') {
       endpoint = userProfileEndPoint.jobCategoryList;
+    } else if (type === 'jobDepartment') {
+      endpoint = userProfileEndPoint.jobDepartment;
     } else {
       endpoint = businessRegEndPoint.autoCompleteBusiness;
     }

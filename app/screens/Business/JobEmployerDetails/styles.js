@@ -157,6 +157,9 @@ const GetStyles = () => {
       fontSize: fontSize.smallerMedium,
       fontFamily: fontFamily.semiBold,
     },
+    contentContainerStyle: {
+      paddingBottom: 40,
+    },
   });
 };
 

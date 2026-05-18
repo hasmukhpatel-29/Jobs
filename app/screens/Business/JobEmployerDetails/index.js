@@ -39,7 +39,7 @@ const JobEmployerDetails = ({route}) => {
           <Text style={styles.emptyText}>No details found</Text>
         </View>
       ) : (
-        <ScrollView>
+        <ScrollView contentContainerStyle={styles.contentContainerStyle}>
           <View style={styles.card}>
             <View style={styles.topRow}>
               <View style={styles.imgContainer}>

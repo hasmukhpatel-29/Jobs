@@ -480,7 +480,6 @@ export const postJobSchema = (isWalkIn, isSingleDay) => {
         department: z.string().min(1, 'Department is required'),
         job_type: z.string().min(1, 'Job type is required'),
         address_line: z.string().min(1, 'Address is required'),
-        location_name: z.string().min(1, 'Location is required'),
         city: z.string().optional(),
         state: z.string().optional(),
         country: z.string().optional(),

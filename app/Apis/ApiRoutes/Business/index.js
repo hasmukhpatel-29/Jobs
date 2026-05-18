@@ -452,3 +452,7 @@ export const resumeGenerateApi = async seekerId => {
     throw error;
   }
 };
+
+export const aiJobDescriptionApi = async payload => {
+  return commonApi(businessEndPoint.aiJobDescription, payload, '', false);
+};
