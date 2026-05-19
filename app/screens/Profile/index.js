@@ -36,7 +36,7 @@ const SectionHeader = ({title, title2, onEdit}) => {
   const {color} = useThemeContext();
   return (
     <View style={styles.sectionHeader}>
-      <View>
+      <View style={{flex: 1, marginRight: size.moderateScale(8)}}>
         <Text style={styles.sectionTitle}>{title}</Text>
         <Text style={styles.sectionTitle2}>{title2}</Text>
       </View>

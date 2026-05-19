@@ -19,7 +19,7 @@ import {useThemeContext} from '@contexts/themeContext';
 import {OtpOptions} from '@config/staticData';
 import {Images} from '@config/Images';
 import {generateOtp} from '@apis/ApiRoutes/LoginApi';
-import {NumberValidation} from '@utils/commonFunction';
+import {NumberValidation, openWebsite} from '@utils/commonFunction';
 import {GetStyles} from './styles';
 
 export default function Login({navigation}) {
@@ -137,12 +137,21 @@ export default function Login({navigation}) {
                 By continue, you agree to our
               </Text>
               <View style={styles.termsLinkContainer}>
-                <Text style={styles.termLinkText}>
-                  End User Licence Agreement
-                </Text>
-                <Text style={styles.termLinkText}>Terms of Service</Text>
-                <Text style={styles.termLinkText}>Privacy Policy</Text>
-                <Text style={styles.termLinkText}>Content Policy</Text>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() =>
+                    openWebsite('https://jobs.seaneb.com/terms-and-conditions/')
+                  }>
+                  <Text style={styles.termLinkText}>Terms & Conditions</Text>
+                </TouchableOpacity>
+                <Text style={styles.continueText}>and</Text>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() =>
+                    openWebsite('https://jobs.seaneb.com/privacy-policy/')
+                  }>
+                  <Text style={styles.termLinkText}>Privacy Policy</Text>
+                </TouchableOpacity>
               </View>
             </View>
           </View>

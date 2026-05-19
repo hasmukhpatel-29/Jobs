@@ -7,7 +7,7 @@ const GetStyles = () => {
   const {color} = useThemeContext();
   return StyleSheet.create({
     mainView: {
-      flexGrow: 1,
+      flex: 1,
       backgroundColor: color.background2,
     },
     profileMainCont: {

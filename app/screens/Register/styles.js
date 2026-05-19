@@ -11,6 +11,7 @@ const GetStyles = () => {
       backgroundColor: color.white,
       flex: 1,
       paddingHorizontal: size.moderateScale(20),
+      paddingTop: size.moderateScale(30),
     },
     innerMainView: {
       flexGrow: 1,
@@ -78,8 +79,9 @@ const GetStyles = () => {
     },
     container: {
       flexDirection: 'row',
-      alignItems: 'flex-start',
+      alignItems: 'center',
       gap: size.moderateScale(10),
+      marginVertical: size.moderateScale(15),
     },
     termsText: {
       color: color.gray900,

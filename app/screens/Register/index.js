@@ -25,7 +25,7 @@ import useGlobalStore from '@zustand/store';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {registerSchema} from '@zod/validationSchema';
 import {seanebIdCheck, userSignup} from '@apis/ApiRoutes/LoginApi';
-import {formatLocation} from '@utils/commonFunction';
+import {formatLocation, openWebsite} from '@utils/commonFunction';
 import {genderData} from '@config/staticData';
 import GetStyles from './styles';
 
@@ -349,20 +349,18 @@ const Register = ({navigation}) => {
               I agree to the{' '}
               <Text
                 style={styles.termsTextLink}
-                onPress={() => console.log('Terms')}>
-                Terms of Service
-              </Text>
-              |{' '}
-              <Text
-                style={styles.termsTextLink}
-                onPress={() => console.log('Privacy')}>
-                Privacy Policy
+                onPress={() =>
+                  openWebsite('https://jobs.seaneb.com/terms-and-conditions/')
+                }>
+                Terms & Conditions
               </Text>{' '}
-              |{' '}
+              and{' '}
               <Text
                 style={styles.termsTextLink}
-                onPress={() => console.log('Content')}>
-                Content Policy
+                onPress={() =>
+                  openWebsite('https://jobs.seaneb.com/privacy-policy/')
+                }>
+                Privacy Policy
               </Text>
             </Text>
           </View>
