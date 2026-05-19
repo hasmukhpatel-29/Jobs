@@ -257,6 +257,45 @@ export const useApplicantsList = (filterType, search) => {
   });
 };
 
+export const savedCandidatesListApi = (
+  page = 1,
+  status = 'ALL',
+  search = '',
+) => {
+  let params = `?page=${page}`;
+
+  if (status !== 'ALL') {
+    params += `&status=${status}`;
+  }
+  if (search) {
+    params += `&search=${encodeURIComponent(search)}`;
+  }
+  return commonApi(businessEndPoint.savedCandidatesList, {}, params, false);
+};
+
+export const useSavedCandidatesList = (filterType, search) => {
+  return useInfiniteQuery({
+    queryKey: ['savedCandidatesList', filterType, search],
+    queryFn: async ({pageParam = 1}) => {
+      const response = await savedCandidatesListApi(
+        pageParam,
+        filterType,
+        search,
+      );
+      return response;
+    },
+    getNextPageParam: lastPage => {
+      if (!lastPage || !lastPage.pagination) return undefined;
+      const {page, total_pages} = lastPage.pagination;
+
+      if (page < total_pages) {
+        return page + 1;
+      }
+      return undefined;
+    },
+  });
+};
+
 export const updateApplicantStatusApi = (applicationId, status) => {
   const params = `/${applicationId}/status`;
 

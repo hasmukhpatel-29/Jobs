@@ -1,8 +1,8 @@
 import React from 'react';
-import { Platform } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {Platform} from 'react-native';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import SplashScreen from '@screens/SplashScreen.js';
 import Login from '@screens/Login.js';
 import OtpVerify from '@screens/OtpVerify';
@@ -22,6 +22,7 @@ import Credits from '@screens/Business/Credits';
 import ApplicantProfile from '@screens/Business/ApplicantProfile';
 import MatchedResumes from '@screens/Business/MatchedResumes';
 import JobEmployerDetails from '@screens/Business/JobEmployerDetails';
+import SavedCandidates from '@screens/Business/SavedCandidates';
 import CLoginModal from '@components/CLoginModal';
 
 const IOS = Platform.OS === 'ios';
@@ -36,28 +37,28 @@ export const MainStackNavigation = () => {
     return s.isAuthenticated;
   });
 
-const linking = {
+  const linking = {
     prefixes: [
       'https://jobs.seaneb.com',
       'https://jobs.seaneb.app',
       'seanebJobs://',
     ],
     config: {
-      initialRouteName: 'UserTab', // Safety fallback
+      initialRouteName: 'UserTab',
       screens: {
         UserTab: {
-          path: '', 
+          path: '',
         },
 
         JobDetails: {
-          path: ':company/:slug', 
+          path: ':company/:slug',
         },
 
         Login: {
           path: 'login',
         },
 
-        UserTab: '*', 
+        UserTab: '*',
       },
     },
   };
@@ -90,6 +91,7 @@ const linking = {
           <Stack.Screen name="Credits" component={Credits} />
           <Stack.Screen name="ApplicantProfile" component={ApplicantProfile} />
           <Stack.Screen name="MatchedResumes" component={MatchedResumes} />
+          <Stack.Screen name="SavedCandidates" component={SavedCandidates} />
           <Stack.Screen
             name="JobEmployerDetails"
             component={JobEmployerDetails}

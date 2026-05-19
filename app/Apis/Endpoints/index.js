@@ -184,6 +184,10 @@ export const businessEndPoint = {
     method: 'GET',
     uri: '/jobs/mobile/applications/branch/applicants',
   },
+  savedCandidatesList: {
+    method: 'GET',
+    uri: '/jobs/applications/branch/saved-candidates',
+  },
   updateApplicantStatus: {
     method: 'PUT',
     uri: '/jobs/mobile/applications/branch/applicants',

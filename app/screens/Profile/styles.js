@@ -8,7 +8,7 @@ const GetStyles = () => {
   return StyleSheet.create({
     mainView: {
       flexGrow: 1,
-      backgroundColor: color.background,
+      backgroundColor: color.background2,
     },
     profileMainCont: {
       paddingVertical: size.moderateScale(15),
@@ -49,7 +49,7 @@ const GetStyles = () => {
       borderWidth: 1,
       borderColor: color.borderColor,
       marginTop: 10,
-      backgroundColor: color.white,
+      backgroundColor: color.cardColor2,
     },
     sectionHeader: {
       flexDirection: 'row',
