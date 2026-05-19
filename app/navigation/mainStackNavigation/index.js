@@ -1,8 +1,8 @@
 import React from 'react';
-import {Platform} from 'react-native';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import { Platform } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from '@screens/SplashScreen.js';
 import Login from '@screens/Login.js';
 import OtpVerify from '@screens/OtpVerify';
@@ -39,13 +39,28 @@ export const MainStackNavigation = () => {
     return s.isAuthenticated;
   });
 
-  const linking = {
-    prefixes: ['https://jobs.seaneb.com', 'https://jobs.seaneb.app'],
+const linking = {
+    prefixes: [
+      'https://jobs.seaneb.com',
+      'https://jobs.seaneb.app',
+      'seanebJobs://',
+    ],
     config: {
+      initialRouteName: 'UserTab', // Safety fallback
       screens: {
-        JobDetails: {
-          path: 'jobs/company/:location/:slug',
+        UserTab: {
+          path: '', 
         },
+
+        JobDetails: {
+          path: ':company/:slug', 
+        },
+
+        Login: {
+          path: 'login',
+        },
+
+        UserTab: '*', 
       },
     },
   };

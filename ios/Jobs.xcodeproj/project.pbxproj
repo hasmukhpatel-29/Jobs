@@ -303,8 +303,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Jobs/Jobs.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 92A65L62HH;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Jobs/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Jobs;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -316,7 +318,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jobs;
+				PRODUCT_BUNDLE_IDENTIFIER = com.seaneb.jobs;
 				PRODUCT_NAME = Jobs;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -334,7 +336,9 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Jobs/Jobs.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 92A65L62HH;
 				INFOPLIST_FILE = Jobs/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Jobs;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -346,7 +350,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jobs;
+				PRODUCT_BUNDLE_IDENTIFIER = com.seaneb.jobs;
 				PRODUCT_NAME = Jobs;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_VERSION = 5.0;

@@ -39,8 +39,7 @@
 
                 <data
                     android:scheme="https"
-                    android:host="jobs.seaneb.com"
-                    android:pathPrefix="/jobs" />
+                    android:host="jobs.seaneb.com" />
             </intent-filter>
 
             <intent-filter android:autoVerify="true">
@@ -51,8 +50,16 @@
 
                 <data
                     android:scheme="https"
-                    android:host="jobs.seaneb.app"
-                    android:pathPrefix="/jobs" />
+                    android:host="jobs.seaneb.app" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="seanebJobs" />
             </intent-filter>
 
         </activity>

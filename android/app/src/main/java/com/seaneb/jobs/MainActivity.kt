@@ -1,4 +1,4 @@
-package com.jobs
+package com.seaneb.jobs
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

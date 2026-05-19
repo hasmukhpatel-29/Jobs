@@ -1,4 +1,4 @@
-package com.jobs
+package com.seaneb.jobs
 
 import android.app.Application
 import com.facebook.react.PackageList
