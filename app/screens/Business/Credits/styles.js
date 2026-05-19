@@ -9,7 +9,7 @@ const GetStyles = () => {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: color.white,
+      backgroundColor: color.background2,
     },
     screenHeader: {
       flexDirection: 'row',
@@ -52,7 +52,7 @@ const GetStyles = () => {
       paddingBottom: size.moderateScale(40),
     },
     card: {
-      backgroundColor: color.white,
+      backgroundColor: color.cardColor2,
       borderRadius: size.moderateScale(12),
       padding: size.moderateScale(16),
       marginBottom: size.moderateScale(12),

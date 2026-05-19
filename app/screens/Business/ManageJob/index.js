@@ -17,7 +17,7 @@ import {size} from '@config/Sizes';
 import {getTimeAgo} from '@utils/commonFunction';
 import Popover from 'react-native-popover-view';
 
-const JobCardItem = ({item, onMenuPress,onView, styles, color}) => {
+const JobCardItem = ({item, onMenuPress, onView, styles, color}) => {
   const menuRef = useRef(null);
 
   return (

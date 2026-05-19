@@ -8,7 +8,7 @@ const GetStyles = () => {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: color.white,
+      backgroundColor: color.background2,
     },
     loaderContainer: {
       flex: 1,
@@ -18,9 +18,10 @@ const GetStyles = () => {
     flatListContent: {
       paddingHorizontal: size.moderateScale(20),
       paddingTop: size.moderateScale(10),
+      paddingBottom: size.moderateScale(130),
     },
     cardContainer: {
-      backgroundColor: color.white,
+      backgroundColor: color.cardColor2,
       borderRadius: size.moderateScale(12),
       borderWidth: 1,
       borderColor: color.borderColor,
