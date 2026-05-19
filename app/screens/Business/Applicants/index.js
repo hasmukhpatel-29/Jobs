@@ -23,6 +23,7 @@ import {
   useUpdateTimeLine,
 } from '@apis/ApiRoutes/Business';
 import {GetStatusColor} from '@utils/commonFunction';
+import {CustomIcon} from '@config/LoadIcons';
 import GetStyles from './styles';
 
 const IOS = Platform.OS === 'ios';
@@ -64,6 +65,7 @@ const ApplicantRow = ({item, onUpdate, navigation}) => {
   return (
     <TouchableOpacity
       style={styles.applicantCard}
+      activeOpacity={0.7}
       onPress={() =>
         navigation.navigate('ApplicantProfile', {
           applicantId: item?.application_id,
@@ -73,14 +75,9 @@ const ApplicantRow = ({item, onUpdate, navigation}) => {
         <View style={styles.userInfo}>
           <View style={styles.avatar}>
             <Text style={styles.avatarText}>{item.applicant.avatar}</Text>
-            {item.is_saved && (
+            {item?.is_saved && (
               <View style={styles.bookmarkBadge}>
-                <Icon
-                  type={Icons.FontAwesome}
-                  name="bookmark"
-                  size={10}
-                  color={color.blue}
-                />
+                <CustomIcon name="likeFilled" size={10} color={color.red} />
               </View>
             )}
           </View>
@@ -286,9 +283,9 @@ const Applicants = ({navigation}) => {
 
   return (
     <View style={styles.root}>
-      <CHeader title="Applicants List" back />
+      <CHeader title="Applicants List" />
       <KeyboardAvoidingView behavior={IOS ? 'padding' : null} style={{flex: 1}}>
-        <View style={styles.statsGrid}>
+        {/* <View style={styles.statsGrid}>
           <StatCard
             value={stats.total}
             label="Total Applicants"
@@ -325,7 +322,7 @@ const Applicants = ({navigation}) => {
             iconName="slash"
             baseColor={color.red}
           />
-        </View>
+        </View> */}
 
         <View style={styles.screenHeader}>
           <CInput

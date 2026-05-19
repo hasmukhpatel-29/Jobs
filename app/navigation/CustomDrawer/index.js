@@ -28,6 +28,9 @@ import Favourites from '@screens/Favourites';
 import BusinessDiscover from '@screens/Business/BusinessDiscover';
 import BusinessProfile from '@screens/Business/BusinessProfile';
 import MyApplication from '@screens/User/MyApplication';
+import ManageJob from '@screens/Business/ManageJob';
+import PostJob from '@screens/Business/PostJob';
+import Applicants from '@screens/Business/Applicants';
 import CImage from '@components/CImage';
 import {CButton} from '@components/CButton';
 import CommonModal from '@components/CModal/CommonModal';
@@ -259,6 +262,15 @@ const CustomDrawer = ({route, navigation}) => {
                 {props => (
                   <BusinessDiscover {...props} openDrawer={openDrawer} />
                 )}
+              </Tab.Screen>
+              <Tab.Screen name="ManageJob">
+                {props => <ManageJob {...props} />}
+              </Tab.Screen>
+              <Tab.Screen name="PostJob" options={{tabBarVisible: false}}>
+                {props => <PostJob {...props} />}
+              </Tab.Screen>
+              <Tab.Screen name="Applicants">
+                {props => <Applicants {...props} />}
               </Tab.Screen>
               <Tab.Screen
                 name="BusinessProfile"

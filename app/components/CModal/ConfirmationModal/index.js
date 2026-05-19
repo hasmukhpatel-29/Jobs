@@ -58,9 +58,10 @@ export const ConfirmationModal = ({
   return (
     <ReactNativeModal
       isVisible={isVisible}
-      backdropOpacity={0}
+      backdropOpacity={0.8}
       animationIn="zoomIn"
       animationOut="zoomOut"
+      statusBarTranslucent
       onBackdropPress={onReject}>
       <View style={styles.modalContainer}>
         <View style={styles.messageWrapper}>

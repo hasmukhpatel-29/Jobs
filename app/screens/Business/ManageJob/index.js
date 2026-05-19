@@ -7,15 +7,17 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Popover from 'react-native-popover-view';
+import {ConfirmationModal} from '@components/CModal/ConfirmationModal';
+import Toast from '@components/CToast';
 import {CHeader} from '@components/CHeader';
 import useGlobalStore from '@zustand/store';
 import {useThemeContext} from '@contexts/themeContext';
-import {manageJobApi} from '@apis/ApiRoutes/Business';
-import GetStyles from './styles';
+import {manageJobApi, closeJobApi} from '@apis/ApiRoutes/Business';
 import Icon, {Icons} from '@config/Icons';
 import {size} from '@config/Sizes';
 import {getTimeAgo} from '@utils/commonFunction';
-import Popover from 'react-native-popover-view';
+import GetStyles from './styles';
 
 const JobCardItem = ({item, onMenuPress, onView, styles, color}) => {
   const menuRef = useRef(null);
@@ -85,6 +87,28 @@ export default function ManageJob({navigation}) {
   const [jobList, setJobList] = useState({});
   const [popoverAnchor, setPopoverAnchor] = useState(null);
   const [selectedJob, setSelectedJob] = useState(null);
+  const [confirmVisible, setConfirmVisible] = useState(false);
+
+  const handleCloseJob = async () => {
+    if (!selectedJob?.job_id) return;
+    try {
+      setConfirmVisible(false);
+      setLoading(true);
+      const response = await closeJobApi(selectedJob.job_id);
+      if (response?.success) {
+        Toast.show({
+          type: 'success',
+          text1: response?.message || 'Job closed successfully',
+        });
+        fetchDashboard();
+      }
+    } catch (error) {
+      console.error('Failed to close job:', error);
+    } finally {
+      setLoading(false);
+      setSelectedJob(null);
+    }
+  };
 
   const fetchDashboard = async () => {
     if (!activeBusinessId) return;
@@ -121,12 +145,11 @@ export default function ManageJob({navigation}) {
 
   const closePopover = () => {
     setPopoverAnchor(null);
-    setSelectedJob(null);
   };
 
   return (
     <View style={styles.root}>
-      <CHeader title="Manage Job" back />
+      <CHeader title="Manage Job" />
       {loading ? (
         <View style={styles.loaderContainer}>
           <ActivityIndicator size="large" color={color.primary} />
@@ -170,6 +193,7 @@ export default function ManageJob({navigation}) {
             onPress={() => {
               closePopover();
               navigation.navigate('PostJob', {repostData: selectedJob});
+              setSelectedJob(null);
             }}>
             <Icon
               type={Icons.Ionicons}
@@ -188,6 +212,7 @@ export default function ManageJob({navigation}) {
               navigation.navigate('JobEmployerDetails', {
                 jobData: selectedJob,
               });
+              setSelectedJob(null);
             }}>
             <Icon
               type={Icons.Feather}
@@ -200,22 +225,37 @@ export default function ManageJob({navigation}) {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.menuItem}
-            activeOpacity={0.7}
-            onPress={() => {
-              closePopover();
-            }}>
-            <Icon
-              type={Icons.Feather}
-              name="trash-2"
-              size={size.moderateScale(18)}
-              color={color.red}
-            />
-            <Text style={[styles.menuText, {color: color.red}]}>Delete</Text>
-          </TouchableOpacity>
+          {selectedJob?.status !== 'Closed' && (
+            <TouchableOpacity
+              style={styles.menuItem}
+              activeOpacity={0.7}
+              onPress={() => {
+                closePopover();
+                setConfirmVisible(true);
+              }}>
+              <Icon
+                type={Icons.Feather}
+                name="trash-2"
+                size={size.moderateScale(18)}
+                color={color.red}
+              />
+              <Text style={[styles.menuText, {color: color.red}]}>Delete</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </Popover>
+
+      <ConfirmationModal
+        isVisible={confirmVisible}
+        title="Are you sure you want to close this job?"
+        yesText="Close Job"
+        noText="Cancel"
+        onConfirm={handleCloseJob}
+        onReject={() => {
+          setConfirmVisible(false);
+          setSelectedJob(null);
+        }}
+      />
     </View>
   );
 }

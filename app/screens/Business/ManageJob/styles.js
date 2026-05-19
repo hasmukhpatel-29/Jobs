@@ -18,7 +18,7 @@ const GetStyles = () => {
     flatListContent: {
       paddingHorizontal: size.moderateScale(20),
       paddingTop: size.moderateScale(10),
-      paddingBottom: size.moderateScale(130),
+      paddingBottom: size.moderateScale(180),
     },
     cardContainer: {
       backgroundColor: color.cardColor2,

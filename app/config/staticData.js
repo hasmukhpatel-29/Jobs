@@ -28,36 +28,16 @@ export const dashboardList = [
 export const busDashboardList = [
   {
     id: 1,
-    title: 'Manage Job',
-    navigate: 'ManageJob',
-  },
-  {
-    id: 2,
-    title: 'Post Job',
-    navigate: 'PostJob',
-  },
-  {
-    id: 3,
-    title: 'Plan',
-    navigate: 'Plan',
-  },
-  {
-    id: 4,
     title: 'Credits',
     navigate: 'Credits',
   },
   {
-    id: 5,
-    title: 'Applicants',
-    navigate: 'Applicants',
-  },
-  {
-    id: 6,
+    id: 2,
     title: 'Saved Candidates',
     navigate: 'SavedCandidates',
   },
   {
-    id: 7,
+    id: 3,
     title: 'Matched Resumes',
     navigate: 'MatchedResumes',
   },

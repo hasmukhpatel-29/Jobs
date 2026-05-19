@@ -17,6 +17,31 @@ export const businessTabConfig = branchData => [
     ),
   },
   {
+    name: 'ManageJob',
+    label: 'ManageJob',
+    icon: (isFocused, color) => (
+      <Icon
+        type={Icons.Feather}
+        name="briefcase"
+        style={{color, fontSize: 22}}
+      />
+    ),
+  },
+  {
+    name: 'PostJob',
+    label: 'PostJob',
+    icon: (isFocused, color) => (
+      <Icon type={Icons.Feather} name="plus" style={{color, fontSize: 26}} />
+    ),
+  },
+  {
+    name: 'Applicants',
+    label: 'Applicants',
+    icon: (isFocused, color) => (
+      <Icon type={Icons.Feather} name="users" style={{color, fontSize: 22}} />
+    ),
+  },
+  {
     name: 'BusinessProfile',
     label: 'Profile',
     enableLongPress: true,

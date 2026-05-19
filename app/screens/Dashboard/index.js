@@ -42,6 +42,7 @@ const Dashboard = ({openDrawer}) => {
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState({});
   const [filterCategoryId, setFilterCategoryId] = useState(null);
+  const [isDetectingLocation, setIsDetectingLocation] = useState(true);
   const {selectedCity, setSelectedCity} = useGlobalStore();
   const isAuthenticated = useGlobalStore(s => {
     return s.isAuthenticated;
@@ -83,17 +84,32 @@ const Dashboard = ({openDrawer}) => {
 
                 if (city) {
                   setSelectedCity(city);
+                  setSelectedFilters(prev => ({...prev, city}));
+                } else {
+                  setSelectedFilters(prev => ({...prev, city: selectedCity}));
                 }
               } catch (e) {
                 console.log('Reverse geocode error:', e);
+                setSelectedFilters(prev => ({...prev, city: selectedCity}));
+              } finally {
+                setIsDetectingLocation(false);
               }
             },
-            error => console.log('Geolocation error:', error),
+            error => {
+              console.log('Geolocation error:', error);
+              setSelectedFilters(prev => ({...prev, city: selectedCity}));
+              setIsDetectingLocation(false);
+            },
             {enableHighAccuracy: true, timeout: 10000, maximumAge: 60000},
           );
+        } else {
+          setSelectedFilters(prev => ({...prev, city: selectedCity}));
+          setIsDetectingLocation(false);
         }
       } catch (error) {
         console.log('Location permission request error:', error);
+        setSelectedFilters(prev => ({...prev, city: selectedCity}));
+        setIsDetectingLocation(false);
       }
     };
 
@@ -128,6 +144,7 @@ const Dashboard = ({openDrawer}) => {
   } = useInfiniteQuery({
     queryKey: ['jobs', '', selectedFilters],
     queryFn: getJobList,
+    enabled: !isDetectingLocation,
     getNextPageParam: lastPage => {
       const current = lastPage.pagination.currentPage;
       const total = lastPage.pagination.totalPages;
@@ -175,6 +192,7 @@ const Dashboard = ({openDrawer}) => {
 
   const handleClearFilters = () => {
     setSelectedFilters({});
+    setSelectedCity('');
   };
 
   // Chips: all SIDEBAR_DATA except location
@@ -420,7 +438,7 @@ const Dashboard = ({openDrawer}) => {
         </View>
       </ReactNativeModal>
 
-      {isLoading ? (
+      {isLoading || isDetectingLocation ? (
         <CardSkeleton count={4} />
       ) : (
         <FlatList

@@ -456,3 +456,8 @@ export const resumeGenerateApi = async seekerId => {
 export const aiJobDescriptionApi = async payload => {
   return commonApi(businessEndPoint.aiJobDescription, payload, '', false);
 };
+
+export const closeJobApi = async jobId => {
+  const params = `/${jobId}/close`;
+  return commonApi(businessEndPoint.closeJob, {}, params, false);
+};

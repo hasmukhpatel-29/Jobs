@@ -216,6 +216,10 @@ export const businessEndPoint = {
     method: 'POST',
     uri: '/jobs/ai-description/generate',
   },
+  closeJob: {
+    method: 'PATCH',
+    uri: '/jobs',
+  },
 };
 
 export const jobEndPoint = {

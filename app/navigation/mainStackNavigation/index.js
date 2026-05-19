@@ -18,10 +18,7 @@ import AddressUpdate from '@screens/User/EditProfile/AddressUpdate';
 import EducationUpdate from '@screens/User/EditProfile/EducationUpdate';
 import ExperienceUpdate from '@screens/User/EditProfile/ExperienceUpdate';
 import SkillUpdate from '@screens/User/EditProfile/SkillUpdate';
-import PostJob from '@screens/Business/PostJob';
-import ManageJob from '@screens/Business/ManageJob';
 import Credits from '@screens/Business/Credits';
-import Applicants from '@screens/Business/Applicants';
 import ApplicantProfile from '@screens/Business/ApplicantProfile';
 import MatchedResumes from '@screens/Business/MatchedResumes';
 import JobEmployerDetails from '@screens/Business/JobEmployerDetails';
@@ -90,10 +87,7 @@ const linking = {
           <Stack.Screen name="EducationUpdate" component={EducationUpdate} />
           <Stack.Screen name="ExperienceUpdate" component={ExperienceUpdate} />
           <Stack.Screen name="SkillUpdate" component={SkillUpdate} />
-          <Stack.Screen name="PostJob" component={PostJob} />
-          <Stack.Screen name="ManageJob" component={ManageJob} />
           <Stack.Screen name="Credits" component={Credits} />
-          <Stack.Screen name="Applicants" component={Applicants} />
           <Stack.Screen name="ApplicantProfile" component={ApplicantProfile} />
           <Stack.Screen name="MatchedResumes" component={MatchedResumes} />
           <Stack.Screen

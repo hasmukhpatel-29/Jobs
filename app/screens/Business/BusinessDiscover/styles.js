@@ -8,7 +8,7 @@ const GetStyles = () => {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: color.white,
+      backgroundColor: color.background2,
     },
     loaderContainer: {
       flex: 1,

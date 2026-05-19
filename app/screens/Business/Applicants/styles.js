@@ -9,7 +9,7 @@ const GetStyles = () => {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: color.white,
+      backgroundColor: color.background2,
     },
     screenHeader: {
       flexDirection: 'row',
@@ -37,7 +37,7 @@ const GetStyles = () => {
     },
     listContent: {
       paddingHorizontal: size.moderateScale(16),
-      paddingBottom: size.moderateScale(40),
+      paddingBottom: size.moderateScale(80),
     },
     card: {
       backgroundColor: color.white,
@@ -198,7 +198,7 @@ const GetStyles = () => {
       paddingTop: size.moderateScale(16),
     },
     applicantCard: {
-      backgroundColor: color.white,
+      backgroundColor: color.cardColor2,
       borderRadius: size.moderateScale(16),
       padding: size.moderateScale(10),
       marginBottom: size.moderateScale(16),
@@ -323,6 +323,10 @@ const GetStyles = () => {
       fontSize: fontSize.verySmall,
       color: color.black,
       fontFamily: fontFamily.regular,
+    },
+    jobInfo: {
+      flex: 1,
+      marginRight: size.moderateScale(12),
     },
     footerJobText: {
       fontFamily: fontFamily.light,

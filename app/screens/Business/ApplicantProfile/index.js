@@ -271,21 +271,22 @@ const ApplicantProfile = ({route}) => {
                   onPress={() => {
                     handleToggleSaveJob();
                   }}>
-                  <Icon
-                    type={Icons.FontAwesome}
-                    name={jobData?.is_saved ? 'bookmark' : 'bookmark-o'}
+                  <CustomIcon
+                    name={jobData?.is_saved ? 'likeFilled' : 'like'}
                     size={size.moderateScale(24)}
-                    color={color?.black}
+                    color={jobData?.is_saved ? color?.red : color?.black}
                   />
                 </TouchableOpacity>
               </View>
             </View>
 
             <View style={styles.metaRow}>
-              <View style={styles.metaItem}>
-                <CustomIcon name="location" size={14} color={color.gray900} />
-                <Text style={styles.metaText}>{applicant?.location}</Text>
-              </View>
+              {applicant?.location && (
+                <View style={styles.metaItem}>
+                  <CustomIcon name="location" size={14} color={color.gray900} />
+                  <Text style={styles.metaText}>{applicant?.location}</Text>
+                </View>
+              )}
               <View style={styles.metaItem}>
                 <Icon
                   type={Icons.Feather}
@@ -374,38 +375,40 @@ const ApplicantProfile = ({route}) => {
           <Text style={styles.noteText}>
             {jobData?.note || 'No internal notes added yet'}
           </Text>
-          <View style={styles.sectionContainer}>
-            <Text style={styles.sectionTitle}>Education</Text>
-            <View style={{gap: 10}}>
-              {applicant?.education?.map((item, index) => (
-                <View style={styles.infoCard}>
-                  <View style={styles.educationWrapper}>
-                    <Icon
-                      type={Icons.FontAwesome5}
-                      name="graduation-cap"
-                      size={16}
-                      color={color.green}
-                    />
-                  </View>
-                  <View style={styles.infoTextWrapper}>
-                    <Text style={styles.infoValue}>{item?.degree}</Text>
-                    <Text style={styles.infoLabel}>{item?.college}</Text>
-                    <View style={styles.locationRow}>
+          {applicant?.education && (
+            <View style={styles.sectionContainer}>
+              <Text style={styles.sectionTitle}>Education</Text>
+              <View style={{gap: 10}}>
+                {applicant?.education?.map((item, index) => (
+                  <View style={styles.infoCard}>
+                    <View style={styles.educationWrapper}>
                       <Icon
-                        type={Icons.Feather}
-                        name="map-pin"
-                        size={12}
-                        color={color.gray200}
+                        type={Icons.FontAwesome5}
+                        name="graduation-cap"
+                        size={16}
+                        color={color.green}
                       />
-                      <Text style={styles.locationText} numberOfLines={1}>
-                        {item?.city}
-                      </Text>
+                    </View>
+                    <View style={styles.infoTextWrapper}>
+                      <Text style={styles.infoValue}>{item?.degree}</Text>
+                      <Text style={styles.infoLabel}>{item?.college}</Text>
+                      <View style={styles.locationRow}>
+                        <Icon
+                          type={Icons.Feather}
+                          name="map-pin"
+                          size={12}
+                          color={color.gray200}
+                        />
+                        <Text style={styles.locationText} numberOfLines={1}>
+                          {item?.city}
+                        </Text>
+                      </View>
                     </View>
                   </View>
-                </View>
-              ))}
+                ))}
+              </View>
             </View>
-          </View>
+          )}
 
           <View style={styles.sectionContainer}>
             <View style={styles.sectionView}>

@@ -348,6 +348,7 @@ const GetStyles = () => {
     statusText: {
       fontSize: fontSize.mediumSmall,
       fontFamily: fontFamily.semiBold,
+      color: color.black,
       marginRight: 4,
     },
     popoverStyle: {
